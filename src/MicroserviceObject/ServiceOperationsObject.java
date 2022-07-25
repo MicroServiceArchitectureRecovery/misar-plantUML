@@ -27,8 +27,8 @@ public class ServiceOperationsObject {
 	public void setOperationDescription(String operationDescription) {
 		this.operationDescription = operationDescription;
 	}
-	// public String toString() {// overriding the toString() method
-	/// return operationName + operationDescription ;
-//	}
+	 public String toString() {// overriding the toString() method
+	 return operationName.toString() + operationDescription.toString() ;
+	}
 
 }

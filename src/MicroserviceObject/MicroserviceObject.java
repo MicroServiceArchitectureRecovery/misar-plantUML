@@ -11,35 +11,16 @@ public class MicroserviceObject {
 	private ArrayList<MessagesObject> messages = new ArrayList<>();
 	private String si;
 	private String container;
+	
 
-	public void addMessages(MessagesObject m) {
-		messages.add(m);
-
-	}
-
+	
 	// private constructor, use builder only
 	public MicroserviceObject(String name) {
 		microserviceName = name;
 
 	}
-
-	public void addContainer(String string) {
-		container = string;
-	}
-
-	public void addInterface(String string) {
-		si = string;
-	}
-
-	public void addDepdendency(DependencyencyClass d) {
-		dependencies.add(d);
-	}
-
-	public String getType() {
-		// TODO Auto-generated method stub
-		return "Microservice";
-	};
-
+	
+	//Getting and setting the name of the Microservice
 	public void setMicroserviceName(String microserviceName) {
 		this.microserviceName = microserviceName;
 	}
@@ -47,8 +28,12 @@ public class MicroserviceObject {
 	public String getMicroserviceName() {
 		return microserviceName;
 	}
-
-	public void addComponent(InfrastructurePatternPomponentObject component) {
+	
+	public String getMicroserviceNameWithoutSpace() {
+		return microserviceName.replaceAll("[^a-zA-Z0-9]","");
+	}
+	
+	public void setComponent(InfrastructurePatternPomponentObject component) {
 		components.add(component);
 	}
 
@@ -56,14 +41,58 @@ public class MicroserviceObject {
 		return components;
 	}
 
+	/*
+	 * public List<InfrastructurePatternPomponentObject> getComponents(Class<?>
+	 * type, String catagory) { return components.stream().filter(x ->
+	 * type.isInstance(x)).filter(x -> x.getCategory().equals(catagory))
+	 * .collect(Collectors.toList()); }
+	 */
+	public void setDepdendency(DependencyencyClass d) {
+		dependencies.add(d);
+	}
+	
+	public ArrayList<DependencyencyClass> getDepdendency() {
+		return dependencies;
+	}
+
+	public void setMessages(MessagesObject m) {
+		messages.add(m);
+
+	}
+	
 	public ArrayList<MessagesObject> getMessages() {
 		return messages;
 	}
-
-	public List<InfrastructurePatternPomponentObject> getComponents(Class<?> type, String catagory) {
-		return components.stream().filter(x -> type.isInstance(x)).filter(x -> x.getCategory().equals(catagory))
-				.collect(Collectors.toList());
+	
+	public int getMessagesDestinionSize() {
+		return messages.size();
 	}
+
+	public void addContainer(String string) {
+		container = string;
+	}
+	public String getContainer() {
+		return container;
+	}
+
+	public void setInterface(String string) {
+		si = string;
+	}
+	
+	public String getInterface() {
+		return si;
+	}
+
+
+	public String getType() {
+		
+		return "Microservice";
+	};
+	
+
+
+
+
 
 	public String toString() {// overriding the toString() method
 		return "microserviceName : " + microserviceName + "component : " + components + "   interface : " + si

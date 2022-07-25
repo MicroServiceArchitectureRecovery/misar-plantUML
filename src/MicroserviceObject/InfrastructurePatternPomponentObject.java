@@ -23,6 +23,8 @@ public class InfrastructurePatternPomponentObject {
 	public String toString() {// overriding the toString() method
 		return catagory.toString();
 	}
+	
+	
 
 }
 

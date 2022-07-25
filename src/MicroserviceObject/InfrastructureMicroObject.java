@@ -9,7 +9,7 @@ public class InfrastructureMicroObject extends MicroserviceObject {
 
 	public String getType() {
 		// TODO Auto-generated method stub
-		return "infustructureMicroservice";
+		return "InfrastructureMicroservice";
 	};
 
 }

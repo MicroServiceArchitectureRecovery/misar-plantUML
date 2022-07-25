@@ -13,10 +13,15 @@ import PIM.RootPIM;
 //import PIM.util.PIMAdapterFactory;
 
 public class EMFModelLoad {
-	public RootPIM load() {
+	public RootPIM load(String file) {
 		// Initialise the model
+		
+		//file = "\"./TrainTicket.PIM\"";
+		
 		PIMPackage.eINSTANCE.eClass();
 
+		
+		
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
@@ -26,7 +31,7 @@ public class EMFModelLoad {
 		ResourceSet resSet = new ResourceSetImpl();
 		// resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("PIM", new
 		// XMLResourceFactoryImpl());
-		Resource resource = resSet.getResource(URI.createURI("./TrainTicket.PIM"), true);
+		Resource resource = resSet.getResource(URI.createURI(file), true);
 
 		RootPIM pimRoot = (RootPIM) resource.getContents().get(0);
 		// return pimRoot;

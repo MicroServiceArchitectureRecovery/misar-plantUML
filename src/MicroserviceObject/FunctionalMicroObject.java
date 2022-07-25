@@ -9,7 +9,7 @@ public class FunctionalMicroObject extends MicroserviceObject {
 	}
 
 	public String getType() {
-		return "FunctionalMicroService";
+		return "FunctionalMicroservice";
 
 	}
 
