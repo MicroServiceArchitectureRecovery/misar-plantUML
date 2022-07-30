@@ -8,25 +8,8 @@ public class MessagesObject {
 
 	private ArrayList<ServiceMessagesObject> serviceMessages = new ArrayList<>();
 	private ArrayList<ServiceOperationsObject> ServiceOperations = new ArrayList<>();
-	private String operationName;
-	private String operationDescription;
 	private MessageDestination messageDestinations;
 	
-	public String getOperationName() {
-		return operationName;
-	}
-
-	public void setOperationName(String operationName) {
-		this.operationName = operationName;
-	}
-
-	public String getOperationDescription() {
-		return operationDescription;
-	}
-
-	public void setOperationDescription(String operationDescription) {
-		this.operationDescription = operationDescription;
-	}
 
 	public MessagesObject(MessageDestination messageDestination) {
 		this.messageDestinations = messageDestination;

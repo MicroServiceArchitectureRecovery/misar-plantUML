@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PIM:RootPIM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:PIM="http://localhost/mdd/PIM.ecore" xsi:schemaLocation="http://localhost/mdd/PIM.ecore PIM.ecore">
+  <architecture ArchitectureName="microservices-sample">
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="api-gateway">
+      <container ContainerName="api-gateway">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:api-gateway]</GeneratingPSM>
+        <GeneratingPSM>MicroserviceProject[ProjectArtifactId:api-gateway]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+      </container>
+      <components Category="Observability_Pattern_Application_Metrics_Generation" Technology="Actuator" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Service_Routing_Pattern_Registry_and_Discovery" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-consul-discovery]</GeneratingPSM>
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-zuul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.ignoredServices]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.hostName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.instanceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckInterval]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableZuulProxy]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Technology="Zuul" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-zuul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.ignoredServices]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableZuulProxy]</GeneratingPSM>
+      </components>
+      <components Category="Client_Resiliency_Pattern_Load_Balancer" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-zuul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.ignoredServices]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableZuulProxy]</GeneratingPSM>
+      </components>
+      <components Category="Client_Resiliency_Pattern_Circuit_Breaker" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-zuul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.ignoredServices]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableZuulProxy]</GeneratingPSM>
+      </components>
+      <components Category="Observability_Pattern_Application_Metrics_Logging" Technology="Logging" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:logstash-logback-encoder]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:info()]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Observability_Pattern_Application_Metrics_Aggregation" Technology="Logging" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:logstash-logback-encoder]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Centralized_Configuration" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://api-gateway:&lt;port-number>">
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /manage/health">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;status&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;details&quot;:{&quot;type&quot;:&quot;object&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /manage/info">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;git&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;branch&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;commit&quot;:{&quot;type&quot;:&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;time&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;id&quot;:{&quot;type&quot;:&quot;string&quot;}}}}},&quot;build&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;artifact&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;group&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;name&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;version&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;time&quot;:{&quot;type&quot;:&quot;object&quot;}}}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /manage/metrics">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;Datacenter&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Node&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;wan&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;NodeMeta&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;somekey&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;Service&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Service&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Tags&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;wan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}}}},&quot;Meta&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;Port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;Check&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;SkipNodeUpdate&quot;:{&quot;type&quot;:&quot;boolean&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="POST /manage/shutdown">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;message&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.shutdown.enabled]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.shutdown.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="POST /manage/restart">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;message&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.restart.enabled]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.restart.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /routes">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:”object”,”properties”:{&quot;route&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;serviceId&quot;:{&quot;type&quot;:&quot;string&quot;}}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-zuul]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.ignoredServices]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+            <GeneratingPSM>JavaAnnotation[AnnotationName:EnableZuulProxy]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-zuul]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.ignoredServices]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+          <GeneratingPSM>JavaAnnotation[AnnotationName:EnableZuulProxy]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /">
+          <operation OperationName="home()" OperationDescription="Returns a response message of type: (String)">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+          </operation>
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;string&quot;}" SchemaFormat="JSON">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-one/actuator/health">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-one/actuator/info">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-one/actuator/metrics">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="POST /service-one/actuator/shutdown">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="POST /service-one/actuator/restart">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-one/">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-two/manage/health">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-two/manage/info">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-two/manage/metrics">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="POST /service-two/manage/shutdown">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="POST /service-two/manage/restart">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-two/h2">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DOCKER" RequestURI="GET /service-two/">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.path]</GeneratingPSM>
+        </destinations>
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:api-gateway]</GeneratingPSM>
+        <GeneratingPSM>MicroserviceProject[ProjectArtifactId:api-gateway]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="consul" ProviderDestination="Endpoint[RequestURI:&quot;PUT /catalog/register&quot;]" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:consul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.hostName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.instanceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckInterval]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="logstash">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:logstash]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;GET /actuator/health&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;GET /actuator/info&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;GET /actuator/metrics&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;POST /actuator/shutdown&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;POST /actuator/restart&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;GET /&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.one.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;GET /manage/health&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;GET /manage/info&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;GET /manage/metrics&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;POST /manage/shutdown&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;POST /manage/restart&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;GET /h2&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <dependencies isWrappedByCircuitBreaker="true" ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;GET /&quot;]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:zuul.routes.two.serviceId]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:api-gateway]</GeneratingPSM>
+      <GeneratingPSM>BuildProjectContainer[BuildField:../../api-gateway/target]</GeneratingPSM>
+      <GeneratingPSM>MicroserviceProject[ProjectArtifactId:api-gateway]</GeneratingPSM>
+      <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+      <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+      <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:FunctionalMicroservice" MicroserviceName="service-one">
+      <container ContainerName="service-one">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-one]</GeneratingPSM>
+        <GeneratingPSM>MicroserviceProject[ProjectArtifactId:service-one]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+      </container>
+      <components Category="Observability_Pattern_Application_Metrics_Generation" Technology="Actuator" Environment="TEST, DEFAULT, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Service_Routing_Pattern_Registry_and_Discovery" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-consul-discovery]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.hostName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.instanceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckInterval]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableDiscoveryClient]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Data_Persistence" Technology="MongoDB" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-data-mongodb-reactive]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.data.mongodb.uri]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:Document]</GeneratingPSM>
+      </components>
+      <components Category="Observability_Pattern_Application_Metrics_Logging" Technology="Logging" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:logstash-logback-encoder]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.level.org.springframework.web]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.level.com.mudigal.one]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.level.org.hibernate]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logstash.servers]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:info()]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:error()]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:debug()]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Observability_Pattern_Application_Metrics_Aggregation" Technology="Logging" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:logstash-logback-encoder]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logstash.servers]</GeneratingPSM>
+      </components>
+      <components Category="Development_Pattern_Data_Persistence" Technology="MongoDB" Environment="DEFAULT">
+        <GeneratingPSM>DependencyLibrary[LibraryName:de.flapdoodle.embed.mongo]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.data.mongodb.uri]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:Document]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="RabbitMQ" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-amqp]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.username]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.password]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:convertAndSend()]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Centralized_Configuration" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+      </components>
+      <components Category="Client_Resiliency_Pattern_Load_Balancer" Environment="TEST, DEFAULT, DOCKER">
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableDiscoveryClient]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://service-one:&lt;port-number>">
+        <destinations xsi:type="PIM:Endpoint" Environment="TEST, DEFAULT, DOCKER" RequestURI="GET /actuator/health">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;status&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;details&quot;:{&quot;type&quot;:&quot;object&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="TEST, DEFAULT, DOCKER" RequestURI="GET /actuator/info">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;git&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;branch&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;commit&quot;:{&quot;type&quot;:&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;time&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;id&quot;:{&quot;type&quot;:&quot;string&quot;}}}}},&quot;build&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;artifact&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;group&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;name&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;version&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;time&quot;:{&quot;type&quot;:&quot;object&quot;}}}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="TEST, DEFAULT, DOCKER" RequestURI="GET /actuator/metrics">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;Datacenter&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Node&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;wan&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;NodeMeta&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;somekey&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;Service&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Service&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Tags&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;wan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}}}},&quot;Meta&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;Port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;Check&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;SkipNodeUpdate&quot;:{&quot;type&quot;:&quot;boolean&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="TEST, DEFAULT, DOCKER" RequestURI="POST /actuator/shutdown">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;message&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.shutdown.enabled]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.shutdown.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="TEST, DEFAULT, DOCKER" RequestURI="POST /actuator/restart">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;message&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.restart.enabled]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.restart.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="TEST, DEFAULT, DOCKER" RequestURI="GET /">
+          <operation OperationName="getNameValue()" OperationDescription="Returns a response message of type: (NameValue)">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+          </operation>
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;name&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;value&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;remainingNameValuePair&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;K&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;V&quot;:{&quot;type&quot;:&quot;string&quot;}}}}}" SchemaFormat="JSON">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:QueueListener" Environment="TEST, DOCKER" QueueName="com.mudigal.microservices-sample.service-one">
+          <operation OperationName="process" OperationDescription="Receives an inbound asynchronous message of type: (NameValueTO) from its queue:  (com.mudigal.microservices-sample.service-one)">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+          </operation>
+          <messages MessageType="INBOUND" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;name&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;value&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+        </destinations>
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-one]</GeneratingPSM>
+        <GeneratingPSM>MicroserviceProject[ProjectArtifactId:service-one]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="rabbit" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:rabbit]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.host]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-one-db" ProviderDestination="Endpoint[RequestURI:&quot;UNKNOWN_REQUEST /service-one&quot;]" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:service-one-db]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.data.mongodb.uri]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="consul" ProviderDestination="Endpoint[RequestURI:&quot;PUT /catalog/register&quot;]" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:consul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.hostName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.instanceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckInterval]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="logstash" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:logstash]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logstash.servers]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-two" ProviderDestination="QueueListener[QueueName:com.mudigal.microservices-sample.service-two]" Environment="TEST, DOCKER">
+        <GeneratingPSM>JavaMethod[ElementIdentifier:convertAndSend()]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-one" ProviderDestination="QueueListener[QueueName:com.mudigal.microservices-sample.service-one]" Environment="TEST, DOCKER">
+        <GeneratingPSM>JavaMethod[ElementIdentifier:convertAndSend()]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:service-one]</GeneratingPSM>
+      <GeneratingPSM>BuildProjectContainer[BuildField:../../service-one/target]</GeneratingPSM>
+      <GeneratingPSM>MicroserviceProject[ProjectArtifactId:service-one]</GeneratingPSM>
+      <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+      <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+      <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="service-one-db">
+      <container ContainerName="service-one-db">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-one-db]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Data_Persistence" Technology="MongoDB">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:mongo:3.7]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://service-one-db:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-one-db]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:mongo:3.7]</GeneratingPSM>
+      </interface>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:service-one-db]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:mongo:3.7]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:FunctionalMicroservice" MicroserviceName="service-two">
+      <container ContainerName="service-two">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-two]</GeneratingPSM>
+        <GeneratingPSM>MicroserviceProject[ProjectArtifactId:service-two]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+      </container>
+      <components Category="Observability_Pattern_Application_Metrics_Generation" Technology="Actuator" Environment="RUNTIME, TEST, DEFAULT, DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Service_Routing_Pattern_Registry_and_Discovery" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-cloud-starter-consul-discovery]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.hostName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.instanceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckInterval]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableDiscoveryClient]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Data_Persistence" Technology="MySQL" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:mysql-connector-java]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.datasource.driverClassName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.datasource.url]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:Entity]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:Table]</GeneratingPSM>
+      </components>
+      <components Category="Development_Pattern_Data_Persistence" Technology="H2" Environment="DEFAULT">
+        <GeneratingPSM>DependencyLibrary[LibraryName:h2]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.h2.console.enabled]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.h2.console.path]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.datasource.url]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.datasource.driverClassName]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:Entity]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:Table]</GeneratingPSM>
+      </components>
+      <components Category="Observability_Pattern_Application_Metrics_Logging" Technology="Logging" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:logstash-logback-encoder]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.level.org.springframework.web]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.level.com.mudigal.one]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.level.org.hibernate]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logstash.servers]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.file]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logging.pattern.file]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:info()]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Observability_Pattern_Application_Metrics_Aggregation" Technology="Logging" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:logstash-logback-encoder]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logstash.servers]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="RabbitMQ" Environment="DOCKER">
+        <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-amqp]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.username]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.password]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:convertAndSend()]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Centralized_Configuration" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureClientComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="Consul" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+      </components>
+      <components Category="Client_Resiliency_Pattern_Load_Balancer" Environment="RUNTIME, TEST, DEFAULT, DOCKER">
+        <GeneratingPSM>JavaAnnotation[AnnotationName:EnableDiscoveryClient]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://service-two:&lt;port-number>">
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DEFAULT, DOCKER" RequestURI="GET /manage/health">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;status&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;details&quot;:{&quot;type&quot;:&quot;object&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.health.sensitive]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DEFAULT, DOCKER" RequestURI="GET /manage/info">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;git&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;branch&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;commit&quot;:{&quot;type&quot;:&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;time&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;id&quot;:{&quot;type&quot;:&quot;string&quot;}}}}},&quot;build&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;artifact&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;group&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;name&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;version&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;time&quot;:{&quot;type&quot;:&quot;object&quot;}}}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DEFAULT, DOCKER" RequestURI="GET /manage/metrics">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;Datacenter&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Node&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;wan&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;NodeMeta&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;somekey&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;Service&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Service&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Tags&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;wan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}}}},&quot;Meta&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;Port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;Check&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;SkipNodeUpdate&quot;:{&quot;type&quot;:&quot;boolean&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DEFAULT, DOCKER" RequestURI="POST /manage/shutdown">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;message&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.shutdown.enabled]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.shutdown.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DEFAULT, DOCKER" RequestURI="POST /manage/restart">
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;message&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+            <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.restart.enabled]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DependencyLibrary[LibraryName:spring-boot-starter-actuator]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:endpoints.restart.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:management.contextPath]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="DEFAULT" RequestURI="GET /h2">
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.h2.console.enabled]</GeneratingPSM>
+          <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.h2.console.path]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:Endpoint" Environment="RUNTIME, TEST, DEFAULT, DOCKER" RequestURI="GET /">
+          <operation OperationName="getAllNameValue()" OperationDescription="Get service name and its corresponding values for all the services. Get name and value. Returns a response message of type: (AllNameValueTO)">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+          </operation>
+          <messages MessageType="RESPONSE" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;originalName&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;originalValue&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;remainingNameValuePair&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;K&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;V&quot;:{&quot;type&quot;:&quot;string&quot;}}}}}" SchemaFormat="JSON">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>JavaAnnotation[AnnotationName:GetMapping]</GeneratingPSM>
+        </destinations>
+        <destinations xsi:type="PIM:QueueListener" Environment="RUNTIME, TEST, DOCKER" QueueName="com.mudigal.microservices-sample.service-two">
+          <operation OperationName="process" OperationDescription="Receives an inbound asynchronous message of type: (NameValueTO) from its queue:  (com.mudigal.microservices-sample.service-two)">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+          </operation>
+          <messages MessageType="INBOUND" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;name&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;value&quot;:{&quot;type&quot;:&quot;string&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>JavaAnnotation[AnnotationName:RabbitListener]</GeneratingPSM>
+        </destinations>
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-two]</GeneratingPSM>
+        <GeneratingPSM>MicroserviceProject[ProjectArtifactId:service-two]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+        <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+        <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="rabbit" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:rabbit]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.rabbitmq.host]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-two-db" ProviderDestination="Endpoint[RequestURI:&quot;UNKNOWN_REQUEST /service-two?createDatabaseIfNotExist=true&quot;]" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:service-two-db]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.datasource.url]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="consul" ProviderDestination="Endpoint[RequestURI:&quot;PUT /catalog/register&quot;]" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:consul]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.host]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.port]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.hostName]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.instanceId]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckInterval]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="logstash" Environment="DOCKER">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:logstash]</GeneratingPSM>
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:logstash.servers]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-two" ProviderDestination="QueueListener[QueueName:com.mudigal.microservices-sample.service-two]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>JavaMethod[ElementIdentifier:convertAndSend()]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-one" ProviderDestination="QueueListener[QueueName:com.mudigal.microservices-sample.service-one]" Environment="RUNTIME, TEST, DOCKER">
+        <GeneratingPSM>JavaMethod[ElementIdentifier:convertAndSend()]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:service-two]</GeneratingPSM>
+      <GeneratingPSM>BuildProjectContainer[BuildField:../../service-two/target]</GeneratingPSM>
+      <GeneratingPSM>MicroserviceProject[ProjectArtifactId:service-two]</GeneratingPSM>
+      <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.application.name]</GeneratingPSM>
+      <GeneratingPSM>JavaAnnotation[AnnotationName:SpringBootApplication]</GeneratingPSM>
+      <GeneratingPSM>JavaMethod[ElementIdentifier:run()]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="service-two-db">
+      <container ContainerName="service-two-db">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-two-db]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Data_Persistence" Technology="MySQL">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:mysql/mysql-server:5.7]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://service-two-db:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:service-two-db]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:mysql/mysql-server:5.7]</GeneratingPSM>
+      </interface>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:service-two-db]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:mysql/mysql-server:5.7]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="web-application">
+      <container ContainerName="web-application">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:web-application]</GeneratingPSM>
+      </container>
+      <interface ServerURL="[http|https]://web-application:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:web-application]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:nginx:1.13.12-alpine]</GeneratingPSM>
+      </interface>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:web-application]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:nginx:1.13.12-alpine]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="rabbit">
+      <container ContainerName="rabbit">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:rabbit]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="RabbitMQ">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:rabbitmq:3.7.4-management-alpine]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://rabbit:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:rabbit]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:rabbitmq:3.7.4-management-alpine]</GeneratingPSM>
+      </interface>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:rabbit]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:rabbitmq:3.7.4-management-alpine]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="consul">
+      <container ContainerName="consul">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:consul]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Service_Routing_Pattern_Registry_and_Discovery" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Centralized_Configuration" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://consul:&lt;port-number>">
+        <destinations xsi:type="PIM:Endpoint" RequestURI="PUT /catalog/register">
+          <messages MessageType="REQUEST" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;Datacenter&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Node&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;wan&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;NodeMeta&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;somekey&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;Service&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Service&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Tags&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;wan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}}}},&quot;Meta&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;Port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;Check&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;SkipNodeUpdate&quot;:{&quot;type&quot;:&quot;boolean&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+        </destinations>
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:consul]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="api-gateway" ProviderDestination="Endpoint[RequestURI:&quot;GET /manage/health&quot;]" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-one" ProviderDestination="Endpoint[RequestURI:&quot;GET /actuator/health&quot;]" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="service-two" ProviderDestination="Endpoint[RequestURI:&quot;GET /manage/health&quot;]" Environment="DOCKER">
+        <GeneratingPSM>ConfigurationProperty[FullyQualifiedPropertyName:spring.cloud.consul.discovery.healthCheckPath]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:consul]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="consul2">
+      <container ContainerName="consul2">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:consul2]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Service_Routing_Pattern_Registry_and_Discovery" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Centralized_Configuration" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://consul2:&lt;port-number>">
+        <destinations xsi:type="PIM:Endpoint" RequestURI="PUT /catalog/register">
+          <messages MessageType="REQUEST" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;Datacenter&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Node&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;wan&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;NodeMeta&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;somekey&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;Service&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Service&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Tags&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;wan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}}}},&quot;Meta&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;Port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;Check&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;SkipNodeUpdate&quot;:{&quot;type&quot;:&quot;boolean&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+        </destinations>
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:consul2]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="consul">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:consul]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:consul2]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="consul3">
+      <container ContainerName="consul3">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:consul3]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Asynchronous_Message_Brokering" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Service_Routing_Pattern_Registry_and_Discovery" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Development_Pattern_Centralized_Configuration" Technology="Consul">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://consul3:&lt;port-number>">
+        <destinations xsi:type="PIM:Endpoint" RequestURI="PUT /catalog/register">
+          <messages MessageType="REQUEST" BodySchema="{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;Datacenter&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Node&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;wan&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;NodeMeta&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;somekey&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;Service&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;ID&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Service&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;Tags&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}},&quot;Address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;TaggedAddresses&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;lan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;wan&quot;:{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;address&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;port&quot;:{&quot;type&quot;:&quot;integer&quot;}}}}},&quot;Meta&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;Port&quot;:{&quot;type&quot;:&quot;integer&quot;}}},&quot;Check&quot;:{&quot;type&quot;:&quot;object&quot;},&quot;SkipNodeUpdate&quot;:{&quot;type&quot;:&quot;boolean&quot;}}}" SchemaFormat="JSON">
+            <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+          </messages>
+          <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+        </destinations>
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:consul3]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="consul">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:consul]</GeneratingPSM>
+      </dependencies>
+      <dependencies ProviderName="consul2">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:consul2]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:consul3]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:consul:0.7.3]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="scope">
+      <container ContainerName="scope">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:scope]</GeneratingPSM>
+      </container>
+      <interface ServerURL="[http|https]://scope:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:scope]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:weaveworks/scope:1.9.0]</GeneratingPSM>
+      </interface>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:scope]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:weaveworks/scope:1.9.0]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="kibana">
+      <container ContainerName="kibana">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:kibana]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Observability_Pattern_Application_Metrics_Monitoring" Technology="Logging">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:kibana:5.6.9]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://kibana:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:kibana]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:kibana:5.6.9]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="elasticsearch">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:elasticsearch]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:kibana]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:kibana:5.6.9]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="elasticsearch">
+      <container ContainerName="elasticsearch">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:elasticsearch]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Observability_Pattern_Application_Metrics_Analysis" Technology="Logging">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:elasticsearch:5.6.9-alpine]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://elasticsearch:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:elasticsearch]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:elasticsearch:5.6.9-alpine]</GeneratingPSM>
+      </interface>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:elasticsearch]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:elasticsearch:5.6.9-alpine]</GeneratingPSM>
+    </microservices>
+    <microservices xsi:type="PIM:InfrastructureMicroservice" MicroserviceName="logstash">
+      <container ContainerName="logstash">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:logstash]</GeneratingPSM>
+      </container>
+      <components xsi:type="PIM:InfrastructureServerComponent" Category="Observability_Pattern_Application_Metrics_Aggregation" Technology="Logging">
+        <GeneratingPSM>DockerHubImageContainer[ImageField:logstash:5.6.9-alpine]</GeneratingPSM>
+      </components>
+      <interface ServerURL="[http|https]://logstash:&lt;port-number>">
+        <GeneratingPSM>DockerContainerDefinition[ContainerName:logstash]</GeneratingPSM>
+        <GeneratingPSM>DockerHubImageContainer[ImageField:logstash:5.6.9-alpine]</GeneratingPSM>
+      </interface>
+      <dependencies ProviderName="elasticsearch">
+        <GeneratingPSM>DockerContainerLink[LinksDependsOnField:elasticsearch]</GeneratingPSM>
+      </dependencies>
+      <GeneratingPSM>DockerContainerDefinition[ContainerName:logstash]</GeneratingPSM>
+      <GeneratingPSM>DockerHubImageContainer[ImageField:logstash:5.6.9-alpine]</GeneratingPSM>
+    </microservices>
+    <GeneratingPSM>DistributedApplicationProject[ApplicationName:Microservices Sample]</GeneratingPSM>
+    <GeneratingPSM>ApplicationProject[ProjectArtifactId:microservices-sample]</GeneratingPSM>
+  </architecture>
+</PIM:RootPIM>

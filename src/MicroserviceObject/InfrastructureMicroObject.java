@@ -11,5 +11,9 @@ public class InfrastructureMicroObject extends MicroserviceObject {
 		// TODO Auto-generated method stub
 		return "InfrastructureMicroservice";
 	};
+	public String getColor() {
+		return "#A9DCDF";
+
+	}
 
 }

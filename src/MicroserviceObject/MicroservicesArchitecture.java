@@ -28,5 +28,10 @@ public class MicroservicesArchitecture {
 	public String toString() {// overriding the toString() method
 		return architectureName;
 	}
+	
+	public int size() {// overriding the toString() method
+		return MicroservicesArchitectureObject.size();
+	}
+	
 
 }

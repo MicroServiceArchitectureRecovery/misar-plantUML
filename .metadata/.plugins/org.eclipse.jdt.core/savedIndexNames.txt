@@ -1,0 +1,5 @@
+INDEX VERSION 1.131+C:\Users\Anti coding club\Desktop\Eclise Projects\test\.metadata\.plugins\org.eclipse.jdt.core
+99492174.index
+1865797976.index
+75931715.index
+3271193799.index

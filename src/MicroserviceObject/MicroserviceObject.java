@@ -41,12 +41,6 @@ public class MicroserviceObject {
 		return components;
 	}
 
-	/*
-	 * public List<InfrastructurePatternPomponentObject> getComponents(Class<?>
-	 * type, String catagory) { return components.stream().filter(x ->
-	 * type.isInstance(x)).filter(x -> x.getCategory().equals(catagory))
-	 * .collect(Collectors.toList()); }
-	 */
 	public void setDepdendency(DependencyencyClass d) {
 		dependencies.add(d);
 	}
@@ -88,6 +82,10 @@ public class MicroserviceObject {
 		
 		return "Microservice";
 	};
+	public String getColor() {
+		return "#E3664A";
+
+	}
 	
 
 

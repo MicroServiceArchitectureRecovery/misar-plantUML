@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="C:/Users/Anti coding club/Downloads/org.eclipse.emf.ecore.xmi-2.7.0.jar~/org.eclipse.emf.ecore.xmi-2.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Anti coding club/Downloads/plantuml-1.2022.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
