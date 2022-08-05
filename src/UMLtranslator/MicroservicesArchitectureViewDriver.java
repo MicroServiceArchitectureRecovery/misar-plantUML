@@ -2,11 +2,9 @@ package UMLtranslator;
 
 import java.util.List;
 
-
 import MicroserviceObject.InfrastructurePatternPomponentObject;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
-
 
 public class MicroservicesArchitectureViewDriver {
 
@@ -19,7 +17,8 @@ public class MicroservicesArchitectureViewDriver {
 		for (InfrastructurePatternPomponentObject a : infrastructurePatternComponentObject) {
 
 			sb.append("component ");
-			sb.append(a.getCategory() + microserviceObject.get(0).getMicroserviceNameWithoutSpace()+ "<<" + a.getType() + ">> ");
+			sb.append(a.getCategory() + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "<<" + a.getType()
+					+ ">> ");
 			sb.append("\n");
 
 		}
@@ -28,9 +27,8 @@ public class MicroservicesArchitectureViewDriver {
 
 	}
 
-	private static void structureMthod(StringBuilder sb,List<MicroservicesArchitecture> microservicesArchitecturesTest) {
-
-	
+	private static void structureMthod(StringBuilder sb,
+			List<MicroservicesArchitecture> microservicesArchitecturesTest) {
 
 		for (MicroservicesArchitecture name : microservicesArchitecturesTest) {
 			List<List<MicroserviceObject>> microserviceObject = name.getMicroservicesArchitectureObject();
@@ -47,18 +45,19 @@ public class MicroservicesArchitectureViewDriver {
 				sb.append("\n");
 
 				sb.append("component ");
-				sb.append(microservice.get(0).getMicroserviceName() + "<<" + microservice.get(0).getType() + ">> " + microservice.get(0).getColor());
+				sb.append(microservice.get(0).getMicroserviceName() + "<<" + microservice.get(0).getType() + ">> "
+						+ microservice.get(0).getColor());
 				sb.append("{");
 				sb.append("\n");
-				
-			
+
 				sb.append("\n");
 				sb.append("}\n");
-			//	AddInfrastructurePatternPomponentObject(sb, microservice);
-				
+				// AddInfrastructurePatternPomponentObject(sb, microservice);
+
 				sb.append("}\n");
-				
-			}sb.append("}\n");
+
+			}
+			sb.append("}\n");
 
 		}
 

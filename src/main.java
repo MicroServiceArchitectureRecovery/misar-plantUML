@@ -1,20 +1,17 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import MicroserviceObject.InfrastructurePatternPomponentObject;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
-
 import PIM.MicroserviceArchitecture;
 import PIM.RootPIM;
-
+import UMLtranslator.CounterClass;
 import UMLtranslator.MicroservicesArchitectureViewDriver;
 
 public class main {
 	private static MicroserviceObject microserviceObject;
-
-	static String Umldraw = "Text.PIM";
+	static List<MicroservicesArchitecture> microservicesArchitecturesTest = new ArrayList<MicroservicesArchitecture>();
+	static String Umldraw = "";
 
 	static String UmldrawOutput = "";
 
@@ -26,31 +23,41 @@ public class main {
 		// Loading the existing model
 		EMFModelLoad loader = new EMFModelLoad();
 
-		// Getting first element ( pim root )
-		RootPIM root = loader.load(Umldraw);
+		if (!Umldraw.equals("")) {
+			RootPIM root = loader.load(Umldraw);
+			MicroserviceArchitecture mA = root.getArchitecture();
+			microservicesArchitecturesTest = MainDriver.createMicroservicesArchitecture(mA);
 
-		// ROOT IS USEDBTO ACCESS THE ROOT ELEMENT IN THE FILE AND TO GET THE ACCESS
-		// INTO getArchitecture
-		MicroserviceArchitecture mA = root.getArchitecture();
+		}
 
-		List<MicroservicesArchitecture> microservicesArchitecturesTest = new ArrayList<MicroservicesArchitecture>();
+	}
+	public static StringBuilder getMicroservices()  {
+		return CounterClass.getMicroservices(microservicesArchitecturesTest);
 
-		microservicesArchitecturesTest = MainDriver.createMicroservicesArchitecture(mA);
+	}
+	
+	
 
-		// UmldrawOutput =
-		// UmlDriver.toPlantUmlFormatter(microservicesArchitecturesTest);
+	public static void MicroservicesArchitectureViewDriver() throws IOException {
 		UmldrawOutput = MicroservicesArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
-		// UmldrawOutput =
-		// DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+
+		try {
+			SVGdriver.SVGdriver(UmldrawOutput);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void DepdedancyViewDriver() throws IOException {
+		UmldrawOutput = MicroservicesArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+
 		try {
 			PNGdriver.imageGen(UmldrawOutput);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-	
-	
 
 }

@@ -27,8 +27,7 @@ public class EMFModelLoad {
 		resSet.setResourceFactoryRegistry(reg);
 		// resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("PIM", new
 		// XMLResourceFactoryImpl());
-		Resource resource = resSet.getResource(URI.createURI(file), true);
-		 
+		Resource resource = resSet.getResource(URI.createFileURI(file), true);
 
 		RootPIM pimRoot = (RootPIM) resource.getContents().get(0);
 		// return pimRoot;

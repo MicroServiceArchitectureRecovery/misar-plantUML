@@ -3,7 +3,6 @@ package UMLtranslator;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import MicroserviceObject.EndPointMessages;
 import MicroserviceObject.InfrastructurePatternPomponentObject;
 import MicroserviceObject.MessagesObject;
@@ -12,7 +11,6 @@ import MicroserviceObject.MicroservicesArchitecture;
 import MicroserviceObject.QueListnerMessagesObject;
 import MicroserviceObject.ServiceMessagesObject;
 import MicroserviceObject.ServiceOperationsObject;
-
 
 public class UmlDriver {
 
@@ -27,7 +25,7 @@ public class UmlDriver {
 		sb.append("left to right direction");
 		sb.append("\n");
 
-		structureMthod(sb, microservicesArchitecturesTest , name);
+		structureMthod(sb, microservicesArchitecturesTest, name);
 		sb.append("@enduml");
 
 		System.out.print(sb);
@@ -43,12 +41,9 @@ public class UmlDriver {
 
 		for (InfrastructurePatternPomponentObject a : infrastructurePatternComponentObject) {
 
-
 			sb.append("component ");
 			sb.append(a.getCategory() + "<<" + a.getType() + ">>");
 			sb.append("\n");
-
-
 
 		}
 
@@ -67,8 +62,6 @@ public class UmlDriver {
 
 			if (mObject instanceof EndPointMessages) {
 
-
-
 				addOperations(sb, mObject);
 
 				String endPoint = microserviceObject.get(0).getMicroserviceNameWithoutSpace();
@@ -78,7 +71,6 @@ public class UmlDriver {
 				sb.append("\n");
 				sb.append(endPoint + "--" + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "component");
 				addServiceMessges(sb, mObject, endPoint);
-
 
 			}
 			if (mObject instanceof QueListnerMessagesObject) {
@@ -98,7 +90,7 @@ public class UmlDriver {
 	}
 
 	private static void addOperations(StringBuilder sb, MessagesObject mObject) {
-		ArrayList<ServiceOperationsObject> so =  mObject.getServiceOperations();
+		ArrayList<ServiceOperationsObject> so = mObject.getServiceOperations();
 
 		for (ServiceOperationsObject serviceOperationsObject : so) {
 
@@ -107,11 +99,7 @@ public class UmlDriver {
 			sb.append(serviceOperationsObject.getOperationDescription());
 			sb.append("\n");
 
-
 		}
-
-
-
 
 	}
 
@@ -130,8 +118,8 @@ public class UmlDriver {
 
 	}
 
-	private static void structureMthod(StringBuilder sb,
-			List<MicroservicesArchitecture> microservicesArchitecturesTest, String nameTest ) {
+	private static void structureMthod(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitecturesTest,
+			String nameTest) {
 
 		sb.append("frame ");
 
@@ -141,16 +129,17 @@ public class UmlDriver {
 			sb.append("{");
 			for (List<MicroserviceObject> m : test) {
 
-
 				if (m.get(0).getMicroserviceName().equals(nameTest)) {
 					sb.append("\n");
 					sb.append("folder ");
 					sb.append(m.get(0).getContainer());
 					sb.append("{");
 					sb.append("\n");
-					sb.append("interface " + " \" " + m.get(0).getInterface() + " \" " + " as " + m.get(0).getMicroserviceNameWithoutSpace() + "component");
+					sb.append("interface " + " \" " + m.get(0).getInterface() + " \" " + " as "
+							+ m.get(0).getMicroserviceNameWithoutSpace() + "component");
 					sb.append("\n");
-					sb.append(m.get(0).getMicroserviceNameWithoutSpace() + "component" + "---" + "["+ m.get(0).getMicroserviceName() + "<<" + m.get(0).getType() + ">>" + "]");
+					sb.append(m.get(0).getMicroserviceNameWithoutSpace() + "component" + "---" + "["
+							+ m.get(0).getMicroserviceName() + "<<" + m.get(0).getType() + ">>" + "]");
 
 					sb.append("\n");
 					sb.append("component ");
@@ -163,7 +152,6 @@ public class UmlDriver {
 					sb.append("}\n");
 
 				}
-
 
 			}
 

@@ -31,11 +31,21 @@ public class DependencyencyClass {
 	public String toString() {// overriding the toString() method
 		return providerName + " SPACE " + providerDestination;
 	}
+
 	public String getProviderDestinationWithNoCharecters() {
-		return providerDestination.replaceAll("[^a-zA-Z0-9]","_");
+		return providerDestination.replaceAll("[^a-zA-Z0-9]", "_");
 	}
+
 	public String getProviderNameWithNoCharecters() {
-		return providerName.replaceAll("[^a-zA-Z0-9]","_");
+		return providerName.replaceAll("[^a-zA-Z0-9]", "_");
+	}
+
+	public String getProviderNameQueListner() {
+		return "QueListners";
+	}
+
+	public String getProviderNameEndPoint() {
+		return "EndPoints";
 	}
 
 }
