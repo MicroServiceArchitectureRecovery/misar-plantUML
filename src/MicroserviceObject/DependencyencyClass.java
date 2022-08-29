@@ -45,7 +45,7 @@ public class DependencyencyClass {
 	}
 
 	public String getProviderNameEndPoint() {
-		return "EndPoints";
+		return "p";
 	}
 
 }

@@ -12,7 +12,8 @@ public class InfrastructureMicroObject extends MicroserviceObject {
 		return "InfrastructureMicroservice";
 	};
 	public String getColor() {
-		return "#A9DCDF";
+		
+		return "#B4A7E5";
 
 	}
 

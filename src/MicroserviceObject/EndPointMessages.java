@@ -11,7 +11,7 @@ public class EndPointMessages extends MessagesObject {
 
 	public String getType() {
 		
-		return "EndPoint";
+		return "Ep";
 	};
 
 }

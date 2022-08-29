@@ -14,7 +14,7 @@ public class FunctionalMicroObject extends MicroserviceObject {
 	}
 	
 	public String getColor() {
-		return "#B4A7E5";
+		return "#A9DCDF";
 
 	}
 	

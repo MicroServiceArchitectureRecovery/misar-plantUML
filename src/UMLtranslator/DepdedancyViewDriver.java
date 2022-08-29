@@ -5,6 +5,7 @@ import java.util.List;
 
 import MicroserviceObject.MicroservicesArchitecture;
 import MicroserviceObject.QueListnerMessagesObject;
+import MicroserviceObject.ServiceMessagesObject;
 import PIM.ServiceDependency;
 import MicroserviceObject.DependencyencyClass;
 import MicroserviceObject.EndPointMessages;
@@ -21,10 +22,10 @@ public class DepdedancyViewDriver {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("@startuml");
+		sb.append("skinparam linetype polyline");
 		sb.append("\n");
-		sb.append("'top to bottom direction");
-		sb.append("\n");
-		sb.append("left to right direction");
+		sb.append("skinparam linetype ortho");
+
 		sb.append("\n");
 		interfaceView(sb, microservicesArchitecturesTest);
 		sb.append("\n");
@@ -43,18 +44,21 @@ public class DepdedancyViewDriver {
 				sb.append("\n");
 
 				sb.append("\n");
-				sb.append("interface " + " \" " + m.get(0).getInterface() + " \" " + " as "
-						+ m.get(0).getMicroserviceNameWitUnderscore() + "Microservice");
+				/*
+				 * sb.append("interface " + " \" " + m.get(0).getInterface() + " \" " + " as " +
+				 * m.get(0).getMicroserviceNameWitUnderscore() + "Microservice");
+				 */
 
 				ArrayList<DependencyencyClass> D = m.get(0).getDepdendency();
 
 				sb.append("\n");
-				sb.append(m.get(0).getMicroserviceNameWitUnderscore() + "Microservice" + " --- "
-						+ m.get(0).getMicroserviceNameWitUnderscore());
-
+				/*
+				 * sb.append(m.get(0).getMicroserviceNameWitUnderscore() + "Microservice" +
+				 * " --- " + m.get(0).getMicroserviceNameWitUnderscore());
+				 */
 				sb.append("\n");
 				sb.append("component ");
-				sb.append(m.get(0).getMicroserviceNameWitUnderscore());
+				sb.append(m.get(0).getMicroserviceNameWitUnderscore() + m.get(0).getColor());
 				sb.append("{");
 
 				for (DependencyencyClass Depenndancy : D) {
@@ -65,11 +69,22 @@ public class DepdedancyViewDriver {
 							sb.append("\n");
 
 							if (Depenndancy.getProviderDestination().contains("QueueListener")) {
-								sb.append(Depenndancy.getProviderNameWithNoCharecters() + "---"
-										+ Depenndancy.getProviderNameQueListner() + Quecounter);
+
+								if (Depenndancy.getProviderName().equals(m.get(0).getMicroserviceName())) {
+									sb.append("queue   " + Depenndancy.getProviderNameQueListner() + Quecounter);
+								}else {
+									sb.append("queue   " + Depenndancy.getProviderNameQueListner() + Quecounter);
+									sb.append("\n");
+									sb.append(Depenndancy.getProviderNameWithNoCharecters() + "-[#190ee6]->"
+											+ Depenndancy.getProviderNameQueListner() + Quecounter);
+								}
+
+
 								Quecounter++;
 							} else if (Depenndancy.getProviderDestination().contains("Endpoint")) {
-								sb.append(Depenndancy.getProviderNameWithNoCharecters() + "---"
+								sb.append("portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter);
+								sb.append("\n");
+								sb.append(Depenndancy.getProviderNameWithNoCharecters() + "-[#e60e20]->"
 										+ Depenndancy.getProviderNameEndPoint() + endPointCounter);
 								endPointCounter++;
 
@@ -83,7 +98,7 @@ public class DepdedancyViewDriver {
 
 				}
 
-			//	AddMessagesObject(sb, m);
+				AddMessagesObject(sb, m);
 
 				sb.append("\n");
 				sb.append("}\n");
@@ -103,23 +118,62 @@ public class DepdedancyViewDriver {
 
 			if (mObject instanceof EndPointMessages) {
 
-				String endPoint = microserviceObject.get(0).getMicroserviceNameWithoutSpace() + endPointCounter2;
+				// String endPoint = microserviceObject.get(0).getMicroserviceNameWithoutSpace()
+				// + endPointCounter2;
 
-				sb.append("port " + endPoint);
+				for (ServiceMessagesObject ServiceMessagesObject : mObject.getServiceMessages()) {
+						sb.append("\n");
+
+					if (ServiceMessagesObject.getMessageType().equals("RESPONSE")) {
+						
+						sb.append("\n");
+
+						sb.append("portout " + mObject.getType() + endPointCounter2 + " #F07C24");
+					}
+
+					else if (ServiceMessagesObject.getMessageType().equals("REQUEST")) {
+						sb.append("\n");
+						sb.append("portout " + mObject.getType() + endPointCounter2 + " #53f024");
+					} else {
+						sb.append("\n");
+						sb.append("portout " + mObject.getType() + endPointCounter2 + " #24C4F0");
+					}
+					endPointCounter2++;
+
+				}
 
 				sb.append("\n");
-				sb.append(endPoint + "--" + microserviceObject.get(0).getMicroserviceNameWitUnderscore()
-						+ "Microservice");
-				endPointCounter2++;
+
+				
 
 			}
 			if (mObject instanceof QueListnerMessagesObject) {
 
-				sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2);
+				for (ServiceMessagesObject ServiceMessagesObject : mObject.getServiceMessages()) {
+
+					if (ServiceMessagesObject.getMessageType().equals("RESPONSE")) {
+						sb.append("\n");
+						sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2
+								+ " #F07C24");
+						
+					}
+
+						
+
+					else if (ServiceMessagesObject.getMessageType().equals("REQUEST")) {
+						sb.append("\n");
+						sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2
+								+ " #53f024");
+					} else {
+						sb.append("\n");
+						sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2
+								+ " #24C4F0");
+					}
+
+				}
 
 				sb.append("\n");
-				sb.append(microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2 + "--"
-						+ microserviceObject.get(0).getMicroserviceNameWitUnderscore() + "Microservice");
+
 				Quecounter2++;
 			}
 
