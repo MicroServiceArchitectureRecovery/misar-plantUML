@@ -39,7 +39,6 @@ public class MainFrame extends JFrame {
 	private static String outputFile;
 	String[] selectedMicroservice = {};
 	private JButton Button_Microservice_View_SVG1;
-	private JTextField txtPleaseSelectA_SelectPath;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -97,7 +96,7 @@ public class MainFrame extends JFrame {
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\brunel-3_1.png"));
+		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Desktop\\Eclise Projects\\test\\Resources\\png\\brunel_Logo.png"));
 		lblNewLabel_2.setBounds(0, 374, 141, 177);
 		panel.add(lblNewLabel_2);
 
@@ -124,7 +123,7 @@ public class MainFrame extends JFrame {
 
 		JButton Button_Architecture_View_PNG = new JButton("Downlaod PNG");
 		Button_Architecture_View_PNG.setBackground(SystemColor.textHighlight);
-		Button_Architecture_View_PNG.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\picture.png"));
+		Button_Architecture_View_PNG.setIcon(null);
 		Button_Architecture_View_PNG.setBounds(183, 185, 145, 32);
 		getContentPane().add(Button_Architecture_View_PNG);
 
@@ -135,47 +134,47 @@ public class MainFrame extends JFrame {
 		JLabel lblNewLabel = new JLabel("Architecture View");
 		lblNewLabel.setForeground(new Color(0, 51, 102));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\bank.png"));
+		lblNewLabel.setIcon(null);
 		lblNewLabel.setBounds(151, 142, 148, 32);
 		getContentPane().add(lblNewLabel);
 
 		JButton Button_Architecture_View_SVG = new JButton("Download SVG");
 		Button_Architecture_View_SVG.setBackground(SystemColor.textHighlight);
 		Button_Architecture_View_SVG
-				.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\folder-download.png"));
+				.setIcon(null);
 		Button_Architecture_View_SVG.setBounds(371, 185, 145, 32);
 		getContentPane().add(Button_Architecture_View_SVG);
 
 		JButton Button_Architecture_View_File = new JButton("Download File");
 		Button_Architecture_View_File.setBackground(SystemColor.textHighlight);
 		Button_Architecture_View_File
-				.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\file-invoice.png"));
+				.setIcon(null);
 		Button_Architecture_View_File.setBounds(552, 185, 145, 32);
 		getContentPane().add(Button_Architecture_View_File);
 
 		JLabel lblDependencyView = new JLabel("Dependency View");
 		lblDependencyView.setForeground(new Color(0, 51, 102));
-		lblDependencyView.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\link-alt.png"));
+		lblDependencyView.setIcon(null);
 		lblDependencyView.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDependencyView.setBounds(151, 242, 148, 32);
 		getContentPane().add(lblDependencyView);
 
 		JButton Button_Dependency_View_PNG = new JButton("Downlaod PNG");
 		Button_Dependency_View_PNG.setBackground(SystemColor.textHighlight);
-		Button_Dependency_View_PNG.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\picture.png"));
+		Button_Dependency_View_PNG.setIcon(null);
 		Button_Dependency_View_PNG.setBounds(183, 273, 145, 32);
 		getContentPane().add(Button_Dependency_View_PNG);
 
 		JButton Button_Dependency_View_SVG = new JButton("Download SVG");
 		Button_Dependency_View_SVG.setBackground(SystemColor.textHighlight);
 		Button_Dependency_View_SVG
-				.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\folder-download.png"));
+				.setIcon(null);
 		Button_Dependency_View_SVG.setBounds(371, 273, 145, 32);
 		getContentPane().add(Button_Dependency_View_SVG);
 
 		JButton Button_Dependency_View_File = new JButton("Donwnload File");
 		Button_Dependency_View_File.setBackground(SystemColor.textHighlight);
-		Button_Dependency_View_File.setIcon(new ImageIcon("C:\\Users\\Anti coding club\\Downloads\\file-invoice.png"));
+		Button_Dependency_View_File.setIcon(null);
 		Button_Dependency_View_File.setBounds(552, 273, 145, 32);
 		getContentPane().add(Button_Dependency_View_File);
 
@@ -222,25 +221,6 @@ public class MainFrame extends JFrame {
 		Button_Microservice_View_FILE.setBackground(SystemColor.textHighlight);
 		Button_Microservice_View_FILE.setBounds(151, 513, 167, 32);
 		getContentPane().add(Button_Microservice_View_FILE);
-		
-		JDesktopPane desktopPane_1 = new JDesktopPane();
-		desktopPane_1.setBackground(SystemColor.activeCaptionBorder);
-		desktopPane_1.setBounds(141, 44, 580, 44);
-		getContentPane().add(desktopPane_1);
-		
-		txtPleaseSelectA_SelectPath = new JTextField();
-		txtPleaseSelectA_SelectPath.setText("Please select a file path to store");
-		txtPleaseSelectA_SelectPath.setForeground(new Color(112, 128, 144));
-		txtPleaseSelectA_SelectPath.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		txtPleaseSelectA_SelectPath.setColumns(10);
-		txtPleaseSelectA_SelectPath.setBounds(10, 10, 435, 22);
-		desktopPane_1.add(txtPleaseSelectA_SelectPath);
-		
-		JButton btnSelectPath = new JButton("Select Path");
-		btnSelectPath.setForeground(Color.BLACK);
-		btnSelectPath.setBackground(Color.WHITE);
-		btnSelectPath.setBounds(455, 10, 107, 22);
-		desktopPane_1.add(btnSelectPath);
 		comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String selected = comboBox.getSelectedItem().toString();
@@ -368,17 +348,6 @@ public class MainFrame extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please select a .PIM file ", "Error wrong file type", 1);
 					txtPleaseSelectA.setText("Please ONLY select  PIM folder to avoid error");
 				}
-			}
-		});
-		btnSelectPath.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfilechooser = new JFileChooser();
-				// This forces the suer to chose afile not a directory
-
-				jfilechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				int responce = jfilechooser.showOpenDialog(null);
-				
-				txtPleaseSelectA_SelectPath.setText(inputFile);
 			}
 		});
 		// TODO Auto-generated constructor stub
