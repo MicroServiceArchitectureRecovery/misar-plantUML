@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+import MainDriver.main;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -21,7 +22,7 @@ public class SVGdriver {
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		// Write the first image to "os"
 		String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-		FileOutputStream outStream = new FileOutputStream("C:\\Users\\Anti coding club\\Desktop\\here.svg");
+		FileOutputStream outStream = new FileOutputStream(main.getOutputPath()+"\\Fileoutput.svg");
 		os.writeTo(outStream);
 		outStream.close(); 
 
@@ -29,7 +30,7 @@ public class SVGdriver {
 		
 	//	final String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
 		
-		File file = new File("C:\\\\Users\\\\Anti coding club\\\\Desktop\\\\here.svg");
+		File file = new File(main.getOutputPath()+"\\Fileoutput.svg");
 		Desktop.getDesktop().open(file);
 		
 	}

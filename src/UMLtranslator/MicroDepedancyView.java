@@ -12,13 +12,14 @@ import MicroserviceObject.EndPointMessages;
 import MicroserviceObject.MessagesObject;
 import MicroserviceObject.MicroserviceObject;
 
-public class DepdedancyViewDriver {
+public class MicroDepedancyView {
+	static List<EndPointObject> MicroDepedancyView = new ArrayList<EndPointObject>();
 	static int Quecounter = 0;
 	static int endPointCounter = 0;
 	static int endPointCounter2 = 0;
 	static int Quecounter2 = 0;
 
-	public static String MicroserviceViewDriver(List<MicroservicesArchitecture> microservicesArchitecturesTest) {
+	public static String MicroserviceViewDriver(List<MicroservicesArchitecture> microservicesArchitecturesTest , String selectedMicroservice) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("@startuml");
@@ -28,7 +29,8 @@ public class DepdedancyViewDriver {
 		sb.append("skinparam linetype ortho");
 
 		sb.append("\n");
-		interfaceView(sb, microservicesArchitecturesTest);
+		interfaceView(sb, microservicesArchitecturesTest , selectedMicroservice);
+		MicroserviceGetter(sb, microservicesArchitecturesTest);
 		sb.append("\n");
 		sb.append("@enduml");
 
@@ -36,11 +38,12 @@ public class DepdedancyViewDriver {
 		return sb.toString();
 	}
 
-	public static void interfaceView(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitectures) {
+	public static void interfaceView(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitectures, String selectedMicroservice) {
 		for (MicroservicesArchitecture name : microservicesArchitectures) {
 			List<List<MicroserviceObject>> test = name.getMicroservicesArchitectureObject();
 
 			for (List<MicroserviceObject> m : test) {
+				if (m.get(0).getMicroserviceName().equals(selectedMicroservice) ) {
 
 				sb.append("\n");
 
@@ -53,10 +56,7 @@ public class DepdedancyViewDriver {
 				ArrayList<DependencyencyClass> D = m.get(0).getDepdendency();
 
 				sb.append("\n");
-				/*
-				 * sb.append(m.get(0).getMicroserviceNameWitUnderscore() + "Microservice" +
-				 * " --- " + m.get(0).getMicroserviceNameWitUnderscore());
-				 */
+		
 				sb.append("\n");
 				sb.append("component ");
 				sb.append(m.get(0).getMicroserviceNameWitUnderscore() + m.get(0).getColor());
@@ -68,12 +68,13 @@ public class DepdedancyViewDriver {
 						if (Depenndancy.getProviderDestination() != ""
 								&& Depenndancy.getProviderDestination() != null) {
 							sb.append("\n");
-
+							
+							
 							if (Depenndancy.getProviderDestination().contains("QueueListener")) {
 
 								if (Depenndancy.getProviderName().equals(m.get(0).getMicroserviceName())) {
 									sb.append("queue   " + Depenndancy.getProviderNameQueListner() + Quecounter);
-								}else if (Depenndancy.getProviderDestination().contains("Endpoint")) {
+								}else if (Depenndancy.getProviderDestination().contains("QueueListener")) {
 									sb.append("queue   " + Depenndancy.getProviderNameQueListner() + Quecounter);
 									sb.append("\n");
 									sb.append(Depenndancy.getProviderNameWithNoCharecters() + "-[#190ee6]->"
@@ -87,7 +88,13 @@ public class DepdedancyViewDriver {
 								if (Depenndancy.getProviderName().equals(m.get(0).getMicroserviceName())) {
 									sb.append("portin   " + Depenndancy.getProviderNameEndPoint() + endPointCounter);
 								}else {
-								sb.append("portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter);
+									if(!MicroDepedancyView.get(0).getMicroName().equals(Depenndancy.getProviderName())) {
+										EndPointObject placeholder = new EndPointObject();
+										placeholder.setMicroName(Depenndancy.getProviderName());
+										placeholder.setEndPoints("portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter);
+										MicroDepedancyView.add(placeholder);
+									}
+								
 								sb.append("\n");
 								sb.append(Depenndancy.getProviderNameWithNoCharecters() + "-[#e60e20]->"
 										+ Depenndancy.getProviderNameEndPoint() + endPointCounter);
@@ -99,14 +106,19 @@ public class DepdedancyViewDriver {
 							sb.append("\n");
 
 						}
-					
-						
+						else {
+							if(!MicroDepedancyView.contains(Depenndancy.getProviderName())) {
+								MicroDepedancyView.add(Depenndancy.getProviderName().toString());
+							}
+							
+						}
 
 					}
+					
 
 				}
 
-				AddMessagesObject(sb, m);
+				//AddMessagesObject(sb, m);
 
 				sb.append("\n");
 				sb.append("}\n");
@@ -114,80 +126,45 @@ public class DepdedancyViewDriver {
 			}
 
 		}
-
-	}
-
-	public static void AddMessagesObject(StringBuilder sb, List<MicroserviceObject> microserviceObject) {
-
-		List<MessagesObject> messagesObject = microserviceObject.get(0).getMessages();
-
-		for (MessagesObject mObject : messagesObject) {
-			sb.append("\n");
-
-			if (mObject instanceof EndPointMessages) {
-
-				// String endPoint = microserviceObject.get(0).getMicroserviceNameWithoutSpace()
-				// + endPointCounter2;
-
-				for (ServiceMessagesObject ServiceMessagesObject : mObject.getServiceMessages()) {
-						sb.append("\n");
-
-					if (ServiceMessagesObject.getMessageType().equals("RESPONSE")) {
-						
-						sb.append("\n");
-
-						sb.append("portout " + mObject.getType() + endPointCounter2 + " #F07C24");
-					}
-
-					else if (ServiceMessagesObject.getMessageType().equals("REQUEST")) {
-						sb.append("\n");
-						sb.append("portout " + mObject.getType() + endPointCounter2 + " #53f024");
-					} else {
-						sb.append("\n");
-						sb.append("portout " + mObject.getType() + endPointCounter2 + " #24C4F0");
-					}
-					endPointCounter2++;
-
-				}
-
-				sb.append("\n");
-
-				
-
-			}
-			if (mObject instanceof QueListnerMessagesObject) {
-
-				for (ServiceMessagesObject ServiceMessagesObject : mObject.getServiceMessages()) {
-
-					if (ServiceMessagesObject.getMessageType().equals("RESPONSE")) {
-						sb.append("\n");
-						sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2
-								+ " #F07C24");
-						
-					}
-
-						
-
-					else if (ServiceMessagesObject.getMessageType().equals("REQUEST")) {
-						sb.append("\n");
-						sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2
-								+ " #53f024");
-					} else {
-						sb.append("\n");
-						sb.append("queue  " + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + Quecounter2
-								+ " #24C4F0");
-					}
-
-				}
-
-				sb.append("\n");
-
-				Quecounter2++;
-			}
-
-			sb.append("\n");
-			sb.append("\n");
 		}
 
 	}
+
+
+	public static void  MicroserviceGetter(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitectures) {
+		
+		for (MicroservicesArchitecture name : microservicesArchitectures) {
+			List<List<MicroserviceObject>> test = name.getMicroservicesArchitectureObject();
+
+			for (List<MicroserviceObject> m : test) {
+				for(int i = 0; i < MicroDepedancyView.size(); i++) {   
+				    if (MicroDepedancyView.get(i).equals(m.get(0).getMicroserviceName())){
+				    	sb.append("\n");
+						
+						
+						sb.append("\n");
+
+						sb.append("component ");
+						sb.append(m.get(0).getMicroserviceNameWitUnderscore() + " <<" + m.get(0).getType() + ">> "
+								+ m.get(0).getColor());
+						sb.append("{");
+						sb.append("\n");
+
+						sb.append("\n");
+						sb.append("}\n");
+						// AddInfrastructurePatternPomponentObject(sb, microservice);
+
+						
+
+					}
+						
+				    }
+				}
+			
+			MicroDepedancyView.clear();
+	
+		}
+		
+		
+}
 }

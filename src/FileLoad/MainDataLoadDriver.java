@@ -8,6 +8,7 @@ import MicroserviceObject.FunctionalMicroObject;
 import MicroserviceObject.InfrastructurePatternPomponentObject;
 import MicroserviceObject.MessagesObject;
 import MicroserviceObject.ServiceOperationsObject;
+import MicroserviceObject.counterClass;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
 import MicroserviceObject.QueListnerMessagesObject;
@@ -57,6 +58,7 @@ public class MainDataLoadDriver {
 		List<List<MicroserviceObject>> microserviceInfo = new ArrayList<List<MicroserviceObject>>();
 
 		microservicesArchitecture = new MicroservicesArchitecture(MA.getArchitectureName());
+		counterClass.setmicroserviceArtecetcturecounter();
 		for (Microservice Microservice : MA.getMicroservices()) {
 
 			List<MicroserviceObject> microserviceObjects = new ArrayList<MicroserviceObject>();
@@ -77,17 +79,19 @@ public class MainDataLoadDriver {
 		// using instanceof checking the instance of each Mircoservice
 
 		if (microservice instanceof FunctionalMicroservice) {
+			
+			counterClass.setfunctionalMicroserviceCount();
 
 			microserviceObject = new FunctionalMicroObject(microservice.getMicroserviceName());
 			buildMicroserviceArray(microservice);
 			;
 
 		} else if (microservice instanceof InfrastructureMicroservice) {
-
+			counterClass.setInfustructureMicroserviceCount();
 			microserviceObject = new InfrastructureMicroObject(microservice.getMicroserviceName());
 			buildMicroserviceArray(microservice);
 		} else {
-
+			counterClass.setMicroservice();
 			microserviceObject = new MicroserviceObject(microservice.getMicroserviceName());
 			buildMicroserviceArray(microservice);
 		}
@@ -98,10 +102,11 @@ public class MainDataLoadDriver {
 
 	public static MicroserviceObject buildMicroserviceArray(Microservice microservice) {
 		// This method allows to get data for each individual Microservice
+		
+		microserviceInterface(microservice);
 		microserviceContainer(microservice);
 		microserviceDepenndancy(microservice);
-		microserviceComponents(microservice);
-		microserviceInterface(microservice);
+		microserviceComponents(microservice);		
 		microserviceDestinationMessages(microservice);
 
 		return microserviceObject;
@@ -112,18 +117,19 @@ public class MainDataLoadDriver {
 		// using instanceof checking the instance of each InfrastructurePatternComponent
 		for (InfrastructurePatternComponent patternComponent : microservice.getComponents()) {
 			if (patternComponent instanceof InfrastructureClientComponent) {
-
+				counterClass.setInfrastructeClientComponentCount();
 				infrastructurePatternPomponentObject = new ClientComponent(patternComponent.getCategory());
 				microserviceObject.setComponent(infrastructurePatternPomponentObject);
 
 			}
 
 			else if (patternComponent instanceof InfrastructureServerComponent) {
-
+				counterClass.setInfrastructeServerComponentCount();
 				infrastructurePatternPomponentObject = new ServerComponentObject(patternComponent.getCategory());
 				microserviceObject.setComponent(infrastructurePatternPomponentObject);
 
 			} else {
+				counterClass.setInfrastructurePatternComponentCount();
 				infrastructurePatternPomponentObject = new InfrastructurePatternPomponentObject(
 						patternComponent.getCategory());
 				microserviceObject.setComponent(infrastructurePatternPomponentObject);
@@ -137,6 +143,7 @@ public class MainDataLoadDriver {
 
 	private static MicroserviceObject microserviceContainer(Microservice microservice) {
 
+		counterClass.setContainerCount();
 		Container contain = microservice.getContainer();
 		microserviceObject.addContainer(contain.getContainerName());
 		return microserviceObject;
@@ -144,15 +151,20 @@ public class MainDataLoadDriver {
 	}
 
 	private static MicroserviceObject microserviceInterface(Microservice microservice) {
-
+		
+		if (!microservice.getInterface().getServerURL().isBlank()) {
+		
 		microserviceObject.setInterface(microservice.getInterface().getServerURL());
+		System.out.println(microservice.getMicroserviceName());
+		counterClass.setInterfaceCount();
+	}
 		return microserviceObject;
 	}
 
 	private static MicroserviceObject microserviceDepenndancy(Microservice microservice) {
 
 		for (ServiceDependency Depenndancy : microservice.getDependencies()) {
-
+			counterClass.setServiceDependancyCount();
 			dependencyencyClass = new DependencyencyClass(Depenndancy);
 			dependencyencyClass.setProviderDestination(Depenndancy.getProviderDestination());
 			dependencyencyClass.setProviderName(Depenndancy.getProviderName());
@@ -170,12 +182,13 @@ public class MainDataLoadDriver {
 
 			if (Destination instanceof Endpoint) {
 				messagesObject = new EndPointMessages(Destination);
-
+				counterClass.setEndPointCounter();
 				ServiceOperation(Destination);
 
 				for (ServiceMessage SM : Destination.getMessages()) {
 
-					if (!SM.getMessageType().isBlank()) {
+					if (!SM.equals(null)) {
+						counterClass.setServiceMessageCount();
 						serviceMessagesObject = new ServiceMessagesObject(SM);
 						serviceMessagesObject.setMessageType(SM.getMessageType());
 
@@ -189,13 +202,15 @@ public class MainDataLoadDriver {
 
 			if (Destination instanceof QueueListener) {
 
+				counterClass.setQueListnerCount();
 				ServiceOperation(Destination);
 
 				messagesObject = new QueListnerMessagesObject(Destination);
 
 				for (ServiceMessage SM : Destination.getMessages()) {
 					if (!SM.equals(null))
-						serviceMessagesObject = new ServiceMessagesObject(SM);
+					counterClass.setServiceMessageCount();
+					serviceMessagesObject = new ServiceMessagesObject(SM);
 					serviceMessagesObject.setMessageType(SM.getMessageType());
 					messagesObject.setServiceMessages(serviceMessagesObject);
 					microserviceObject.setMessages(messagesObject);
@@ -211,6 +226,7 @@ public class MainDataLoadDriver {
 	private static MessagesObject ServiceOperation(MessageDestination destinationDestination) {
 		ServiceOperation ServiceOperation = destinationDestination.getOperation();
 		if (ServiceOperation != null) {
+			counterClass.setServiceOperationCount();			
 			serviceOperationsObject = new ServiceOperationsObject(ServiceOperation);
 			serviceOperationsObject.setOperationName(ServiceOperation.getOperationName());
 			serviceOperationsObject.setOperationDescription(ServiceOperation.getOperationDescription());

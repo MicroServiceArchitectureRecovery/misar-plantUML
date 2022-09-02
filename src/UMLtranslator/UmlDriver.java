@@ -15,8 +15,10 @@ import MicroserviceObject.ServiceOperationsObject;
 public class UmlDriver {
 
 	public static String toPlantUmlFormatter(List<MicroservicesArchitecture> microservicesArchitecturesTest) {
-
-		String name = "api-gateway";
+		int Microservice = 0;
+		int functionalMicroservice = 0;
+		int infustructureMicroservice =0;
+		
 		// String name = MicroservicesArchitecture.getArchitectureName();
 		StringBuilder sb = new StringBuilder();
 
@@ -25,7 +27,7 @@ public class UmlDriver {
 		sb.append("left to right direction");
 		sb.append("\n");
 
-		structureMthod(sb, microservicesArchitecturesTest, name);
+		structureMthod(sb, microservicesArchitecturesTest);
 		sb.append("@enduml");
 
 		System.out.print(sb);
@@ -118,8 +120,7 @@ public class UmlDriver {
 
 	}
 
-	private static void structureMthod(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitecturesTest,
-			String nameTest) {
+	private static void structureMthod(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitecturesTest) {
 
 		sb.append("frame ");
 
@@ -129,7 +130,6 @@ public class UmlDriver {
 			sb.append("{");
 			for (List<MicroserviceObject> m : test) {
 
-				if (m.get(0).getMicroserviceName().equals(nameTest)) {
 					sb.append("\n");
 					sb.append("folder ");
 					sb.append(m.get(0).getContainer());
@@ -151,7 +151,7 @@ public class UmlDriver {
 
 					sb.append("}\n");
 
-				}
+				
 
 			}
 

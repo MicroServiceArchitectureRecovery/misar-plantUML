@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import MainDriver.main;
+
 public class FileOutputDriver {
 
 
@@ -13,11 +15,11 @@ public class FileOutputDriver {
 		// TODO Auto-generated method stub
 		try {
 			BufferedWriter writer = new BufferedWriter(
-					new FileWriter("C:\\Users\\Anti coding club\\Desktop\\output.txt"));
+					new FileWriter(main.getOutputPath()+"\\Fileoutput.txt"));
 			writer.append(UmldrawOutput);
 			writer.close();
 
-			File fileFind = new File("C:\\Users\\Anti coding club\\Desktop\\output.txt");
+			File fileFind = new File(main.getOutputPath()+"\\Fileoutput.txt");
 			Desktop.getDesktop().open(fileFind);
 
 		} catch (IOException e) {

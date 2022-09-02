@@ -4,7 +4,9 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: MiSARMicroservice;singleton:=true
 Automatic-Module-Name: test
 Bundle-Version: 0.1.0.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ jgoodies-common-1.8.0.jar,
+ jgoodies-forms-1.8.0.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
