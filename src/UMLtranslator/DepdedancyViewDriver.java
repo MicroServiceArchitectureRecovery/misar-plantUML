@@ -30,7 +30,7 @@ public class DepdedancyViewDriver {
 		sb.append("\n");
 		interfaceView(sb, microservicesArchitecturesTest);
 		sb.append("\n");
-		sb.append("@enduml");
+		sb.append("@enduml222");
 
 		
 		return sb.toString();

@@ -1,6 +1,7 @@
 package UMLtranslator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EndPointObject {
 	private String MicroName;
@@ -11,6 +12,7 @@ public class EndPointObject {
 
 	public void setEndPoints(String endPointToBedded) {
 		endPoints.add(endPointToBedded);
+		//System.out.println("Micro name and end point : " + MicroName + " " + endPoints);
 	}
 
 	
@@ -22,5 +24,7 @@ public class EndPointObject {
 	public void setMicroName(String microName) {
 		MicroName = microName;
 	}
+	
+	
 
 }

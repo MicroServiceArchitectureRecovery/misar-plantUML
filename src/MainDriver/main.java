@@ -179,15 +179,15 @@ public class main {
 
 	public static void MicroservoceViewFile() {
 
-		UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest, selectedMicroservice);
-		FileOutputDriver.FileOutput(UmldrawOutput);
+		UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest, selectedMicroservice);
+		
 	}
 
 	
 
 	public static void excellSheet() {
-			WriteDataToExcel.CreateFile2();
-		
+		UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest, selectedMicroservice);
+		FileOutputDriver.FileOutput(UmldrawOutput);
 	}
 
 }
