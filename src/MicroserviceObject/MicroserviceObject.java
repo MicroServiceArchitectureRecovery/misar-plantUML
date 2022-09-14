@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MicroserviceObject {
+	private static int count = 0;
 	private String microserviceName;
 	private ArrayList<InfrastructurePatternPomponentObject> components = new ArrayList<>();
 	private ArrayList<DependencyencyClass> dependencies = new ArrayList<>();
 	private ArrayList<MessagesObject> messages = new ArrayList<>();
 	private String si;
 	private String container;
+	private static int Sicount = 0;
+	private static int containerCount = 0;
 
 	// private constructor, use builder only
 	public MicroserviceObject(String name) {
@@ -88,6 +91,27 @@ public class MicroserviceObject {
 	public String getColor() {
 		return "#E3664A";
 
+	}
+	public static int getMicroserviceObject() {
+		return count;
+	}
+
+	public static void setMicroserviceObject() {
+		count++;
+	}
+	public static int getSicount() {
+		return Sicount;
+	}
+
+	public void setSicount() {
+		Sicount++;
+	}
+	public static int getcontainerCount() {
+		return containerCount;
+	}
+
+	public  void setcontainerCount() {
+		containerCount++;
 	}
 
 	public String toString() {// overriding the toString() method

@@ -6,6 +6,8 @@ public class DependencyencyClass {
 
 	private String providerName;
 	private String providerDestination;
+	static int instanceCounter ;
+	int counter = 0;
 	private ServiceDependency serviceseDendency;
 
 	public DependencyencyClass(ServiceDependency servicedependency) {
@@ -46,6 +48,15 @@ public class DependencyencyClass {
 
 	public String getProviderNameEndPoint() {
 		return "p";
+	}
+	
+	public int getCountDependencyencyClass() {
+		return counter ;
+	}
+
+	public void setServiceDependancyCount() {
+		instanceCounter++;
+	     counter = instanceCounter; 
 	}
 
 }

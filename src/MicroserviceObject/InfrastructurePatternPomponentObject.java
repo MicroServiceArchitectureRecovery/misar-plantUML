@@ -3,6 +3,18 @@ package MicroserviceObject;
 import PIM.InfrastructurePatternCategory;
 
 public class InfrastructurePatternPomponentObject {
+	
+	private static int instanceCounter = 0;
+	int counter = 0;
+
+	public static int getCount() {
+		return instanceCounter;
+	}
+
+	public void setCount() {
+		instanceCounter++;
+		counter = instanceCounter;
+	}
 
 	InfrastructurePatternCategory catagory;
 

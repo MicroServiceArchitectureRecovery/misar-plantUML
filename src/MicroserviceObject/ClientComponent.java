@@ -12,6 +12,7 @@ public class ClientComponent extends InfrastructurePatternPomponentObject {
 	public String getType() {
 		// TODO Auto-generated method stub
 		return "InfustructureClientComponent";
-	};
+	};	
+	
 
 }

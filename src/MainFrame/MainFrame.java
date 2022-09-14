@@ -201,16 +201,17 @@ public class MainFrame extends JFrame {
 		panel_3_2_1.setBounds(31, 170, 753, 42);
 		panel_1.add(panel_3_2_1);
 
-		JLabel lblDependencyView_1 = new JLabel("Dependency View");
-		lblDependencyView_1.setForeground(Color.WHITE);
-		lblDependencyView_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDependencyView_1.setBounds(10, 11, 148, 21);
-		panel_3_2_1.add(lblDependencyView_1);
+		JLabel MiroView = new JLabel("MiroView");
+		MiroView.setForeground(Color.WHITE);
+		MiroView.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		MiroView.setBounds(10, 11, 148, 21);
+		panel_3_2_1.add(MiroView);
 
 		JButton Button_Dependency_View_PNG_1 = new JButton("Downlaod PNG");
 		Button_Dependency_View_PNG_1.setBackground(SystemColor.textHighlight);
 		Button_Dependency_View_PNG_1.setBounds(135, 7, 103, 32);
 		panel_3_2_1.add(Button_Dependency_View_PNG_1);
+	
 
 		JButton Button_Dependency_View_SVG_1 = new JButton("Download SVG");
 		Button_Dependency_View_SVG_1.setBackground(SystemColor.textHighlight);

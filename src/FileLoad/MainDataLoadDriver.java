@@ -119,6 +119,7 @@ public class MainDataLoadDriver {
 			if (patternComponent instanceof InfrastructureClientComponent) {
 				counterClass.setInfrastructeClientComponentCount();
 				infrastructurePatternPomponentObject = new ClientComponent(patternComponent.getCategory());
+				infrastructurePatternPomponentObject.setCount();
 				microserviceObject.setComponent(infrastructurePatternPomponentObject);
 
 			}
@@ -126,12 +127,14 @@ public class MainDataLoadDriver {
 			else if (patternComponent instanceof InfrastructureServerComponent) {
 				counterClass.setInfrastructeServerComponentCount();
 				infrastructurePatternPomponentObject = new ServerComponentObject(patternComponent.getCategory());
+				infrastructurePatternPomponentObject.setCount();
 				microserviceObject.setComponent(infrastructurePatternPomponentObject);
 
 			} else {
 				counterClass.setInfrastructurePatternComponentCount();
 				infrastructurePatternPomponentObject = new InfrastructurePatternPomponentObject(
 						patternComponent.getCategory());
+				infrastructurePatternPomponentObject.setCount();
 				microserviceObject.setComponent(infrastructurePatternPomponentObject);
 
 			}
@@ -146,6 +149,7 @@ public class MainDataLoadDriver {
 		counterClass.setContainerCount();
 		Container contain = microservice.getContainer();
 		microserviceObject.addContainer(contain.getContainerName());
+		microserviceObject.setcontainerCount();
 		return microserviceObject;
 
 	}
@@ -155,7 +159,7 @@ public class MainDataLoadDriver {
 		if (!microservice.getInterface().getServerURL().isBlank()) {
 		
 		microserviceObject.setInterface(microservice.getInterface().getServerURL());
-		System.out.println(microservice.getMicroserviceName());
+		microserviceObject.setSicount();
 		counterClass.setInterfaceCount();
 	}
 		return microserviceObject;
@@ -168,7 +172,7 @@ public class MainDataLoadDriver {
 			dependencyencyClass = new DependencyencyClass(Depenndancy);
 			dependencyencyClass.setProviderDestination(Depenndancy.getProviderDestination());
 			dependencyencyClass.setProviderName(Depenndancy.getProviderName());
-
+			dependencyencyClass.setServiceDependancyCount();
 			microserviceObject.setDepdendency(dependencyencyClass);
 
 		}
@@ -183,17 +187,17 @@ public class MainDataLoadDriver {
 			if (Destination instanceof Endpoint) {
 				messagesObject = new EndPointMessages(Destination);
 				counterClass.setEndPointCounter();
+				messagesObject.setMessagesObjectCount();
 				ServiceOperation(Destination);
 
 				for (ServiceMessage SM : Destination.getMessages()) {
 
 					if (!SM.equals(null)) {
 						counterClass.setServiceMessageCount();
-						serviceMessagesObject = new ServiceMessagesObject(SM);
+						serviceMessagesObject = new ServiceMessagesObject(SM);				
 						serviceMessagesObject.setMessageType(SM.getMessageType());
-
 						messagesObject.setServiceMessages(serviceMessagesObject);
-
+						serviceMessagesObject.setServiceMessagesObjectCount();
 					}
 					microserviceObject.setMessages(messagesObject);
 				}
@@ -213,6 +217,7 @@ public class MainDataLoadDriver {
 					serviceMessagesObject = new ServiceMessagesObject(SM);
 					serviceMessagesObject.setMessageType(SM.getMessageType());
 					messagesObject.setServiceMessages(serviceMessagesObject);
+					messagesObject.setMessagesObjectCount();
 					microserviceObject.setMessages(messagesObject);
 				}
 

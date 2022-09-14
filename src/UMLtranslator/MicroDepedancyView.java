@@ -31,6 +31,7 @@ public class MicroDepedancyView {
 		sb.append("skinparam linetype ortho");
 
 		sb.append("\n");
+	
 
 		interfaceView(sb, microservicesArchitecturesTest, selectedMicroservice);
 
@@ -114,7 +115,9 @@ public class MicroDepedancyView {
 			List<MicroserviceObject> m, String selectedMicroservice) {
 
 		for (DependencyencyClass Depenndancy : D) {
-
+			
+			
+			System.out.println("Count : " + D.size());
 			if (Depenndancy.getProviderName() != "" && Depenndancy.getProviderName() != null) {
 				if (Depenndancy.getProviderDestination() != "" && Depenndancy.getProviderDestination() != null) {
 					if (!Depenndancy.getProviderName().equals(selectedMicroservice)) {
