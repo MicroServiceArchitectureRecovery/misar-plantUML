@@ -2,7 +2,7 @@ package MicroserviceObject;
 
 import PIM.InfrastructurePatternCategory;
 
-public class ClientComponent extends InfrastructurePatternPomponentObject {
+public class ClientComponent extends PatternComponentstObject {
 
 	public ClientComponent(InfrastructurePatternCategory infrastructurePatternCategory) {
 		super(infrastructurePatternCategory);

@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import CounterClass.counterClass;
 import FileLoad.EMFModelLoad;
 import FileLoad.MainDataLoadDriver;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
-import MicroserviceObject.counterClass;
 import PIM.MicroserviceArchitecture;
 import PIM.RootPIM;
 import UMLtranslator.CounterClass;
@@ -20,33 +20,39 @@ import outputDrivers.FileOutputDriver;
 import outputDrivers.PNGdriver;
 import outputDrivers.SVGdriver;
 import outputDrivers.WriteDataToExcel;
+import outputDrivers.microserviceWriteToExcell;
 
 public class main {
 	private static MicroserviceObject microserviceObject;
 	static List<MicroservicesArchitecture> microservicesArchitecturesTest = new ArrayList<MicroservicesArchitecture>();
 	static String umldrawSourcePath = "";
-	static String umldrawOutputPath = "";
+	static String umldrawOutputPath = "C:\\Users\\Public\\Documents";
 	static String selectedMicroservice = "";
-
 	static String UmldrawOutput = "";
+	private static boolean selectedMicroserviceBoolean = false;
+	private static boolean generate = false;
 
 	public static void setUmldraw(String input) {
 		umldrawSourcePath = input;
 	}
+
 	public static String getUmldraw() {
-		return umldrawSourcePath ;
+		return umldrawSourcePath;
 	}
 
 	public static void setOutpath(String input) {
 		umldrawOutputPath = input;
 		System.out.print(umldrawOutputPath);
 	}
+
 	public static String getOutputPath() {
-		return umldrawOutputPath ;
+		return umldrawOutputPath;
 	}
+
 	public static void setMicroservice(String input) {
+
 		selectedMicroservice = input;
-		System.out.print(selectedMicroservice);
+		selectedMicroserviceBoolean = true;
 	}
 
 	public static String getMicroservice() {
@@ -58,11 +64,11 @@ public class main {
 		EMFModelLoad loader = new EMFModelLoad();
 
 		if (!umldrawSourcePath.equals("")) {
+			generate = true;
 			RootPIM root = loader.load(umldrawSourcePath);
 			MicroserviceArchitecture mA = root.getArchitecture();
 
 			microservicesArchitecturesTest = MainDataLoadDriver.createMicroservicesArchitecture(mA);
-		
 
 		}
 
@@ -80,6 +86,7 @@ public class main {
 		for (MicroservicesArchitecture name : microservicesArchitecturesTest) {
 			List<List<MicroserviceObject>> microserviceObject = name.getMicroservicesArchitectureObject();
 			for (List<MicroserviceObject> microservice : microserviceObject) {
+
 				boxItems.add(microservice.get(0).getMicroserviceName());
 				n++;
 
@@ -91,103 +98,141 @@ public class main {
 		for (int i = 0; i < boxItems.size(); i++) {
 
 			temp[i] = boxItems.get(i);
-			// System.out.println(temp[i]);
-		}
 
-		;
+		}
 		return temp;
 
 	}
 
-	public static void MicroservicesArchitectureViewDriverPNG() throws IOException {
-		UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+	public static void MicroservicesArchitectureViewDriverPNG() {
 
-		try {
+		if (generate == true) {
+			UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 			PNGdriver.imageGen(UmldrawOutput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
-	public static void MicroservicesArchitectureViewDriverSVG() throws IOException {
-		UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+	public static void MicroservicesArchitectureViewDriverSVG() {
 
-		try {
+		if (generate == true) {
+			UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 			SVGdriver.SVGdriver(UmldrawOutput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 	}
 
 	public static void MicroservicesArchitectureViewDriverFile() {
-		UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-		FileOutputDriver.FileOutput(UmldrawOutput);
+		if (generate == true) {
+			UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+
+			FileOutputDriver.FileOutput(UmldrawOutput);
+		}
+
 	}
 
-	public static void DepdedancyViewDriverPNG() throws IOException {
-		UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+	public static void DepdedancyViewDriverPNG() {
+		if (generate == true) {
+			UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-		try {
 			PNGdriver.imageGen(UmldrawOutput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 	}
 
-	public static void DepdedancyViewDriverSVG() throws IOException {
-		UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+	public static void DepdedancyViewDriverSVG() {
 
-		try {
+		if (generate == true) {
+			UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+
 			SVGdriver.SVGdriver(UmldrawOutput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
+
 	}
 
 	public static void DepdedancyViewDriverFile() {
-		UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
+		if (generate == true) {
+			UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-		FileOutputDriver.FileOutput(UmldrawOutput);
+			FileOutputDriver.FileOutput(UmldrawOutput);
+		}
+
 	}
 
 	public static void MicroservoceViewPNG() {
+		if (generate == true) {
+			UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest,
+					selectedMicroservice);
 
-		UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest, selectedMicroservice);
-		try {
 			PNGdriver.imageGen(UmldrawOutput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 	}
 
 	public static void MicroservoceViewSVG() {
+		if (generate == true) {
+			UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest,
+					selectedMicroservice);
 
-		UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest, selectedMicroservice);
-		try {
 			SVGdriver.SVGdriver(UmldrawOutput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 	}
 
 	public static void MicroservoceViewFile() {
+		if (generate == true) {
+			UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest,
+					selectedMicroservice);
 
-		UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest, selectedMicroservice);
-		FileOutputDriver.FileOutput(UmldrawOutput);
-		
+			PNGdriver.imageGen(UmldrawOutput);
+		}
+
 	}
 
-	
+	public static void MicroDepedancyViewPNG() {
+
+		if (selectedMicroserviceBoolean == true) {
+			UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest,
+					selectedMicroservice);
+
+			PNGdriver.imageGen(UmldrawOutput);
+		}
+
+	}
+
+	public static void MicroDepedancyViewSVG() {
+		if (selectedMicroserviceBoolean == true) {
+			UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest,
+					selectedMicroservice);
+
+			SVGdriver.SVGdriver(UmldrawOutput);
+		}
+
+	}
+
+	public static void MicroDepedancyViewFile() {
+
+		if (selectedMicroserviceBoolean == true) {
+			UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest,
+					selectedMicroservice);
+			FileOutputDriver.FileOutput(UmldrawOutput);
+		}
+
+	}
 
 	public static void excellSheet() {
-		WriteDataToExcel.CreateFile2();
+		if (generate == true) {
+			WriteDataToExcel.CreateFile2();
+		}
+
+	}
+
+	public static void excellSheetMicroLvele() {
+		if (selectedMicroserviceBoolean == true) {
+			microserviceWriteToExcell.CreateFile2(microservicesArchitecturesTest, selectedMicroservice);
+		}
+
 	}
 
 }

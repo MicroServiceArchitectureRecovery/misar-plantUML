@@ -1,4 +1,4 @@
-package MicroserviceObject;
+package CounterClass;
 
 public class counterClass {
 	static int microserviceArtecetcture = 0;
@@ -16,12 +16,6 @@ public class counterClass {
 	static int serviceOperation = 0;
 	static int serviceMessage = 0;
 	
-	
-
-	public counterClass() {
-
-		// TODO Auto-generated constructor stub
-	}
 
 	public static void setmicroserviceArtecetcturecounter() {
 		microserviceArtecetcture++;
@@ -135,11 +129,6 @@ public class counterClass {
 	public static int getServiceMessageCount() {
 		return serviceMessage;
 	}
-	
-	
-	
-	
-	
 	
 
 	public static void printAll() {

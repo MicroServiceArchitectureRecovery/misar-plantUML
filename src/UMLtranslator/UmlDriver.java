@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import MicroserviceObject.EndPointMessages;
-import MicroserviceObject.InfrastructurePatternPomponentObject;
+import MicroserviceObject.PatternComponentstObject;
 import MicroserviceObject.MessagesObject;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
@@ -38,10 +38,10 @@ public class UmlDriver {
 	public static void AddInfrastructurePatternPomponentObject(StringBuilder sb,
 			List<MicroserviceObject> microserviceObject) {
 
-		List<InfrastructurePatternPomponentObject> infrastructurePatternComponentObject = microserviceObject.get(0)
+		List<PatternComponentstObject> infrastructurePatternComponentObject = microserviceObject.get(0)
 				.getComponents();
 
-		for (InfrastructurePatternPomponentObject a : infrastructurePatternComponentObject) {
+		for (PatternComponentstObject a : infrastructurePatternComponentObject) {
 
 			sb.append("component ");
 			sb.append(a.getCategory() + "<<" + a.getType() + ">>");

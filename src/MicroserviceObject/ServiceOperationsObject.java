@@ -7,7 +7,7 @@ public class ServiceOperationsObject {
 	private String operationName;
 	private String operationDescription;
 	private ServiceOperation sOperation;
-	private static int count = 0;
+	
 
 	public ServiceOperationsObject(ServiceOperation operations) {
 		this.sOperation = operations;
@@ -31,12 +31,6 @@ public class ServiceOperationsObject {
 	 public String toString() {// overriding the toString() method
 	 return operationName.toString() + operationDescription.toString() ;
 	}
-	 public static int getServiceOperationsObjectCount() {
-			return count;
-		}
-
-		public void setServiceOperationsObjectCount() {
-			count++;
-		}
+	
 
 }

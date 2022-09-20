@@ -9,7 +9,7 @@ public class MessagesObject {
 	private ArrayList<ServiceMessagesObject> serviceMessages = new ArrayList<>();
 	private ArrayList<ServiceOperationsObject> ServiceOperations = new ArrayList<>();
 	private MessageDestination messageDestinations;
-	private static int instanceCounter  = 0;
+
 	
 
 	public MessagesObject(MessageDestination messageDestination) {
@@ -41,13 +41,7 @@ public class MessagesObject {
 	public String toString() {// overriding the toString() method
 		return serviceMessages.toString();
 	}
-	public static int getCountDMessagesObject() {
-		return instanceCounter ;
-	}
 
-	public void setMessagesObjectCount() {
-		instanceCounter ++;
-	}
 	
 	
 

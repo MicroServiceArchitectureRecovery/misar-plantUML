@@ -7,13 +7,98 @@ import java.util.stream.Collectors;
 public class MicroserviceObject {
 	private static int count = 0;
 	private String microserviceName;
-	private ArrayList<InfrastructurePatternPomponentObject> components = new ArrayList<>();
+	private ArrayList<PatternComponentstObject> components = new ArrayList<>();
 	private ArrayList<DependencyencyClass> dependencies = new ArrayList<>();
 	private ArrayList<MessagesObject> messages = new ArrayList<>();
-	private String si;
+	private String serviceInterface;
 	private String container;
-	private static int Sicount = 0;
-	private static int containerCount = 0;
+
+	
+	
+	private int endPointCounter = 0;
+	private int queuelistenersCounter = 0;
+	private int messageCounter = 0;
+	private int patternComponentstObjectCounter = 0;
+	private int infrastructureServerCOmponentsCounter = 0;
+	private int InfrastructureCLientComponentCounter = 0;
+	private int serviceDependenciesCounter = 0;
+	private int serviceInterfaceCounter = 0;
+	private int serviceOpertionCounter = 0;
+
+	
+	public int getServiceOpertionCounter() {
+		return serviceOpertionCounter;
+	}
+
+	public void seServiceOpertionCounter() {
+		serviceOpertionCounter++;
+	}
+	
+	public int getEndPointCounter() {
+		return endPointCounter;
+	}
+
+	public void setEndPointCounter() {
+		endPointCounter++;
+	}
+
+	public int getQueuelistenersCounter() {
+		return queuelistenersCounter;
+	}
+
+	public void setQueuelistenersCounter() {
+		queuelistenersCounter++;
+	}
+
+	public int getMessageCounter() {
+		return messageCounter;
+	}
+
+	public void setMessageCounter() {
+		messageCounter++;
+	}
+
+
+
+	public int getPatternComponentstObjectCounter() {
+		return patternComponentstObjectCounter;
+	}
+
+	public void setPatternComponentstObjectCounter() {
+		patternComponentstObjectCounter++;
+	}
+
+	public int getInfrastructureServerCOmponentsCounter() {
+		return infrastructureServerCOmponentsCounter;
+	}
+
+	public void setInfrastructureServerCOmponentsCounter() {
+		infrastructureServerCOmponentsCounter++;
+	}
+
+	public int getInfrastructureCLientComponentCounter() {
+		return InfrastructureCLientComponentCounter;
+	}
+
+	public void setInfrastructureCLientComponentCounter() {
+		InfrastructureCLientComponentCounter++;
+	}
+
+	public int getserviceInterfaceCounter() {
+		return serviceInterfaceCounter;
+	}
+
+	public void setserviceInterfaceCounter() {
+		serviceInterfaceCounter++;
+	}
+
+	public int getDependenciesCounter() {
+		return serviceDependenciesCounter;
+	}
+
+	public void setDependenciesCounter() {
+		serviceDependenciesCounter++;
+	}
 
 	// private constructor, use builder only
 	public MicroserviceObject(String name) {
@@ -38,11 +123,11 @@ public class MicroserviceObject {
 		return microserviceName.replaceAll("[^a-zA-Z0-9]", "_");
 	}
 
-	public void setComponent(InfrastructurePatternPomponentObject component) {
+	public void setComponent(PatternComponentstObject component) {
 		components.add(component);
 	}
 
-	public List<InfrastructurePatternPomponentObject> getComponents() {
+	public List<PatternComponentstObject> getComponents() {
 		return components;
 	}
 
@@ -76,11 +161,11 @@ public class MicroserviceObject {
 	}
 
 	public void setInterface(String string) {
-		si = string;
+		serviceInterface = string;
 	}
 
 	public String getInterface() {
-		return si;
+		return serviceInterface;
 	}
 
 	public String getType() {
@@ -92,6 +177,7 @@ public class MicroserviceObject {
 		return "#E3664A";
 
 	}
+
 	public static int getMicroserviceObject() {
 		return count;
 	}
@@ -99,24 +185,11 @@ public class MicroserviceObject {
 	public static void setMicroserviceObject() {
 		count++;
 	}
-	public static int getSicount() {
-		return Sicount;
-	}
-
-	public void setSicount() {
-		Sicount++;
-	}
-	public static int getcontainerCount() {
-		return containerCount;
-	}
-
-	public  void setcontainerCount() {
-		containerCount++;
-	}
 
 	public String toString() {// overriding the toString() method
-		return "microserviceName : " + microserviceName + "component : " + components + "   interface : " + si
-				+ "   Container : " + container + " dependencies : " + dependencies + " Messages : " + messages;
+		return "microserviceName : " + microserviceName + "component : " + components + "   interface : "
+				+ serviceInterface + "   Container : " + container + " dependencies : " + dependencies + " Messages : "
+				+ messages;
 	}
 
 }

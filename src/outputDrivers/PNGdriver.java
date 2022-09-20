@@ -1,4 +1,5 @@
 package outputDrivers;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,15 +11,20 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class PNGdriver {
 
-	public static void imageGen(String source) throws IOException {
-		OutputStream png = new FileOutputStream(main.getOutputPath()+"\\Fileoutput.png");
+	public static void imageGen(String source) {
 
-		SourceStringReader reader = new SourceStringReader(source);
-		// Write the first image to "png"
-		String desc = reader.outputImage(png).getDescription();
-		// Return a null string if no generation
-		File file = new File(main.getOutputPath()+"\\Fileoutput.png");
-		Desktop.getDesktop().open(file);
+		try {
+			OutputStream png = new FileOutputStream(main.getOutputPath() + "\\Fileoutput.png");
+
+			SourceStringReader reader = new SourceStringReader(source);
+			// Write the first image to "png"
+			String desc = reader.outputImage(png).getDescription();
+			// Return a null string if no generation
+			File file = new File(main.getOutputPath() + "\\Fileoutput.png");
+			Desktop.getDesktop().open(file);
+		} catch (Exception e) {
+
+		}
 	}
 
 }

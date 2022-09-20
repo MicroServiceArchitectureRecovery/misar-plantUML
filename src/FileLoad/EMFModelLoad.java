@@ -22,6 +22,8 @@ public class EMFModelLoad {
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
 		m.put("PIM", new XMIResourceFactoryImpl());
+		
+		
 
 		// Obtain a new resource set
 		ResourceSet resSet = new ResourceSetImpl();

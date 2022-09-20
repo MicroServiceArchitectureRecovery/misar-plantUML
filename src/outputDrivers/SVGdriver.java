@@ -1,4 +1,5 @@
 package outputDrivers;
+
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,24 +16,28 @@ import net.sourceforge.plantuml.core.DiagramDescription;
 
 public class SVGdriver {
 
+	public static void SVGdriver(String source) {
 
-	public static void SVGdriver(String source) throws IOException {
-	
-		SourceStringReader reader = new SourceStringReader(source);
-		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		// Write the first image to "os"
-		String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-		FileOutputStream outStream = new FileOutputStream(main.getOutputPath()+"\\Fileoutput.svg");
-		os.writeTo(outStream);
-		outStream.close(); 
+		try {
 
-		// The XML is stored into svg
-		
-	//	final String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
-		
-		File file = new File(main.getOutputPath()+"\\Fileoutput.svg");
-		Desktop.getDesktop().open(file);
-		
+			SourceStringReader reader = new SourceStringReader(source);
+			final ByteArrayOutputStream os = new ByteArrayOutputStream();
+			// Write the first image to "os"
+			String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+			FileOutputStream outStream = new FileOutputStream(main.getOutputPath() + "\\Fileoutput.svg");
+			os.writeTo(outStream);
+			outStream.close();
+
+			// The XML is stored into svg
+
+			// final String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
+
+			File file = new File(main.getOutputPath() + "\\Fileoutput.svg");
+			Desktop.getDesktop().open(file);
+
+		} catch (Exception e) {
+
+		}
 	}
 
 }

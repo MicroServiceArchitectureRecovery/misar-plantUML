@@ -7,6 +7,7 @@ import MicroserviceObject.MicroservicesArchitecture;
 import MicroserviceObject.QueListnerMessagesObject;
 import MicroserviceObject.ServiceMessagesObject;
 import PIM.ServiceDependency;
+import TempObject.EndPointObject;
 import MicroserviceObject.DependencyencyClass;
 import MicroserviceObject.EndPointMessages;
 import MicroserviceObject.MessagesObject;
@@ -117,7 +118,7 @@ public class MicroDepedancyView {
 		for (DependencyencyClass Depenndancy : D) {
 			
 			
-			System.out.println("Count : " + D.size());
+			System.out.println("Count : " + m.get(0).getDependenciesCounter());
 			if (Depenndancy.getProviderName() != "" && Depenndancy.getProviderName() != null) {
 				if (Depenndancy.getProviderDestination() != "" && Depenndancy.getProviderDestination() != null) {
 					if (!Depenndancy.getProviderName().equals(selectedMicroservice)) {

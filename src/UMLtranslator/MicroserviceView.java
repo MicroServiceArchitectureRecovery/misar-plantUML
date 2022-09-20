@@ -5,7 +5,7 @@ package UMLtranslator;
 import java.util.List;
 
 import MainDriver.main;
-import MicroserviceObject.InfrastructurePatternPomponentObject;
+import MicroserviceObject.PatternComponentstObject;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
 
@@ -14,10 +14,10 @@ public class MicroserviceView {
 	public static void AddInfrastructurePatternPomponentObject(StringBuilder sb,
 			List<MicroserviceObject> microserviceObject) {
 
-		List<InfrastructurePatternPomponentObject> infrastructurePatternComponentObject = microserviceObject.get(0)
+		List<PatternComponentstObject> infrastructurePatternComponentObject = microserviceObject.get(0)
 				.getComponents();
 
-		for (InfrastructurePatternPomponentObject a : infrastructurePatternComponentObject) {
+		for (PatternComponentstObject a : infrastructurePatternComponentObject) {
 
 			sb.append("component ");
 			sb.append(a.getCategory() + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "<<" + a.getType()
