@@ -21,7 +21,7 @@ public class microserviceWriteToExcell {
 		try {
 
 			// set file's name and location
-			String filename = main.getOutputPath() + "\\ExcellMicroData.xls" ;
+			String filename = main.getOutputPath() + "\\" + selectedMicroservice+".xls" ;
 			HSSFWorkbook workbook = new HSSFWorkbook();
 
 			// create new spreadsheet

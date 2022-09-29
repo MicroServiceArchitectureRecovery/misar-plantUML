@@ -16,15 +16,15 @@ import net.sourceforge.plantuml.core.DiagramDescription;
 
 public class SVGdriver {
 
-	public static void SVGdriver(String source) {
-
+	public static void SVGdriver(String source , String output) {
+				
 		try {
 
 			SourceStringReader reader = new SourceStringReader(source);
 			final ByteArrayOutputStream os = new ByteArrayOutputStream();
 			// Write the first image to "os"
 			String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-			FileOutputStream outStream = new FileOutputStream(main.getOutputPath() + "\\Fileoutput.svg");
+			FileOutputStream outStream = new FileOutputStream(main.getOutputPath() + "\\"+output+".svg");
 			os.writeTo(outStream);
 			outStream.close();
 
@@ -32,7 +32,7 @@ public class SVGdriver {
 
 			// final String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
 
-			File file = new File(main.getOutputPath() + "\\Fileoutput.svg");
+			File file = new File(main.getOutputPath() + "\\"+output+".svg");
 			Desktop.getDesktop().open(file);
 
 		} catch (Exception e) {
