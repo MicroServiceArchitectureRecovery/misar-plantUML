@@ -1,19 +1,2 @@
 INDEX VERSION 1.131+C:\Users\Anti coding club\Desktop\Eclise Projects\test\.metadata\.plugins\org.eclipse.jdt.core
-3517082057.index
-163305991.index
-3271193799.index
-2563744122.index
-3269911593.index
-3732037268.index
-3117839635.index
-2169014959.index
-3471141472.index
 1865797976.index
-3624592337.index
-2145587510.index
-4078106736.index
-99492174.index
-486551406.index
-270385060.index
-75931715.index
-768876943.index

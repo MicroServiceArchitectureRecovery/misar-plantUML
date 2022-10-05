@@ -91,7 +91,7 @@ public class MainFrame extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(32, 47, 90));
-		panel_1.setBounds(63, 247, 881, 330);
+		panel_1.setBounds(63, 132, 881, 445);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
@@ -103,36 +103,36 @@ public class MainFrame extends JFrame {
 		lblNewLabel.setIcon(null);
 
 		JButton btnDownloadPng_1 = new JButton("Download PNG");
-		btnDownloadPng_1.setBounds(183, 21, 148, 32);
+		btnDownloadPng_1.setBounds(183, 67, 148, 32);
 		panel_1.add(btnDownloadPng_1);
 		btnDownloadPng_1.setBackground(SystemColor.textHighlight);
 		btnDownloadPng_1.setIcon(null);
 
 		JButton Button_Architecture_View_File = new JButton("Download File");
-		Button_Architecture_View_File.setBounds(603, 21, 148, 32);
+		Button_Architecture_View_File.setBounds(603, 67, 148, 32);
 		panel_1.add(Button_Architecture_View_File);
 		Button_Architecture_View_File.setBackground(SystemColor.textHighlight);
 		Button_Architecture_View_File.setIcon(null);
 
-		JLabel lblMicroserviceView = new JLabel("Microservice View");
-		lblMicroserviceView.setBounds(10, 83, 113, 19);
+		JLabel lblMicroserviceView = new JLabel("Microservice Level");
+		lblMicroserviceView.setBounds(10, 181, 162, 19);
 		panel_1.add(lblMicroserviceView);
 		lblMicroserviceView.setForeground(Color.WHITE);
 		lblMicroserviceView.setIcon(null);
-		lblMicroserviceView.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMicroserviceView.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(new Color(255, 0, 0));
-		separator_1.setBounds(96, 64, 618, 21);
+		separator_1.setBounds(130, 110, 618, 21);
 		panel_1.add(separator_1);
 
 		JSeparator separator_1_1 = new JSeparator();
 		separator_1_1.setForeground(Color.RED);
-		separator_1_1.setBounds(96, 131, 618, 21);
+		separator_1_1.setBounds(183, 196, 575, 21);
 		panel_1.add(separator_1_1);
 
 		JButton btnDownloadFile = new JButton("Download File");
-		btnDownloadFile.setBounds(603, 83, 148, 32);
+		btnDownloadFile.setBounds(603, 306, 148, 32);
 		panel_1.add(btnDownloadFile);
 		btnDownloadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,23 +143,23 @@ public class MainFrame extends JFrame {
 		btnDownloadFile.setBackground(SystemColor.textHighlight);
 
 		JButton btnDownloadPng_2 = new JButton("Download PNG");
-		btnDownloadPng_2.setBounds(183, 83, 148, 32);
+		btnDownloadPng_2.setBounds(183, 306, 148, 32);
 		panel_1.add(btnDownloadPng_2);
 		btnDownloadPng_2.setBackground(SystemColor.textHighlight);
 
 		btnDownloadSvg = new JButton("Download SVG");
-		btnDownloadSvg.setBounds(391, 83, 148, 32);
+		btnDownloadSvg.setBounds(391, 306, 148, 32);
 		panel_1.add(btnDownloadSvg);
 		btnDownloadSvg.setBackground(SystemColor.textHighlight);
 
 		JButton Button_Architecture_View_SVG = new JButton("Download SVG");
-		Button_Architecture_View_SVG.setBounds(391, 21, 148, 32);
+		Button_Architecture_View_SVG.setBounds(391, 67, 148, 32);
 		panel_1.add(Button_Architecture_View_SVG);
 		Button_Architecture_View_SVG.setBackground(SystemColor.textHighlight);
 		Button_Architecture_View_SVG.setIcon(null);
 
 		JLabel lblDependencyView = new JLabel("Dependency View");
-		lblDependencyView.setBounds(10, 153, 148, 21);
+		lblDependencyView.setBounds(10, 124, 148, 21);
 		panel_1.add(lblDependencyView);
 		lblDependencyView.setForeground(Color.WHITE);
 		lblDependencyView.setIcon(null);
@@ -167,36 +167,36 @@ public class MainFrame extends JFrame {
 
 		JSeparator separator_1_1_1 = new JSeparator();
 		separator_1_1_1.setForeground(Color.RED);
-		separator_1_1_1.setBounds(96, 198, 618, 21);
+		separator_1_1_1.setBounds(96, 349, 655, 21);
 		panel_1.add(separator_1_1_1);
 
 		JButton btnDownloadFile_1 = new JButton("Download File");
-		btnDownloadFile_1.setBounds(603, 149, 148, 32);
+		btnDownloadFile_1.setBounds(603, 142, 148, 32);
 		panel_1.add(btnDownloadFile_1);
 		btnDownloadFile_1.setBackground(SystemColor.textHighlight);
 		btnDownloadFile_1.setIcon(null);
 
 		JButton Button_Dependency_View_SVG = new JButton("Download SVG");
-		Button_Dependency_View_SVG.setBounds(391, 149, 148, 32);
+		Button_Dependency_View_SVG.setBounds(391, 142, 148, 32);
 		panel_1.add(Button_Dependency_View_SVG);
 		Button_Dependency_View_SVG.setBackground(SystemColor.textHighlight);
 		Button_Dependency_View_SVG.setIcon(null);
 
 		JButton btnDownloadPng_3 = new JButton("Download PNG");
-		btnDownloadPng_3.setBounds(183, 149, 148, 32);
+		btnDownloadPng_3.setBounds(183, 142, 148, 32);
 		panel_1.add(btnDownloadPng_3);
 		btnDownloadPng_3.setBackground(SystemColor.textHighlight);
 		btnDownloadPng_3.setIcon(null);
 
 		JLabel MiroView = new JLabel("Miro Dependency View");
-		MiroView.setBounds(10, 219, 148, 21);
+		MiroView.setBounds(10, 381, 148, 21);
 		panel_1.add(MiroView);
 		MiroView.setForeground(Color.WHITE);
 		MiroView.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		JSeparator separator_1_1_1_1 = new JSeparator();
 		separator_1_1_1_1.setForeground(Color.RED);
-		separator_1_1_1_1.setBounds(96, 262, 618, 21);
+		separator_1_1_1_1.setBounds(96, 413, 655, 21);
 		panel_1.add(separator_1_1_1_1);
 
 		JButton Button_Micro_Dependency_View_File = new JButton("Donwnload File");
@@ -205,7 +205,7 @@ public class MainFrame extends JFrame {
 				main.MicroDepedancyViewFile();
 			}
 		});
-		Button_Micro_Dependency_View_File.setBounds(603, 219, 148, 32);
+		Button_Micro_Dependency_View_File.setBounds(603, 370, 148, 32);
 		panel_1.add(Button_Micro_Dependency_View_File);
 		Button_Micro_Dependency_View_File.setBackground(SystemColor.textHighlight);
 
@@ -216,7 +216,7 @@ public class MainFrame extends JFrame {
 				main.MicroDepedancyViewSVG();
 			}
 		});
-		Button_Micro_Dependency_View_SVG.setBounds(391, 219, 148, 32);
+		Button_Micro_Dependency_View_SVG.setBounds(391, 370, 148, 32);
 		panel_1.add(Button_Micro_Dependency_View_SVG);
 		Button_Micro_Dependency_View_SVG.setBackground(SystemColor.textHighlight);
 
@@ -226,9 +226,70 @@ public class MainFrame extends JFrame {
 				main.MicroDepedancyViewPNG();
 			}
 		});
-		btnDownloadPng.setBounds(183, 219, 148, 32);
+		btnDownloadPng.setBounds(183, 370, 148, 32);
 		panel_1.add(btnDownloadPng);
 		btnDownloadPng.setBackground(SystemColor.textHighlight);
+		
+				JButton Excell_Data = new JButton("Excell Data sheet ( Entire model )");
+				Excell_Data.setBounds(183, 254, 286, 32);
+				panel_1.add(Excell_Data);
+				Excell_Data.setBackground(new Color(34, 139, 34));
+				Image Excell_DataPic = new ImageIcon(this.getClass().getResource("/microsoft_excel_23px.png")).getImage();
+				Excell_Data.setIcon(new ImageIcon(Excell_DataPic));
+				
+						JButton Excell_Data_For_Micro = new JButton("Micro Excell Data sheet ( Micro level ) ");
+						Excell_Data_For_Micro.setBounds(183, 17, 278, 32);
+						panel_1.add(Excell_Data_For_Micro);
+						Excell_Data_For_Micro.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+
+								main.excellSheetMicroLvele();
+							}
+						});
+						Excell_Data_For_Micro.setBackground(new Color(34, 139, 34));
+						Excell_Data_For_Micro.setIcon(new ImageIcon(Excell_DataPic));
+						
+								JComboBox comboBox = new JComboBox();
+								comboBox.setBounds(10, 211, 231, 32);
+								panel_1.add(comboBox);
+								comboBox.setToolTipText("Please select a Microservice");
+								comboBox.setBackground(new Color(255, 0, 0));
+								
+										JLabel lblNewLabel_2 = new JLabel(
+												"**Please select a microservice before selecting a micro view or excell micro view data ");
+										lblNewLabel_2.setBounds(252, 214, 506, 25);
+										panel_1.add(lblNewLabel_2);
+										lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+										lblNewLabel_2.setForeground(Color.RED);
+										
+										JLabel lblMiroserviceView = new JLabel("Miroservice View");
+										lblMiroserviceView.setForeground(Color.WHITE);
+										lblMiroserviceView.setFont(new Font("Tahoma", Font.PLAIN, 15));
+										lblMiroserviceView.setBounds(10, 317, 148, 21);
+										panel_1.add(lblMiroserviceView);
+										
+										JLabel lblMiroserviceMetrics = new JLabel("Miroservice Metrics");
+										lblMiroserviceMetrics.setForeground(Color.WHITE);
+										lblMiroserviceMetrics.setFont(new Font("Tahoma", Font.PLAIN, 15));
+										lblMiroserviceMetrics.setBounds(10, 258, 148, 21);
+										panel_1.add(lblMiroserviceMetrics);
+								
+								
+								
+								comboBox.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										String selected = comboBox.getSelectedItem().toString();
+										System.out.println(selected);
+										main.setMicroservice(selected);
+									}
+								});
+				Excell_Data.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						main.excellSheet();
+					}
+
+				});
 		btnDownloadPng_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -318,25 +379,20 @@ public class MainFrame extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_2.setToolTipText("Please select a microservice FIRST");
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setBounds(63, 0, 881, 247);
+		panel_2.setBounds(63, 0, 881, 132);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 
-		JLabel lblNewLabel_3 = new JLabel("MiSAR  MicroserviceArchitecture V2.1");
-		lblNewLabel_3.setFont(new Font("Segoe UI Historic", Font.PLAIN, 24));
-		lblNewLabel_3.setBounds(10, 67, 401, 61);
-		panel_2.add(lblNewLabel_3);
-
 		JLabel lblNewLabel_3_1 = new JLabel("This tool translates a MiSAR PIM architecture model into PlantUML diagrams and creates metrics of the MiSAR PIM mode");
 		lblNewLabel_3_1.setFont(new Font("Segoe UI Historic", Font.PLAIN, 14));
-		lblNewLabel_3_1.setBounds(10, 124, 749, 39);
+		lblNewLabel_3_1.setBounds(10, 31, 749, 32);
 		panel_2.add(lblNewLabel_3_1);
 		
 		
 		
 
 		JDesktopPane desktopPane = new JDesktopPane();
-		desktopPane.setBounds(0, 0, 881, 64);
+		desktopPane.setBounds(0, 62, 881, 64);
 		panel_2.add(desktopPane);
 		desktopPane.setBackground(Color.WHITE);
 
@@ -350,14 +406,14 @@ public class MainFrame extends JFrame {
 		txtPleaseSelectA.setForeground(Color.GRAY);
 		txtPleaseSelectA.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		txtPleaseSelectA.setText("Please select a PIM file path ONLY");
-		txtPleaseSelectA.setBounds(51, 10, 482, 22);
+		txtPleaseSelectA.setBounds(51, 5, 482, 22);
 		desktopPane.add(txtPleaseSelectA);
 		txtPleaseSelectA.setColumns(10);
 
 		JButton btn_OpenFile = new JButton("Open File");
 		btn_OpenFile.setBackground(SystemColor.text);
 		btn_OpenFile.setForeground(UIManager.getColor("Table.sortIconLight"));
-		btn_OpenFile.setBounds(568, 11, 107, 22);
+		btn_OpenFile.setBounds(568, 6, 107, 22);
 		Image imgOpenFile = new ImageIcon(this.getClass().getResource("/Opened Folder_22px.png")).getImage();
 		btn_OpenFile.setIcon(new ImageIcon(imgOpenFile));
 
@@ -376,15 +432,15 @@ public class MainFrame extends JFrame {
 		lblNewLabel_3_1_1.setFont(new Font("Segoe UI Historic", Font.PLAIN, 14));
 
 		JButton btnOutput_1 = new JButton("Output");
-		btnOutput_1.setBounds(685, 11, 95, 22);
+		btnOutput_1.setBounds(568, 39, 107, 22);
 		desktopPane.add(btnOutput_1);
 		btnOutput_1.setForeground(Color.BLACK);
 		btnOutput_1.setBackground(new Color(0, 0, 128));
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Please select the location on your desktop where generated files will be stored ");
 		lblNewLabel_2_1.setForeground(Color.RED);
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_2_1.setBounds(35, 39, 561, 25);
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.ITALIC, 13));
+		lblNewLabel_2_1.setBounds(50, 38, 561, 25);
 		desktopPane.add(lblNewLabel_2_1);
 		btnOutput_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -411,55 +467,12 @@ public class MainFrame extends JFrame {
 				}
 			}
 		});
-
-		JButton Excell_Data = new JButton("Excell Data sheet ( Entire model )");
-		Excell_Data.setBounds(436, 87, 286, 32);
-		panel_2.add(Excell_Data);
-		Excell_Data.setBackground(new Color(34, 139, 34));
-		Image Excell_DataPic = new ImageIcon(this.getClass().getResource("/microsoft_excel_23px.png")).getImage();
-		Excell_Data.setIcon(new ImageIcon(Excell_DataPic));
-
-		JComboBox comboBox = new JComboBox();
-		comboBox.setToolTipText("Please select a Microservice");
-		comboBox.setBounds(10, 204, 231, 32);
-		panel_2.add(comboBox);
-		comboBox.setBackground(new Color(255, 0, 0));
-
-		JLabel lblNewLabel_2 = new JLabel(
-				"**Please select a microservice before selecting a micro view or excell micro view data ");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_2.setForeground(Color.RED);
-		lblNewLabel_2.setBounds(49, 174, 506, 25);
-		panel_2.add(lblNewLabel_2);
-
-		JButton Excell_Data_For_Micro = new JButton("Micro Excell Data sheet ( Micro level ) ");
-		Excell_Data_For_Micro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				main.excellSheetMicroLvele();
-			}
-		});
-		Excell_Data_For_Micro.setBounds(251, 204, 278, 32);
-		panel_2.add(Excell_Data_For_Micro);
-		Excell_Data_For_Micro.setBackground(new Color(34, 139, 34));
-		Excell_Data_For_Micro.setIcon(new ImageIcon(Excell_DataPic));
 		
 		
-		
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String selected = comboBox.getSelectedItem().toString();
-				System.out.println(selected);
-				main.setMicroservice(selected);
-			}
-		});
-		Excell_Data.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				main.excellSheet();
-			}
-
-		});
+				JLabel lblNewLabel_3 = new JLabel("MiSAR  MicroserviceArchitecture V2.1");
+				lblNewLabel_3.setBounds(10, 0, 401, 39);
+				panel_2.add(lblNewLabel_3);
+				lblNewLabel_3.setFont(new Font("Segoe UI Historic", Font.PLAIN, 24));
 		
 
 		btn_OpenFile.addActionListener(new ActionListener() {
