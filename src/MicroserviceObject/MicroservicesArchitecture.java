@@ -8,7 +8,7 @@ public class MicroservicesArchitecture {
 	private String architectureName;
 
 	public String getArchitectureName() {
-		return architectureName;
+		return architectureName.replaceAll("[^a-zA-Z0-9]", "");
 	}
 
 	public MicroservicesArchitecture(String architectureName2) {
