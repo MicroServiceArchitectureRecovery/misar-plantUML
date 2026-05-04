@@ -241,3 +241,8 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,intellij,intellij+all
 
 .idea/
+
+# Automated build generated files
+build/
+dist/
+Runnable Jar File/MiSAR-beta.jar
