@@ -24,7 +24,7 @@ public class SVGdriver {
 			final ByteArrayOutputStream os = new ByteArrayOutputStream();
 			// Write the first image to "os"
 			String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-			FileOutputStream outStream = new FileOutputStream(main.getOutputPath() + "\\"+output+".svg");
+			FileOutputStream outStream = new FileOutputStream(main.buildOutputFilePath(output + ".svg"));
 			os.writeTo(outStream);
 			outStream.close();
 

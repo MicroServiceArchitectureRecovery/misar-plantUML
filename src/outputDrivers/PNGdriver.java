@@ -14,7 +14,7 @@ public class PNGdriver {
 	public static void imageGen(String source , String output) {
 
 		try {
-			OutputStream png = new FileOutputStream(main.getOutputPath() + "\\"+output+".png");
+			OutputStream png = new FileOutputStream(main.buildOutputFilePath(output + ".png"));
 
 			SourceStringReader reader = new SourceStringReader(source);
 			// Write the first image to "png"
