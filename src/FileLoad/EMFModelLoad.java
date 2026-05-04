@@ -20,8 +20,14 @@ public class EMFModelLoad {
 
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		Map<String, Object> m = reg.getExtensionToFactoryMap();	
+		
+		
+		// Register xmi and pim as valid file extensions
 		m.put("PIM", new XMIResourceFactoryImpl());
+		m.put("pim", new XMIResourceFactoryImpl());
+		m.put("xmi", new XMIResourceFactoryImpl());
+		m.put("XMI", new XMIResourceFactoryImpl());
 		
 		
 

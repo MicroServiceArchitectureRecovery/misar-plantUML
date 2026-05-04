@@ -34,6 +34,8 @@ import MainDriver.main;
 import java.awt.*;
 import java.awt.Component;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 public class MainFrame extends JFrame {
 	private JTextField txtPleaseSelectA;
 	private static String inputFile;
@@ -499,9 +501,12 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					JFileChooser jfilechooser = new JFileChooser();
-					// This forces the suer to chose afile not a directory
 
+					// Pick only XMI files 
 					jfilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					jfilechooser.setAcceptAllFileFilterUsed(false);
+					jfilechooser.setFileFilter(new FileNameExtensionFilter("XMI model files (*.xmi, *.pim)", "xmi", "pim"));
+					
 					// This stores the user responce
 					int responce = jfilechooser.showOpenDialog(null);
 
@@ -522,8 +527,14 @@ public class MainFrame extends JFrame {
 
 					}
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, "Please select a .PIM file ", "Error wrong file type", 1);
-					txtPleaseSelectA.setText("Please ONLY select  PIM folder to avoid error");
+					JOptionPane.showMessageDialog(
+						    null,
+						    "Please select a valid .xmi MiSAR PIM model file.",
+						    "Invalid XMI File",
+						    JOptionPane.ERROR_MESSAGE
+						);
+
+					txtPleaseSelectA.setText("Please select a valid .xmi MiSAR PIM model file.");
 				}
 			}
 		});
