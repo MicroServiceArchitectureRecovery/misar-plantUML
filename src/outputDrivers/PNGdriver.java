@@ -20,7 +20,7 @@ public class PNGdriver {
 			// Write the first image to "png"
 			String desc = reader.outputImage(png).getDescription();
 			// Return a null string if no generation
-			File file = new File(main.getOutputPath() + "\\"+output+".png");
+			File file = new File(main.buildOutputFilePath(output + ".png"));
 			Desktop.getDesktop().open(file);
 		} catch (Exception e) {
 

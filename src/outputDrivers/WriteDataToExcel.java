@@ -10,6 +10,9 @@ import MainDriver.main;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 
+import java.awt.Desktop;
+import java.io.File;
+
 public class WriteDataToExcel {
 
 	// ensure table is filled with values before attempting to produce an excel file
@@ -20,7 +23,7 @@ public class WriteDataToExcel {
 		try {
 
 			// set file's name and location
-			String filename = main.getOutputPath() + "\\ExcellMicroData.xls" ;
+			String filename = main.buildOutputFilePath("ExcellMicroData.xls");
 			HSSFWorkbook workbook = new HSSFWorkbook();
 
 			// create new spreadsheet
@@ -72,7 +75,7 @@ public class WriteDataToExcel {
 			fileOut.close();
 			workbook.close();
 			System.out.println("Your excel file has been generated!");
-			Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + filename);
+			Desktop.getDesktop().open(new File(filename));
 
 		} catch (Exception ex) {
 			System.out.println(ex);

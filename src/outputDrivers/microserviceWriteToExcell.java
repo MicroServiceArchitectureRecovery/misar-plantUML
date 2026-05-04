@@ -11,6 +11,9 @@ import MainDriver.main;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
 
+import java.awt.Desktop;
+import java.io.File;
+
 public class microserviceWriteToExcell {
 
 	public microserviceWriteToExcell() {
@@ -21,7 +24,7 @@ public class microserviceWriteToExcell {
 		try {
 
 			// set file's name and location
-			String filename = main.getOutputPath() + "\\" + selectedMicroservice+".xls" ;
+			String filename = main.buildOutputFilePath(selectedMicroservice + ".xls");
 			HSSFWorkbook workbook = new HSSFWorkbook();
 
 			// create new spreadsheet

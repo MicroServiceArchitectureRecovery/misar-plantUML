@@ -235,7 +235,7 @@ public class MainFrame extends JFrame {
 		panel_1.add(btnDownloadPng);
 		btnDownloadPng.setBackground(SystemColor.textHighlight);
 		
-				JButton Excell_Data = new JButton("Excell Data sheet ( Entire model )");
+				JButton Excell_Data = new JButton("Export an Excel Data sheet (Entire model)");
 				Excell_Data.setBounds(183, 37, 286, 32);
 				panel_1.add(Excell_Data);
 				Excell_Data.setBackground(new Color(34, 139, 34));
