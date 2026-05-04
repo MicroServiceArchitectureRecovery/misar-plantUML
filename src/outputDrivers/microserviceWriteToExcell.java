@@ -24,7 +24,7 @@ public class microserviceWriteToExcell {
 		try {
 
 			// set file's name and location
-			String filename = main.buildOutputFilePath(selectedMicroservice + ".xls");
+			String filename = main.buildOutputFilePath(main.getInputModelBaseName() + "-" + selectedMicroservice + ".xls");
 			HSSFWorkbook workbook = new HSSFWorkbook();
 
 			// create new spreadsheet
@@ -80,7 +80,7 @@ public class microserviceWriteToExcell {
 			fileOut.close();
 			workbook.close();
 			System.out.println("Your excel file has been generated!");
-			Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + filename);
+			Desktop.getDesktop().open(new File(filename));
 
 		} catch (Exception ex) {
 			System.out.println(ex);

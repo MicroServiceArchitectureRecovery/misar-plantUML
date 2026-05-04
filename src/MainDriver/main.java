@@ -259,5 +259,25 @@ public class main {
 		}
 
 	}
+	
+	public static String getInputModelBaseName() {
+	    if (umldrawSourcePath == null || umldrawSourcePath.trim().isEmpty()) {
+	        return "MiSAR-Model";
+	    }
+
+	    Path inputPath = Paths.get(umldrawSourcePath);
+	    String fileName = inputPath.getFileName().toString();
+
+	    int dotIndex = fileName.lastIndexOf(".");
+	    if (dotIndex > 0) {
+	        fileName = fileName.substring(0, dotIndex);
+	    }
+
+	    return sanitiseFileName(fileName);
+	}
+
+	private static String sanitiseFileName(String fileName) {
+	    return fileName.replaceAll("[\\\\/:*?\"<>|]", "_");
+	}
 
 }

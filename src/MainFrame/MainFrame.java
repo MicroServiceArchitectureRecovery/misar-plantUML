@@ -235,15 +235,15 @@ public class MainFrame extends JFrame {
 		panel_1.add(btnDownloadPng);
 		btnDownloadPng.setBackground(SystemColor.textHighlight);
 		
-				JButton Excell_Data = new JButton("Export an Excel Data sheet (Entire model)");
+				JButton Excell_Data = new JButton("Export to Excel Data sheet (Entire model)");
 				Excell_Data.setBounds(183, 37, 286, 32);
 				panel_1.add(Excell_Data);
 				Excell_Data.setBackground(new Color(34, 139, 34));
 				Image Excell_DataPic = new ImageIcon(this.getClass().getResource("/microsoft_excel_23px.png")).getImage();
 				Excell_Data.setIcon(new ImageIcon(Excell_DataPic));
 				
-						JButton Excell_Data_For_Micro = new JButton("Micro Excell Data sheet ( Micro level ) ");
-						Excell_Data_For_Micro.setBounds(183, 263, 278, 32);
+						JButton Excell_Data_For_Micro = new JButton("Export to Excel Data sheet (Microservice level)");
+						Excell_Data_For_Micro.setBounds(183, 263, 300, 32);
 						panel_1.add(Excell_Data_For_Micro);
 						Excell_Data_For_Micro.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -267,13 +267,13 @@ public class MainFrame extends JFrame {
 										lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 										lblNewLabel_2.setForeground(Color.RED);
 										
-										JLabel lblMiroserviceView = new JLabel("Miroservice View");
+										JLabel lblMiroserviceView = new JLabel("Microservice View");
 										lblMiroserviceView.setForeground(Color.WHITE);
 										lblMiroserviceView.setFont(new Font("Tahoma", Font.PLAIN, 15));
 										lblMiroserviceView.setBounds(10, 317, 148, 21);
 										panel_1.add(lblMiroserviceView);
 										
-										JLabel lblMiroserviceMetrics = new JLabel("Miroservice Metrics");
+										JLabel lblMiroserviceMetrics = new JLabel("Microservice Metrics");
 										lblMiroserviceMetrics.setForeground(Color.WHITE);
 										lblMiroserviceMetrics.setFont(new Font("Tahoma", Font.PLAIN, 15));
 										lblMiroserviceMetrics.setBounds(10, 258, 148, 21);

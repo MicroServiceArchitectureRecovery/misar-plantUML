@@ -23,7 +23,7 @@ public class WriteDataToExcel {
 		try {
 
 			// set file's name and location
-			String filename = main.buildOutputFilePath("ExcellMicroData.xls");
+			String filename = main.buildOutputFilePath(main.getInputModelBaseName() + ".xls");
 			HSSFWorkbook workbook = new HSSFWorkbook();
 
 			// create new spreadsheet
