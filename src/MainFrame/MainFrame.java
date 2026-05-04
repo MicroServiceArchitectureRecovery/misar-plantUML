@@ -71,7 +71,10 @@ public class MainFrame extends JFrame {
 	}
 
 	public MainFrame() {
-		setTitle("Misar Tool");
+		setTitle("Misar Graphical Model Generator");
+		
+		// Full exit when click on exit button
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      
 		getContentPane().setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
