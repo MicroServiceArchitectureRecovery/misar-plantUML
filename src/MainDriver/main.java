@@ -248,9 +248,8 @@ public class main {
 
 	public static void excellSheet() {
 		if (generate == true) {
-			WriteDataToExcel.CreateFile2();
-		} 
-
+			WriteDataToExcel.CreateFile2(microservicesArchitecturesTest);
+		}
 	}
 
 	public static void excellSheetMicroLvele() {

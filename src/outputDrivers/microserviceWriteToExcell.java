@@ -1,90 +1,114 @@
 package outputDrivers;
+
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import CounterClass.counterClass;
 import MainDriver.main;
 import MicroserviceObject.MicroserviceObject;
 import MicroserviceObject.MicroservicesArchitecture;
-
-import java.awt.Desktop;
-import java.io.File;
+import MicroserviceObject.PatternComponentstObject;
 
 public class microserviceWriteToExcell {
 
 	public microserviceWriteToExcell() {
-		// TODO Auto-generated constructor stub
 	}
-	public static void CreateFile2(List<MicroservicesArchitecture> microservicesArchitecturesTest, String selectedMicroservice) {
 
+	public static void CreateFile2(List<MicroservicesArchitecture> microservicesArchitecturesTest,
+			String selectedMicroservice) {
 		try {
+			String filename = main.buildOutputFilePath(
+					main.getInputModelBaseName() + "-" + selectedMicroservice + ".xls"
+			);
 
-			// set file's name and location
-			String filename = main.buildOutputFilePath(main.getInputModelBaseName() + "-" + selectedMicroservice + ".xls");
 			HSSFWorkbook workbook = new HSSFWorkbook();
+			HSSFSheet sheet = workbook.createSheet("Microservice Metrics");
 
-			// create new spreadsheet
-			HSSFSheet sheet = workbook.createSheet("FirstSheet");
-
-			// assign headers
 			HSSFRow rowhead = sheet.createRow((short) 0);
 			rowhead.createCell(0).setCellValue("Pattern Components");
-			rowhead.createCell(1).setCellValue("Infrastructure Server COmponents");
-			rowhead.createCell(2).setCellValue("Infrastructure CLient Component");
+			rowhead.createCell(1).setCellValue("Infrastructure Server Components");
+			rowhead.createCell(2).setCellValue("Infrastructure Client Component");
 			rowhead.createCell(3).setCellValue("Service Interface");
 			rowhead.createCell(4).setCellValue("End Point");
-			rowhead.createCell(5).setCellValue("Queue listeners");
+			rowhead.createCell(5).setCellValue("Queue Listeners");
 			rowhead.createCell(6).setCellValue("Message");
-			rowhead.createCell(7).setCellValue("Service Depedency");
+			rowhead.createCell(7).setCellValue("Service Dependency");
 			rowhead.createCell(8).setCellValue("Service Operations");
-	
+			rowhead.createCell(9).setCellValue("Infrastructure Pattern Categories");
+
 			int loop = 1;
 
-			for (MicroservicesArchitecture name : microservicesArchitecturesTest) {
-				List<List<MicroserviceObject>> microserviceObject = name.getMicroservicesArchitectureObject();
-				int counter = 1;
+			for (MicroservicesArchitecture architecture : microservicesArchitecturesTest) {
+				List<List<MicroserviceObject>> microserviceObject = architecture.getMicroservicesArchitectureObject();
 
-				for (List<MicroserviceObject> microservice : microserviceObject) {
-					if (microservice.get(0).getMicroserviceName().equals(selectedMicroservice)){
-					
-					
-					HSSFRow row = sheet.createRow((short) loop);
-					row.createCell(0).setCellValue(microservice.get(0).getPatternComponentstObjectCounter());
-					row.createCell(1).setCellValue(microservice.get(0).getInfrastructureServerCOmponentsCounter());
-					row.createCell(2).setCellValue(microservice.get(0).getInfrastructureCLientComponentCounter());
-					row.createCell(3).setCellValue(microservice.get(0).getserviceInterfaceCounter());
-					row.createCell(4).setCellValue(microservice.get(0).getEndPointCounter());
-					row.createCell(5).setCellValue(microservice.get(0).getQueuelistenersCounter());
-					row.createCell(6).setCellValue(microservice.get(0).getMessageCounter());
-					row.createCell(7).setCellValue(microservice.get(0).getDependenciesCounter());
-					row.createCell(8).setCellValue(microservice.get(0).getServiceOpertionCounter());
+				for (List<MicroserviceObject> microserviceGroup : microserviceObject) {
+					MicroserviceObject microservice = microserviceGroup.get(0);
 
-					loop++;
+					if (microservice.getMicroserviceName().equals(selectedMicroservice)) {
+						HSSFRow row = sheet.createRow((short) loop);
+						row.createCell(0).setCellValue(microservice.getPatternComponentstObjectCounter());
+						row.createCell(1).setCellValue(microservice.getInfrastructureServerCOmponentsCounter());
+						row.createCell(2).setCellValue(microservice.getInfrastructureCLientComponentCounter());
+						row.createCell(3).setCellValue(microservice.getserviceInterfaceCounter());
+						row.createCell(4).setCellValue(microservice.getEndPointCounter());
+						row.createCell(5).setCellValue(microservice.getQueuelistenersCounter());
+						row.createCell(6).setCellValue(microservice.getMessageCounter());
+						row.createCell(7).setCellValue(microservice.getDependenciesCounter());
+						row.createCell(8).setCellValue(microservice.getServiceOpertionCounter());
+						row.createCell(9).setCellValue(getMicroservicePatternCategories(microservice));
+
+						loop++;
 					}
-
 				}
 			}
-			
-			// assign values to each row
-	
 
-			// loop through table fo metrics
+			for (int i = 0; i <= 9; i++) {
+				sheet.autoSizeColumn(i);
+			}
 
-			// output the stream and close the workbook
 			FileOutputStream fileOut = new FileOutputStream(filename);
 			workbook.write(fileOut);
 			fileOut.close();
 			workbook.close();
-			System.out.println("Your excel file has been generated!");
-			Desktop.getDesktop().open(new File(filename));
 
+			System.out.println("Your excel file has been generated!");
+
+			if (Desktop.isDesktopSupported()) {
+				Desktop.getDesktop().open(new File(filename));
+			}
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+	}
 
+	private static String getMicroservicePatternCategories(MicroserviceObject microservice) {
+		Set<String> categories = new LinkedHashSet<String>();
+
+		for (PatternComponentstObject component : microservice.getComponents()) {
+			categories.add(component.getCategoryLabel());
+		}
+
+		if (categories.isEmpty()) {
+			return "None";
+		}
+
+		StringBuilder result = new StringBuilder();
+
+		for (String category : categories) {
+			if (result.length() > 0) {
+				result.append(", ");
+			}
+
+			result.append(category);
+		}
+
+		return result.toString();
 	}
 }
