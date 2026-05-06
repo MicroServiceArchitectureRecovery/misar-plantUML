@@ -14,17 +14,23 @@ public class ArchitectureViewDriver {
 		List<PatternComponentstObject> infrastructurePatternComponentObject = microserviceObject.get(0)
 				.getComponents();
 
-		for (PatternComponentstObject a : infrastructurePatternComponentObject) {
+		int index = 1;
+
+		for (PatternComponentstObject component : infrastructurePatternComponentObject) {
+			String alias = "InfrastructurePattern_" + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "_"
+					+ index;
 
 			sb.append("component ");
-			sb.append(a.getCategory() + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "<<" + a.getType()
-					+ ">> ");
+			sb.append("\"Category: " + component.getCategoryLabel() + "\"");
+			sb.append(" as ");
+			sb.append(alias);
+			sb.append(" <<");
+			sb.append(component.getType());
+			sb.append(">> ");
 			sb.append("\n");
 
+			index++;
 		}
-
-		sb.append("}\n");
-
 	}
 
 	private static void structureMthod(StringBuilder sb,
@@ -50,9 +56,10 @@ public class ArchitectureViewDriver {
 				sb.append("{");
 				sb.append("\n");
 
+				AddInfrastructurePatternPomponentObject(sb, microservice);
+
 				sb.append("\n");
 				sb.append("}\n");
-				// AddInfrastructurePatternPomponentObject(sb, microservice);
 
 				sb.append("}\n");
 
