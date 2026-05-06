@@ -480,24 +480,37 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					JFileChooser jfilechooser = new JFileChooser();
-					// This forces the suer to chose afile not a directory
 
+					jfilechooser.setDialogTitle("Select output folder");
 					jfilechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					// This stores the user responce
-					int responce = jfilechooser.showOpenDialog(null);
-					// chooser.setDialogTitle(outputFile);
+					jfilechooser.setAcceptAllFileFilterUsed(false);
+					jfilechooser.setApproveButtonText("Select Folder");
 
-					// Checking for a valid file
-					if (responce == JFileChooser.APPROVE_OPTION) {
-						File pimFile = new File(jfilechooser.getSelectedFile().getAbsolutePath());
+					jfilechooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+						public boolean accept(File file) {
+							return file.isDirectory();
+						}
 
-						outputFile = pimFile.toString();
+						public String getDescription() {
+							return "Folders only";
+						}
+					});
+
+					int response = jfilechooser.showOpenDialog(null);
+
+					if (response == JFileChooser.APPROVE_OPTION) {
+						File selectedFolder = jfilechooser.getSelectedFile();
+
+						outputFile = selectedFolder.toString();
 						main.setOutpath(outputFile);
-
 					}
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, "Please select a directory ", "Error", 1);
-					txtPleaseSelectA.setText("Please ONLY select a directory folder to avoid error");
+					JOptionPane.showMessageDialog(
+							null,
+							"Please select a valid output folder.",
+							"Invalid Output Folder",
+							JOptionPane.ERROR_MESSAGE
+					);
 				}
 			}
 		});
