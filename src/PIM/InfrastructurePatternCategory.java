@@ -226,7 +226,9 @@ public enum InfrastructurePatternCategory implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING(20, "Observability_Pattern_Distributed_Tracing_Monitoring", "Observability_Pattern_Distributed_Tracing_Monitoring");
+	OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING(20, "Observability_Pattern_Distributed_Tracing_Monitoring", "Observability_Pattern_Distributed_Tracing_Monitoring"),
+
+	OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_AND_MONITORING(21, "Observability_Pattern_Distributed_Tracing_and_Monitoring", "Observability_Pattern_Distributed_Tracing_and_Monitoring");
 
 	/**
 	 * The '<em><b>Service Routing Pattern API Gateway and Proxy</b></em>' literal value.
@@ -458,6 +460,7 @@ public enum InfrastructurePatternCategory implements Enumerator {
 	 * @ordered
 	 */
 	public static final int OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING_VALUE = 20;
+	public static final int OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_AND_MONITORING_VALUE = 21;
 
 	/**
 	 * An array of all the '<em><b>Infrastructure Pattern Category</b></em>' enumerators.
@@ -488,6 +491,7 @@ public enum InfrastructurePatternCategory implements Enumerator {
 			OBSERVABILITY_PATTERN_LOG_CORRELATION,
 			OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING,
 			OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING,
+			OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_AND_MONITORING,
 		};
 
 	/**
@@ -565,6 +569,7 @@ public enum InfrastructurePatternCategory implements Enumerator {
 			case OBSERVABILITY_PATTERN_LOG_CORRELATION_VALUE: return OBSERVABILITY_PATTERN_LOG_CORRELATION;
 			case OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_VALUE: return OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING;
 			case OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING_VALUE: return OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING;
+			case OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_AND_MONITORING_VALUE: return OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_AND_MONITORING;
 		}
 		return null;
 	}

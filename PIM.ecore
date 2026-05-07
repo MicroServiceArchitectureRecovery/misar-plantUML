@@ -66,6 +66,7 @@
     <eLiterals name="Observability_Pattern_Log_Correlation" value="18" literal="Observability_Pattern_Log_Correlation"/>
     <eLiterals name="Observability_Pattern_Distributed_Tracing" value="19"/>
     <eLiterals name="Observability_Pattern_Distributed_Tracing_Monitoring" value="20"/>
+    <eLiterals name="Observability_Pattern_Distributed_Tracing_and_Monitoring" value="21"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ServiceInterface">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ServerURL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
