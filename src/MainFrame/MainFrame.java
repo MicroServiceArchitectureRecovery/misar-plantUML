@@ -552,12 +552,15 @@ public class MainFrame extends JFrame {
 
 					}
 				} catch (Exception exception) {
+
 					JOptionPane.showMessageDialog(
-						    null,
-						    "Please select a valid .xmi MiSAR PIM model file.",
-						    "Invalid XMI File",
-						    JOptionPane.ERROR_MESSAGE
-						);
+							MainFrame.this,
+							"Please select a valid .xmi file which represents a MiSAR PIM Model.\n\n"
+									+ "You may have selected a .xmi PSM file.\n"
+									+ "PIM Model files are generated in the target folder of the TransformationEngine.",
+							"Invalid MiSAR PIM Model",
+							JOptionPane.ERROR_MESSAGE
+					);
 
 					txtPleaseSelectA.setText("Please select a valid .xmi MiSAR PIM model file.");
 				}
