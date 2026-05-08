@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -41,7 +43,6 @@ public class WriteDataToExcel {
 			rowhead.createCell(11).setCellValue("Queue Listener");
 			rowhead.createCell(12).setCellValue("Service Operation");
 			rowhead.createCell(13).setCellValue("Service Message");
-			rowhead.createCell(14).setCellValue("Infrastructure Pattern Categories");
 
 			HSSFRow row = sheet.createRow((short) 1);
 			row.createCell(0).setCellValue(counterClass.getmicroserviceArtecetcture());
@@ -58,14 +59,16 @@ public class WriteDataToExcel {
 			row.createCell(11).setCellValue(counterClass.getQueListnerCount());
 			row.createCell(12).setCellValue(counterClass.getServiceOperationCount());
 			row.createCell(13).setCellValue(counterClass.getServiceMessageCount());
-			row.createCell(14).setCellValue(getArchitecturePatternCategories(microservicesArchitecturesTest));
 
 			HSSFSheet categorySheet = workbook.createSheet("Pattern Categories");
+
 			HSSFRow categoryHeader = categorySheet.createRow((short) 0);
 			categoryHeader.createCell(0).setCellValue("Microservice");
-			categoryHeader.createCell(1).setCellValue("Infrastructure Pattern Categories");
+			categoryHeader.createCell(1).setCellValue("Component Type");
+			categoryHeader.createCell(2).setCellValue("Category");
+			categoryHeader.createCell(3).setCellValue("Count");
 
-			int categoryRowIndex = 1;
+			int rowIndex = 1;
 
 			for (MicroservicesArchitecture architecture : microservicesArchitecturesTest) {
 				List<List<MicroserviceObject>> microservices = architecture.getMicroservicesArchitectureObject();
@@ -73,15 +76,53 @@ public class WriteDataToExcel {
 				for (List<MicroserviceObject> microserviceGroup : microservices) {
 					MicroserviceObject microservice = microserviceGroup.get(0);
 
-					HSSFRow categoryRow = categorySheet.createRow((short) categoryRowIndex);
-					categoryRow.createCell(0).setCellValue(microservice.getMicroserviceName());
-					categoryRow.createCell(1).setCellValue(getMicroservicePatternCategories(microservice));
+					Map<String, Integer> categoryCounts = getPatternCategoryCounts(microservice);
 
-					categoryRowIndex++;
+					for (Map.Entry<String, Integer> entry : categoryCounts.entrySet()) {
+						String[] parts = entry.getKey().split("\\|", 2);
+
+						HSSFRow categoryRow = categorySheet.createRow((short) rowIndex);
+						categoryRow.createCell(0).setCellValue(microservice.getMicroserviceName());
+						categoryRow.createCell(1).setCellValue(parts[0]);
+						categoryRow.createCell(2).setCellValue(parts[1]);
+						categoryRow.createCell(3).setCellValue(entry.getValue());
+
+						rowIndex++;
+					}
 				}
 			}
+			
+			HSSFSheet summarySheet = workbook.createSheet("Category Summary");
 
-			for (int i = 0; i <= 14; i++) {
+			HSSFRow summaryHeader = summarySheet.createRow((short) 0);
+			summaryHeader.createCell(0).setCellValue("Component Type");
+			summaryHeader.createCell(1).setCellValue("Category");
+			summaryHeader.createCell(2).setCellValue("Total Count");
+
+			Map<String, Integer> totalCategoryCounts = getTotalPatternCategoryCounts(microservicesArchitecturesTest);
+
+			int summaryRowIndex = 1;
+
+			for (Map.Entry<String, Integer> entry : totalCategoryCounts.entrySet()) {
+				String[] parts = entry.getKey().split("\\|", 2);
+
+				HSSFRow summaryRow = summarySheet.createRow((short) summaryRowIndex);
+				summaryRow.createCell(0).setCellValue(parts[0]);
+				summaryRow.createCell(1).setCellValue(parts[1]);
+				summaryRow.createCell(2).setCellValue(entry.getValue());
+
+				summaryRowIndex++;
+			}
+
+			for (int i = 0; i <= 2; i++) {
+				summarySheet.autoSizeColumn(i);
+			}
+
+			for (int i = 0; i <= 3; i++) {
+				categorySheet.autoSizeColumn(i);
+			}
+
+			for (int i = 0; i <= 13; i++) {
 				sheet.autoSizeColumn(i);
 			}
 
@@ -147,5 +188,51 @@ public class WriteDataToExcel {
 		}
 
 		return result.toString();
+	}
+	
+	private static Map<String, Integer> getPatternCategoryCounts(MicroserviceObject microservice) {
+		Map<String, Integer> categoryCounts = new LinkedHashMap<String, Integer>();
+
+		for (PatternComponentstObject component : microservice.getComponents()) {
+			String componentType = component.getType();
+			String category = component.getCategoryLabel();
+
+			String key = componentType + "|" + category;
+			Integer count = categoryCounts.get(key);
+
+			if (count == null) {
+				categoryCounts.put(key, 1);
+			 } else {
+				categoryCounts.put(key, count + 1);
+			}
+		}
+
+		return categoryCounts;
+	}
+	
+	private static Map<String, Integer> getTotalPatternCategoryCounts(
+			List<MicroservicesArchitecture> microservicesArchitecturesTest) {
+		Map<String, Integer> totalCategoryCounts = new LinkedHashMap<String, Integer>();
+
+		for (MicroservicesArchitecture architecture : microservicesArchitecturesTest) {
+			List<List<MicroserviceObject>> microservices = architecture.getMicroservicesArchitectureObject();
+
+			for (List<MicroserviceObject> microserviceGroup : microservices) {
+				MicroserviceObject microservice = microserviceGroup.get(0);
+				Map<String, Integer> microserviceCategoryCounts = getPatternCategoryCounts(microservice);
+
+				for (Map.Entry<String, Integer> entry : microserviceCategoryCounts.entrySet()) {
+					Integer currentCount = totalCategoryCounts.get(entry.getKey());
+
+					if (currentCount == null) {
+						totalCategoryCounts.put(entry.getKey(), entry.getValue());
+					} else {
+						totalCategoryCounts.put(entry.getKey(), currentCount + entry.getValue());
+					}
+				}
+			}
+		}
+
+		return totalCategoryCounts;
 	}
 }
