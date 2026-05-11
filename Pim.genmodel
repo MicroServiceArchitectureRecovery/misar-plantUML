@@ -27,6 +27,7 @@
       <genEnumLiterals ecoreEnumLiteral="PIM.ecore#//InfrastructurePatternCategory/Observability_Pattern_Log_Correlation"/>
       <genEnumLiterals ecoreEnumLiteral="PIM.ecore#//InfrastructurePatternCategory/Observability_Pattern_Distributed_Tracing"/>
       <genEnumLiterals ecoreEnumLiteral="PIM.ecore#//InfrastructurePatternCategory/Observability_Pattern_Distributed_Tracing_Monitoring"/>
+      <genEnumLiterals ecoreEnumLiteral="PIM.ecore#//InfrastructurePatternCategory/Observability_Pattern_Distributed_Tracing_and_Monitoring"/>
     </genEnums>
     <genClasses ecoreClass="PIM.ecore#//RootPIM">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference PIM.ecore#//RootPIM/architecture"/>

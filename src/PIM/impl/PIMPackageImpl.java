@@ -964,6 +964,7 @@ public class PIMPackageImpl extends EPackageImpl implements PIMPackage {
 		addEEnumLiteral(infrastructurePatternCategoryEEnum, InfrastructurePatternCategory.OBSERVABILITY_PATTERN_LOG_CORRELATION);
 		addEEnumLiteral(infrastructurePatternCategoryEEnum, InfrastructurePatternCategory.OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING);
 		addEEnumLiteral(infrastructurePatternCategoryEEnum, InfrastructurePatternCategory.OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_MONITORING);
+		addEEnumLiteral(infrastructurePatternCategoryEEnum, InfrastructurePatternCategory.OBSERVABILITY_PATTERN_DISTRIBUTED_TRACING_AND_MONITORING);
 
 		// Create resource
 		createResource(eNS_URI);

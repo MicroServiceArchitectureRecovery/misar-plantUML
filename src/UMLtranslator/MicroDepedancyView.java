@@ -27,10 +27,15 @@ public class MicroDepedancyView {
 
 		sb.append("@startuml");
 		sb.append("\n");
-		sb.append("skinparam linetype polyline");
-		sb.append("\n");
 		sb.append("skinparam linetype ortho");
-
+		sb.append("\n");
+		sb.append("skinparam ArrowThickness 2");
+		sb.append("\n");
+		sb.append("skinparam ArrowColor #e60e20");
+		sb.append("\n");
+		sb.append("skinparam ArrowFontSize 13");
+		sb.append("\n");
+		sb.append("skinparam componentStyle rectangle");
 		sb.append("\n");
 	
 

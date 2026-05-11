@@ -24,7 +24,7 @@ public class SVGdriver {
 			final ByteArrayOutputStream os = new ByteArrayOutputStream();
 			// Write the first image to "os"
 			String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-			FileOutputStream outStream = new FileOutputStream(main.getOutputPath() + "\\"+output+".svg");
+			FileOutputStream outStream = new FileOutputStream(main.buildOutputFilePath(output + ".svg"));
 			os.writeTo(outStream);
 			outStream.close();
 
@@ -32,7 +32,7 @@ public class SVGdriver {
 
 			// final String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
 
-			File file = new File(main.getOutputPath() + "\\"+output+".svg");
+			File file = new File(main.buildOutputFilePath(output + ".svg"));
 			Desktop.getDesktop().open(file);
 
 		} catch (Exception e) {

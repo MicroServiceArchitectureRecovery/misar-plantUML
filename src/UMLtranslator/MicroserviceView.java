@@ -17,17 +17,23 @@ public class MicroserviceView {
 		List<PatternComponentstObject> infrastructurePatternComponentObject = microserviceObject.get(0)
 				.getComponents();
 
-		for (PatternComponentstObject a : infrastructurePatternComponentObject) {
+		int index = 1;
+
+		for (PatternComponentstObject component : infrastructurePatternComponentObject) {
+			String alias = "InfrastructurePattern_" + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "_"
+					+ index;
 
 			sb.append("component ");
-			sb.append(a.getCategory() + microserviceObject.get(0).getMicroserviceNameWithoutSpace() + "<<" + a.getType()
-					+ ">> ");
+			sb.append("\"Category: " + component.getCategoryLabel() + "\"");
+			sb.append(" as ");
+			sb.append(alias);
+			sb.append(" <<");
+			sb.append(component.getType());
+			sb.append(">> ");
 			sb.append("\n");
-			
+
+			index++;
 		}
-
-		
-
 	}
 
 	private static void structureMthod(StringBuilder sb,

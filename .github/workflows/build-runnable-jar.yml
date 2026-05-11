@@ -1,0 +1,104 @@
+name: Automated Runnable JAR Build and Draft Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build runnable JAR and create draft release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Prepare build directories
+        run: |
+          rm -rf build dist
+          mkdir -p build/classes build/staging dist
+
+      - name: Build classpath
+        run: |
+          find Resources/Dependencies -name "*.jar" ! -name "*-sources.jar" > build/classpath.txt
+          find . -maxdepth 1 -name "*.jar" ! -name "*-sources.jar" >> build/classpath.txt
+          paste -sd: build/classpath.txt > build/classpath-string.txt
+          cat build/classpath-string.txt
+
+      - name: Compile Java source
+        run: |
+          find src -name "*.java" > build/sources.txt
+          javac --release 17 -encoding UTF-8 \
+            -cp "$(cat build/classpath-string.txt)" \
+            -d build/classes \
+            @build/sources.txt
+
+      - name: Copy image resources
+        run: |
+          if [ -d img ]; then
+            cp -R img/. build/classes/
+            mkdir -p build/classes/img
+            cp -R img/. build/classes/img/
+          fi
+
+      - name: Create runnable fat JAR
+        run: |
+          cp -R build/classes/. build/staging/
+
+          while IFS= read -r jarfile; do
+            unzip -oq "$jarfile" -d build/staging
+          done < build/classpath.txt
+
+          rm -f build/staging/META-INF/*.SF
+          rm -f build/staging/META-INF/*.DSA
+          rm -f build/staging/META-INF/*.RSA
+
+          jar --create \
+            --file dist/MiSAR.jar \
+            --main-class MainFrame.MainFrame \
+            -C build/staging .
+
+      - name: Copy local beta JAR for act
+        if: ${{ env.ACT == 'true' }}
+        run: |
+          mkdir -p "Runnable Jar File"
+          cp dist/MiSAR.jar "Runnable Jar File/MiSAR-beta.jar"
+          ls -lh "Runnable Jar File"
+
+      - name: Clean local act build directories
+        if: ${{ env.ACT == 'true' }}
+        run: |
+          rm -rf "$GITHUB_WORKSPACE/build" "$GITHUB_WORKSPACE/dist"
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${ACT:-false}" = "true" ]; then
+            echo "Skipping draft release while running locally with act."
+            exit 0
+          fi
+
+          RELEASE_DATE="$(date +'%Y-%m-%d')"
+          RELEASE_TAG="V${RELEASE_DATE}"
+          RELEASE_TITLE="V${RELEASE_DATE}"
+
+          gh release delete "$RELEASE_TAG" --cleanup-tag --yes || true
+
+          gh release create "$RELEASE_TAG" \
+            dist/MiSAR.jar \
+            --title "$RELEASE_TITLE" \
+            --notes "Automated draft build from commit $GITHUB_SHA." \
+            --target "$GITHUB_SHA" \
+            --draft

@@ -2,6 +2,7 @@ package MainFrame;
 
 import javax.swing.JFrame;
 
+
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -33,6 +34,9 @@ import javax.swing.SwingConstants;
 import MainDriver.main;
 import java.awt.*;
 import java.awt.Component;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.net.URL;
 
 public class MainFrame extends JFrame {
 	private JTextField txtPleaseSelectA;
@@ -71,7 +75,11 @@ public class MainFrame extends JFrame {
 	}
 
 	public MainFrame() {
-		setTitle("Misar Tool");
+		setTitle("Misar Graphical Model Generator");
+		setApplicationIcon();
+		
+		// Full exit when click on exit button
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      
 		getContentPane().setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -230,15 +238,15 @@ public class MainFrame extends JFrame {
 		panel_1.add(btnDownloadPng);
 		btnDownloadPng.setBackground(SystemColor.textHighlight);
 		
-				JButton Excell_Data = new JButton("Excell Data sheet ( Entire model )");
+				JButton Excell_Data = new JButton("Export to Excel Data sheet (Entire model)");
 				Excell_Data.setBounds(183, 37, 286, 32);
 				panel_1.add(Excell_Data);
 				Excell_Data.setBackground(new Color(34, 139, 34));
-				Image Excell_DataPic = new ImageIcon(this.getClass().getResource("/microsoft_excel_23px.png")).getImage();
-				Excell_Data.setIcon(new ImageIcon(Excell_DataPic));
+				ImageIcon Excell_DataPic = loadIcon("microsoft_excel_23px.png", 23, 23);
+				Excell_Data.setIcon(Excell_DataPic);
 				
-						JButton Excell_Data_For_Micro = new JButton("Micro Excell Data sheet ( Micro level ) ");
-						Excell_Data_For_Micro.setBounds(183, 263, 278, 32);
+						JButton Excell_Data_For_Micro = new JButton("Export to Excel Data sheet (Microservice level)");
+						Excell_Data_For_Micro.setBounds(183, 263, 300, 32);
 						panel_1.add(Excell_Data_For_Micro);
 						Excell_Data_For_Micro.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -247,7 +255,7 @@ public class MainFrame extends JFrame {
 							}
 						});
 						Excell_Data_For_Micro.setBackground(new Color(34, 139, 34));
-						Excell_Data_For_Micro.setIcon(new ImageIcon(Excell_DataPic));
+						Excell_Data_For_Micro.setIcon(Excell_DataPic);
 						
 								JComboBox comboBox = new JComboBox();
 								comboBox.setBounds(10, 211, 231, 32);
@@ -262,13 +270,13 @@ public class MainFrame extends JFrame {
 										lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 										lblNewLabel_2.setForeground(Color.RED);
 										
-										JLabel lblMiroserviceView = new JLabel("Miroservice View");
+										JLabel lblMiroserviceView = new JLabel("Microservice View");
 										lblMiroserviceView.setForeground(Color.WHITE);
 										lblMiroserviceView.setFont(new Font("Tahoma", Font.PLAIN, 15));
 										lblMiroserviceView.setBounds(10, 317, 148, 21);
 										panel_1.add(lblMiroserviceView);
 										
-										JLabel lblMiroserviceMetrics = new JLabel("Miroservice Metrics");
+										JLabel lblMiroserviceMetrics = new JLabel("Microservice Metrics");
 										lblMiroserviceMetrics.setForeground(Color.WHITE);
 										lblMiroserviceMetrics.setFont(new Font("Tahoma", Font.PLAIN, 15));
 										lblMiroserviceMetrics.setBounds(10, 258, 148, 21);
@@ -387,6 +395,16 @@ public class MainFrame extends JFrame {
 		panel.setBackground(new Color(0, 18, 50));
 		getContentPane().add(panel);
 		panel.setLayout(null);
+		
+		JLabel brunelLogo = new JLabel();
+		brunelLogo.setIcon(loadIcon("brunel_Logo.png", 50, 50));
+		brunelLogo.setBounds(7, 12, 50, 50);
+		panel.add(brunelLogo);
+
+		JLabel misarLogo = new JLabel();
+		misarLogo.setIcon(loadIcon("MainLogo.png", 50, 50));
+		misarLogo.setBounds(7, 72, 50, 50);
+		panel.add(misarLogo);
 
 		JLabel lblNewLabel_1 = new JLabel("Brunel University London");
 		lblNewLabel_1.setBounds(726, 460, 121, 14);
@@ -399,6 +417,7 @@ public class MainFrame extends JFrame {
 		panel_2.setBounds(63, 0, 881, 132);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
+		
 
 		JLabel lblNewLabel_3_1 = new JLabel("This tool translates a MiSAR PIM architecture model into PlantUML diagrams and creates metrics of the MiSAR PIM mode");
 		lblNewLabel_3_1.setFont(new Font("Segoe UI Historic", Font.PLAIN, 14));
@@ -422,7 +441,7 @@ public class MainFrame extends JFrame {
 		txtPleaseSelectA.setHorizontalAlignment(SwingConstants.LEFT);
 		txtPleaseSelectA.setForeground(Color.RED);
 		txtPleaseSelectA.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		txtPleaseSelectA.setText("Please select a PIM file path ONLY");
+		txtPleaseSelectA.setText("Please select a .xmi MiSAR PIM model file");
 		txtPleaseSelectA.setBounds(51, 5, 482, 22);
 		desktopPane.add(txtPleaseSelectA);
 		txtPleaseSelectA.setColumns(10);
@@ -431,8 +450,7 @@ public class MainFrame extends JFrame {
 		btn_OpenFile.setBackground(SystemColor.text);
 		btn_OpenFile.setForeground(UIManager.getColor("Table.sortIconLight"));
 		btn_OpenFile.setBounds(568, 6, 107, 22);
-		Image imgOpenFile = new ImageIcon(this.getClass().getResource("/Opened Folder_22px.png")).getImage();
-		btn_OpenFile.setIcon(new ImageIcon(imgOpenFile));
+		btn_OpenFile.setIcon(loadIcon("Opened Folder_22px.png", 22, 22));
 
 		desktopPane.add(btn_OpenFile);
 
@@ -443,8 +461,7 @@ public class MainFrame extends JFrame {
 		JLabel lblNewLabel_3_1_1 = new JLabel("");
 		lblNewLabel_3_1_1.setBounds(10, 14, 31, 39);
 		desktopPane.add(lblNewLabel_3_1_1);
-		Image imgSearch = new ImageIcon(this.getClass().getResource("/search_25px.png")).getImage();
-		lblNewLabel_3_1_1.setIcon(new ImageIcon(imgSearch));
+		lblNewLabel_3_1_1.setIcon(loadIcon("search_25px.png", 25, 25));
 
 		lblNewLabel_3_1_1.setFont(new Font("Segoe UI Historic", Font.PLAIN, 14));
 
@@ -463,24 +480,37 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					JFileChooser jfilechooser = new JFileChooser();
-					// This forces the suer to chose afile not a directory
 
+					jfilechooser.setDialogTitle("Select output folder");
 					jfilechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					// This stores the user responce
-					int responce = jfilechooser.showOpenDialog(null);
-					// chooser.setDialogTitle(outputFile);
+					jfilechooser.setAcceptAllFileFilterUsed(false);
+					jfilechooser.setApproveButtonText("Select Folder");
 
-					// Checking for a valid file
-					if (responce == JFileChooser.APPROVE_OPTION) {
-						File pimFile = new File(jfilechooser.getSelectedFile().getAbsolutePath());
+					jfilechooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+						public boolean accept(File file) {
+							return file.isDirectory();
+						}
 
-						outputFile = pimFile.toString();
+						public String getDescription() {
+							return "Folders only";
+						}
+					});
+
+					int response = jfilechooser.showOpenDialog(null);
+
+					if (response == JFileChooser.APPROVE_OPTION) {
+						File selectedFolder = jfilechooser.getSelectedFile();
+
+						outputFile = selectedFolder.toString();
 						main.setOutpath(outputFile);
-
 					}
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, "Please select a directory ", "Error", 1);
-					txtPleaseSelectA.setText("Please ONLY select a directory folder to avoid error");
+					JOptionPane.showMessageDialog(
+							null,
+							"Please select a valid output folder.",
+							"Invalid Output Folder",
+							JOptionPane.ERROR_MESSAGE
+					);
 				}
 			}
 		});
@@ -496,9 +526,12 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					JFileChooser jfilechooser = new JFileChooser();
-					// This forces the suer to chose afile not a directory
 
+					// Pick only XMI files 
 					jfilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					jfilechooser.setAcceptAllFileFilterUsed(false);
+					jfilechooser.setFileFilter(new FileNameExtensionFilter("XMI model files (*.xmi, *.pim)", "xmi", "pim"));
+					
 					// This stores the user responce
 					int responce = jfilechooser.showOpenDialog(null);
 
@@ -519,11 +552,66 @@ public class MainFrame extends JFrame {
 
 					}
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, "Please select a .PIM file ", "Error wrong file type", 1);
-					txtPleaseSelectA.setText("Please ONLY select  PIM folder to avoid error");
+
+					JOptionPane.showMessageDialog(
+							MainFrame.this,
+							"Please select a valid .xmi file which represents a MiSAR PIM Model.\n\n"
+									+ "You may have selected a .xmi PSM file.\n"
+									+ "PIM Model files are generated in the target folder of the TransformationEngine.",
+							"Invalid MiSAR PIM Model",
+							JOptionPane.ERROR_MESSAGE
+					);
+
+					txtPleaseSelectA.setText("Please select a valid .xmi MiSAR PIM model file.");
 				}
 			}
 		});
 		// TODO Auto-generated constructor stub
 	}
+	
+	private ImageIcon loadIcon(String fileName, int width, int height) {
+		String[] resourcePaths = {
+				"/" + fileName,
+				"/img/" + fileName
+		};
+
+		for (String resourcePath : resourcePaths) {
+			URL resource = getClass().getResource(resourcePath);
+
+			if (resource != null) {
+				Image image = new ImageIcon(resource).getImage();
+				Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				return new ImageIcon(scaledImage);
+			}
+		}
+
+		File imageFile = new File("img", fileName);
+
+		if (imageFile.exists()) {
+			Image image = new ImageIcon(imageFile.getAbsolutePath()).getImage();
+			Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			return new ImageIcon(scaledImage);
+		}
+
+		return new ImageIcon();
+	}
+	
+	private void setApplicationIcon() {
+		try {
+			ImageIcon icon = loadIcon("MainLogo.png", 128, 128);
+			Image image = icon.getImage();
+
+			setIconImage(image);
+
+			if (Taskbar.isTaskbarSupported()) {
+				Taskbar taskbar = Taskbar.getTaskbar();
+
+				if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+					taskbar.setIconImage(image);
+				}
+			}
+		} catch (Exception ignored) {
+		}
+	}
+	
 }
