@@ -22,6 +22,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import CounterClass.counterClass;
 
 public class main {
 	private static MicroserviceObject microserviceObject;
@@ -84,6 +85,9 @@ public class main {
 			generate = true;
 			RootPIM root = loader.load(umldrawSourcePath);
 			MicroserviceArchitecture mA = root.getArchitecture();
+			
+			microservicesArchitecturesTest.clear();
+			counterClass.resetCounters(); // reset the counting upon introduction of a new PIM
 			
 			outPut= mA.getArchitectureName();
 

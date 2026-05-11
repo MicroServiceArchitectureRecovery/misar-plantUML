@@ -138,5 +138,22 @@ public class counterClass {
 				+ serviceInterfaceCount + "\n" + " depedancy: "  + serviceDependancyCount + "\n" + "fu service operations : "  + serviceOperation 
 				+ "\n" +  "service message : "  +serviceMessage + "\n" + "que : "  + queListnerCount + "\n" + "end point : "  + endPointCount);
 	}
+	
+	public static void resetCounters() {
+		microserviceArtecetcture = 0;
+		microserviceCount = 0;
+		functionalMicroserviceCount = 0;
+		infustructureMicroserviceCount = 0;
+		containerCount = 0;
+		infrastructurePatternComponentCount = 0;
+		serverComponentCount = 0;
+		clientComponentCount = 0;
+		serviceDependancyCount = 0;
+		serviceInterfaceCount = 0;
+		endPointCount = 0;	
+		queListnerCount = 0;	
+		serviceOperation = 0;
+		serviceMessage = 0;
+	}
 
 }
