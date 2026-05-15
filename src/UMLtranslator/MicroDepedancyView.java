@@ -124,9 +124,9 @@ public class MicroDepedancyView {
 			
 			
 			System.out.println("Count : " + m.get(0).getDependenciesCounter());
-			if (Depenndancy.getProviderName() != "" && Depenndancy.getProviderName() != null) {
+			if (toPlantUmlId(Depenndancy.getProviderName()) != "" && toPlantUmlId(Depenndancy.getProviderName()) != null) {
 				if (Depenndancy.getProviderDestination() != "" && Depenndancy.getProviderDestination() != null) {
-					if (!Depenndancy.getProviderName().equals(selectedMicroservice)) {
+					if (!toPlantUmlId(Depenndancy.getProviderName()).equals(selectedMicroservice)) {
 						getType(sb, Depenndancy, m);
 					} else {
 						if (Depenndancy.getProviderDestination().contains("QueueListener")) {
@@ -144,10 +144,10 @@ public class MicroDepedancyView {
 				} else {
 					EndPointObject placeholder = new EndPointObject();
 
-					placeholder.setMicroName(Depenndancy.getProviderName());
+					placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
 					MicroDepedancyView.add(placeholder);
 					Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e20]->"
-							+ Depenndancy.getProviderName());
+							+ toPlantUmlId(Depenndancy.getProviderName()));
 				}
 
 			}
@@ -163,7 +163,7 @@ public class MicroDepedancyView {
 			boolean contains = false;
 			for (EndPointObject endPointObject : MicroDepedancyView) {
 
-				if (endPointObject.getMicroName().equals(Depenndancy.getProviderName())) {
+				if (endPointObject.getMicroName().equals(toPlantUmlId(Depenndancy.getProviderName()))) {
 					contains = true;
 					String endPointPlceholder = "queue   " + Depenndancy.getProviderNameQueListner() + Quecounter;
 					endPointObject.setEndPoints(endPointPlceholder);
@@ -177,7 +177,7 @@ public class MicroDepedancyView {
 
 			if (!contains) {
 				EndPointObject placeholder = new EndPointObject();
-				placeholder.setMicroName(Depenndancy.getProviderName());
+				placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
 				String endPointPlceholder = "queue   " + Depenndancy.getProviderNameQueListner() + Quecounter;
 				placeholder.setEndPoints(endPointPlceholder);
 				MicroDepedancyView.add(placeholder);
@@ -189,7 +189,7 @@ public class MicroDepedancyView {
 		} else {
 			boolean contains = false;
 			for (EndPointObject endPointObject : MicroDepedancyView) {
-				if (endPointObject.getMicroName().equals(Depenndancy.getProviderName())) {
+				if (endPointObject.getMicroName().equals(toPlantUmlId(Depenndancy.getProviderName()))) {
 					contains = true;
 					String endPointPlceholder = "portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter;
 					endPointObject.setEndPoints(endPointPlceholder);
@@ -203,7 +203,7 @@ public class MicroDepedancyView {
 
 			if (!contains) {
 				EndPointObject placeholder = new EndPointObject();
-				placeholder.setMicroName(Depenndancy.getProviderName());
+				placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
 				String endPointPlceholder = "portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter;
 				placeholder.setEndPoints(endPointPlceholder);
 				MicroDepedancyView.add(placeholder);
@@ -214,6 +214,14 @@ public class MicroDepedancyView {
 
 		}
 
+	}
+	
+	private static String toPlantUmlId(String value) {
+		if (value == null || value.trim().isEmpty()) {
+			return "unknown";
+		}
+
+		return value.trim().replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
 }

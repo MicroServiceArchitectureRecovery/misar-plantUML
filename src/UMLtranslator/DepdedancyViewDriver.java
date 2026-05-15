@@ -121,9 +121,9 @@ public class DepdedancyViewDriver {
 			
 			
 			
-			if (Depenndancy.getProviderName() != "" && Depenndancy.getProviderName() != null) {
+			if (toPlantUmlId(Depenndancy.getProviderName()) != "" && toPlantUmlId(Depenndancy.getProviderName()) != null) {
 				if (Depenndancy.getProviderDestination() != "" && Depenndancy.getProviderDestination() != null) {
-					if (!Depenndancy.getProviderName().equals(currentMicroservice)) {
+					if (!toPlantUmlId(Depenndancy.getProviderName()).equals(currentMicroservice)) {
 						getType(sb, Depenndancy, m);
 					} else {
 						if (Depenndancy.getProviderDestination().contains("QueueListener")) {
@@ -141,7 +141,7 @@ public class DepdedancyViewDriver {
 				} else {
 					EndPointObject placeholder = new EndPointObject();
 
-					placeholder.setMicroName(Depenndancy.getProviderName());
+					placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
 					MicroDepedancyView.add(placeholder);
 					Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e255]->"
 							+ Depenndancy.getProviderNameWithNoCharecters());
@@ -160,7 +160,7 @@ public class DepdedancyViewDriver {
 			boolean contains = false;
 			for (EndPointObject endPointObject : MicroDepedancyView) {
 
-				if (endPointObject.getMicroName().equals(Depenndancy.getProviderName())) {
+				if (endPointObject.getMicroName().equals(toPlantUmlId(Depenndancy.getProviderName()))) {
 					contains = true;
 					String endPointPlceholder = "queue   " + Depenndancy.getProviderNameQueListner() + Quecounter;
 					endPointObject.setEndPoints(endPointPlceholder);
@@ -174,7 +174,7 @@ public class DepdedancyViewDriver {
 
 			if (!contains) {
 				EndPointObject placeholder = new EndPointObject();
-				placeholder.setMicroName(Depenndancy.getProviderName());
+				placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
 				String endPointPlceholder = "queue   " + Depenndancy.getProviderNameQueListner() + Quecounter;
 				placeholder.setEndPoints(endPointPlceholder);
 				MicroDepedancyView.add(placeholder);
@@ -186,7 +186,7 @@ public class DepdedancyViewDriver {
 		} else {
 			boolean contains = false;
 			for (EndPointObject endPointObject : MicroDepedancyView) {
-				if (endPointObject.getMicroName().equals(Depenndancy.getProviderName())) {
+				if (endPointObject.getMicroName().equals(toPlantUmlId(Depenndancy.getProviderName()))) {
 					contains = true;
 					String endPointPlceholder = "portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter;
 					endPointObject.setEndPoints(endPointPlceholder);
@@ -200,7 +200,7 @@ public class DepdedancyViewDriver {
 
 			if (!contains) {
 				EndPointObject placeholder = new EndPointObject();
-				placeholder.setMicroName(Depenndancy.getProviderName());
+				placeholder.setMicroName(toPlantUmlId(toPlantUmlId(Depenndancy.getProviderName())));
 				String endPointPlceholder = "portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter;
 				placeholder.setEndPoints(endPointPlceholder);
 				MicroDepedancyView.add(placeholder);
@@ -211,6 +211,14 @@ public class DepdedancyViewDriver {
 
 		}
 
+	}
+	
+	private static String toPlantUmlId(String value) {
+		if (value == null || value.trim().isEmpty()) {
+			return "unknown";
+		}
+
+		return value.trim().replaceAll("[^a-zA-Z0-9_]", "_");
 	}
 
 }
