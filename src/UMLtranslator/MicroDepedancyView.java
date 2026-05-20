@@ -1,29 +1,29 @@
 package UMLtranslator;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import MicroserviceObject.MicroservicesArchitecture;
-import MicroserviceObject.QueListnerMessagesObject;
-import MicroserviceObject.ServiceMessagesObject;
-import PIM.ServiceDependency;
-import TempObject.EndPointObject;
 import MicroserviceObject.DependencyencyClass;
-import MicroserviceObject.EndPointMessages;
-import MicroserviceObject.MessagesObject;
 import MicroserviceObject.MicroserviceObject;
+import MicroserviceObject.MicroservicesArchitecture;
 
 public class MicroDepedancyView {
-	static List<EndPointObject> MicroDepedancyView = new ArrayList<EndPointObject>();
-	static List<String> Connections = new ArrayList<String>();
-	static int Quecounter = 1;
-	static int endPointCounter = 1;
-	static int endPointCounter2 = 1;
-	static int Quecounter2 = 1;
+	private static final String ARROW = "-[#e60e20]->";
+
+	private static Map<String, List<String>> providerDependencyComponents = new LinkedHashMap<String, List<String>>();
+	private static List<String> connections = new ArrayList<String>();
+	private static List<String> externalDependencyLabels = new ArrayList<String>();
+	private static int dependencyCounter = 1;
 
 	public static String MicroserviceViewDriver(List<MicroservicesArchitecture> microservicesArchitecturesTest,
 			String selectedMicroservice) {
+		resetState();
+
 		StringBuilder sb = new StringBuilder();
+		Map<String, MicroserviceObject> microservicesByName = buildMicroserviceLookup(microservicesArchitecturesTest);
+		MicroserviceObject selectedMicroserviceObject = findMicroservice(microservicesByName, selectedMicroservice);
 
 		sb.append("@startuml");
 		sb.append("\n");
@@ -37,191 +37,221 @@ public class MicroDepedancyView {
 		sb.append("\n");
 		sb.append("skinparam componentStyle rectangle");
 		sb.append("\n");
-	
 
-		interfaceView(sb, microservicesArchitecturesTest, selectedMicroservice);
+		if (selectedMicroserviceObject != null) {
+			appendSelectedMicroserviceComponent(sb, selectedMicroserviceObject);
+			collectDependencies(selectedMicroserviceObject, microservicesByName);
+			appendProviderComponents(sb, microservicesByName);
+			appendExternalDependencyNote(sb, selectedMicroserviceObject);
+			appendConnections(sb);
+		}
 
-		MicroserviceGetter(sb, microservicesArchitecturesTest);
 		sb.append("\n");
 		sb.append("@enduml");
 
 		return sb.toString();
 	}
 
-	public static void interfaceView(StringBuilder sb, List<MicroservicesArchitecture> microservicesArchitectures,
-			String selectedMicroservice) {
-		for (MicroservicesArchitecture name : microservicesArchitectures) {
-
-			List<List<MicroserviceObject>> test = name.getMicroservicesArchitectureObject();
-
-			for (List<MicroserviceObject> m : test) {
-				if (m.get(0).getMicroserviceName().equals(selectedMicroservice)) {
-
-					sb.append("\n");
-
-					ArrayList<DependencyencyClass> D = m.get(0).getDepdendency();
-
-					;
-					sb.append("component ");
-					sb.append(m.get(0).getMicroserviceNameWitUnderscore() + m.get(0).getColor());
-					sb.append("{");
-
-					DependencyencyClass(sb, D, m, selectedMicroservice);
-					sb.append("\n");
-
-					sb.append("}\n");
-
-				}
-
-			}
-		}
-
+	private static void appendSelectedMicroserviceComponent(StringBuilder sb, MicroserviceObject microservice) {
+		appendMicroserviceComponentStart(sb, microservice);
+		sb.append("\n");
+		sb.append("}");
+		sb.append("\n");
 	}
 
-	public static void MicroserviceGetter(StringBuilder sb,
+	private static void collectDependencies(MicroserviceObject selectedMicroservice,
+			Map<String, MicroserviceObject> microservicesByName) {
+		String sourceAlias = toPlantUmlId(selectedMicroservice.getMicroserviceName());
+
+		for (DependencyencyClass dependency : selectedMicroservice.getDepdendency()) {
+			String providerName = dependency.getProviderName();
+
+			if (isBlank(providerName)) {
+				continue;
+			}
+
+			MicroserviceObject providerMicroservice = findMicroservice(microservicesByName, providerName);
+			String providerAlias = toPlantUmlId(providerName);
+			String providerDestination = dependency.getProviderDestination();
+
+			if (providerMicroservice == null) {
+				addExternalDependencyLabel(dependency);
+				continue;
+			}
+
+			if (isBlank(providerDestination)) {
+				connections.add(sourceAlias + ARROW + providerAlias);
+				continue;
+			}
+
+			String dependencyAlias = providerAlias + "_dependency_" + dependencyCounter++;
+			String dependencyComponent = buildDependencyComponent(dependency, dependencyAlias);
+			addProviderDependency(providerAlias, dependencyComponent);
+			connections.add(sourceAlias + ARROW + providerAlias);
+		}
+	}
+
+	private static void appendProviderComponents(StringBuilder sb, Map<String, MicroserviceObject> microservicesByName) {
+		for (String providerAlias : providerDependencyComponents.keySet()) {
+			MicroserviceObject providerMicroservice = microservicesByName.get(providerAlias);
+
+			if (providerMicroservice == null) {
+				continue;
+			}
+
+			appendMicroserviceComponentStart(sb, providerMicroservice);
+			for (String dependencyComponent : providerDependencyComponents.get(providerAlias)) {
+				sb.append("\n");
+				sb.append(dependencyComponent);
+			}
+			sb.append("\n");
+			sb.append("}");
+			sb.append("\n");
+		}
+	}
+
+	private static void appendExternalDependencyNote(StringBuilder sb, MicroserviceObject selectedMicroservice) {
+		if (externalDependencyLabels.isEmpty()) {
+			return;
+		}
+
+		sb.append("\n");
+		sb.append("note right of ");
+		sb.append(toPlantUmlId(selectedMicroservice.getMicroserviceName()));
+		sb.append("\n");
+		sb.append("External dependencies");
+
+		for (String externalDependencyLabel : externalDependencyLabels) {
+			sb.append("\n");
+			sb.append("- ");
+			sb.append(externalDependencyLabel);
+		}
+
+		sb.append("\n");
+		sb.append("end note");
+		sb.append("\n");
+	}
+
+	private static void appendConnections(StringBuilder sb) {
+		for (String connection : connections) {
+			sb.append("\n");
+			sb.append(connection);
+			sb.append("\n");
+		}
+	}
+
+	private static void appendMicroserviceComponentStart(StringBuilder sb, MicroserviceObject microservice) {
+		sb.append("\n");
+		sb.append("component \"");
+		sb.append(escapePlantUmlLabel(microservice.getMicroserviceName()));
+		sb.append("\" as ");
+		sb.append(toPlantUmlId(microservice.getMicroserviceName()));
+		sb.append(" <<");
+		sb.append(microservice.getType());
+		sb.append(">> ");
+		sb.append(microservice.getColor());
+		sb.append(" {");
+	}
+
+	private static String buildDependencyComponent(DependencyencyClass dependency, String dependencyAlias) {
+		String label = normaliseDisplayName(dependency.getProviderName()) + "\\n" + normaliseDisplayName(dependency.getProviderDestination());
+		String type = isQueueDependency(dependency) ? "QueueDependency" : "ServiceDependency";
+
+		return "component \"" + escapePlantUmlLabel(label) + "\" as " + dependencyAlias + " <<" + type + ">>";
+	}
+
+	private static void addProviderDependency(String providerAlias, String dependencyComponent) {
+		if (!providerDependencyComponents.containsKey(providerAlias)) {
+			providerDependencyComponents.put(providerAlias, new ArrayList<String>());
+		}
+
+		providerDependencyComponents.get(providerAlias).add(dependencyComponent);
+	}
+
+	private static void addExternalDependencyLabel(DependencyencyClass dependency) {
+		String label = normaliseDisplayName(dependency.getProviderName());
+
+		if (!isBlank(dependency.getProviderDestination())) {
+			label = label + " - " + normaliseDisplayName(dependency.getProviderDestination());
+		}
+
+		externalDependencyLabels.add(label);
+	}
+
+	private static Map<String, MicroserviceObject> buildMicroserviceLookup(
 			List<MicroservicesArchitecture> microservicesArchitectures) {
-		for (MicroservicesArchitecture name : microservicesArchitectures) {
-			List<List<MicroserviceObject>> test = name.getMicroservicesArchitectureObject();
-			for (List<MicroserviceObject> m : test) {
+		Map<String, MicroserviceObject> microservicesByName = new LinkedHashMap<String, MicroserviceObject>();
 
-				String placeholder = m.get(0).getMicroserviceName();
-				for (EndPointObject endPointObject : MicroDepedancyView) {
-					if (endPointObject.getMicroName().equals(placeholder)) {
-						sb.append("component ");
-						sb.append(m.get(0).getMicroserviceNameWitUnderscore() + " <<" + m.get(0).getType() + ">> "
-								+ m.get(0).getColor());
-						sb.append("{");
-						sb.append("\n");
-						for (String endPoint : endPointObject.getEndPoints()) {
-							sb.append("\n");
-							sb.append(endPoint);
-						}
-						sb.append("\n");
-						sb.append("}");
-						sb.append("\n");
+		for (MicroservicesArchitecture architecture : microservicesArchitectures) {
+			List<List<MicroserviceObject>> microserviceGroups = architecture.getMicroservicesArchitectureObject();
 
-					}
-
-				}
-
+			for (List<MicroserviceObject> microserviceGroup : microserviceGroups) {
+				MicroserviceObject microservice = microserviceGroup.get(0);
+				microservicesByName.put(microservice.getMicroserviceName(), microservice);
+				microservicesByName.put(toPlantUmlId(microservice.getMicroserviceName()), microservice);
 			}
-
 		}
-		MicroDepedancyView.clear();
-		for (String s : Connections) {
-			sb.append("\n");
-			sb.append(s.toString());
-			sb.append("\n");
-		}
-		Connections.clear();
 
+		return microservicesByName;
 	}
 
-	public static void DependencyencyClass(StringBuilder sb, ArrayList<DependencyencyClass> D,
-			List<MicroserviceObject> m, String selectedMicroservice) {
-
-		for (DependencyencyClass Depenndancy : D) {
-			
-			
-			System.out.println("Count : " + m.get(0).getDependenciesCounter());
-			if (toPlantUmlId(Depenndancy.getProviderName()) != "" && toPlantUmlId(Depenndancy.getProviderName()) != null) {
-				if (Depenndancy.getProviderDestination() != "" && Depenndancy.getProviderDestination() != null) {
-					if (!toPlantUmlId(Depenndancy.getProviderName()).equals(selectedMicroservice)) {
-						getType(sb, Depenndancy, m);
-					} else {
-						if (Depenndancy.getProviderDestination().contains("QueueListener")) {
-							sb.append("\n");
-							sb.append("queue   " + Depenndancy.getProviderNameQueListner() + Quecounter);
-
-							Quecounter++;
-						} else {
-							sb.append("\n");
-							sb.append("portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter);
-							endPointCounter++;
-						}
-					}
-
-				} else {
-					EndPointObject placeholder = new EndPointObject();
-
-					placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
-					MicroDepedancyView.add(placeholder);
-					Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e20]->"
-							+ toPlantUmlId(Depenndancy.getProviderName()));
-				}
-
-			}
-
+	private static MicroserviceObject findMicroservice(Map<String, MicroserviceObject> microservicesByName,
+			String microserviceName) {
+		if (isBlank(microserviceName)) {
+			return null;
 		}
 
-	}
+		MicroserviceObject microservice = microservicesByName.get(microserviceName);
 
-	public static void getType(StringBuilder sb, DependencyencyClass Depenndancy, List<MicroserviceObject> m) {
-
-		if (Depenndancy.getProviderDestination().contains("QueueListener")) {
-
-			boolean contains = false;
-			for (EndPointObject endPointObject : MicroDepedancyView) {
-
-				if (endPointObject.getMicroName().equals(toPlantUmlId(Depenndancy.getProviderName()))) {
-					contains = true;
-					String endPointPlceholder = "queue   " + Depenndancy.getProviderNameQueListner() + Quecounter;
-					endPointObject.setEndPoints(endPointPlceholder);
-					Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e20]->"
-							+ Depenndancy.getProviderNameQueListner() + Quecounter);
-					Quecounter++;
-					break;
-				}
-
-			}
-
-			if (!contains) {
-				EndPointObject placeholder = new EndPointObject();
-				placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
-				String endPointPlceholder = "queue   " + Depenndancy.getProviderNameQueListner() + Quecounter;
-				placeholder.setEndPoints(endPointPlceholder);
-				MicroDepedancyView.add(placeholder);
-				Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e20]->"
-						+ Depenndancy.getProviderNameQueListner() + Quecounter);
-				Quecounter++;
-			}
-
-		} else {
-			boolean contains = false;
-			for (EndPointObject endPointObject : MicroDepedancyView) {
-				if (endPointObject.getMicroName().equals(toPlantUmlId(Depenndancy.getProviderName()))) {
-					contains = true;
-					String endPointPlceholder = "portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter;
-					endPointObject.setEndPoints(endPointPlceholder);
-					Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e20]->"
-							+ Depenndancy.getProviderNameEndPoint() + endPointCounter);
-					endPointCounter++;
-					break;
-				}
-
-			}
-
-			if (!contains) {
-				EndPointObject placeholder = new EndPointObject();
-				placeholder.setMicroName(toPlantUmlId(Depenndancy.getProviderName()));
-				String endPointPlceholder = "portin " + Depenndancy.getProviderNameEndPoint() + endPointCounter;
-				placeholder.setEndPoints(endPointPlceholder);
-				MicroDepedancyView.add(placeholder);
-				Connections.add(m.get(0).getMicroserviceNameWitUnderscore() + "-[#e60e20]->"
-						+ Depenndancy.getProviderNameEndPoint() + endPointCounter);
-				endPointCounter++;
-			}
-
+		if (microservice != null) {
+			return microservice;
 		}
 
+		return microservicesByName.get(toPlantUmlId(microserviceName));
 	}
-	
+
+	private static boolean isQueueDependency(DependencyencyClass dependency) {
+		return !isBlank(dependency.getProviderDestination()) && dependency.getProviderDestination().contains("QueueListener");
+	}
+
+	private static String normaliseDisplayName(String value) {
+		if (isBlank(value)) {
+			return "Unknown";
+		}
+
+		return value.trim().replace("_", " ");
+	}
+
+	private static String escapePlantUmlLabel(String value) {
+		if (value == null) {
+			return "";
+		}
+
+		return value.replace("\"", "\\\"").replace("\r", "").replace("\n", "\\n");
+	}
+
 	private static String toPlantUmlId(String value) {
-		if (value == null || value.trim().isEmpty()) {
+		if (isBlank(value)) {
 			return "unknown";
 		}
 
-		return value.trim().replaceAll("[^a-zA-Z0-9_]", "_");
+		String safeValue = value.trim().replaceAll("[^a-zA-Z0-9_]", "_");
+
+		if (safeValue.matches("^[0-9].*")) {
+			return "id_" + safeValue;
+		}
+
+		return safeValue;
 	}
 
+	private static boolean isBlank(String value) {
+		return value == null || value.trim().isEmpty();
+	}
+
+	private static void resetState() {
+		providerDependencyComponents.clear();
+		connections.clear();
+		externalDependencyLabels.clear();
+		dependencyCounter = 1;
+	}
 }
