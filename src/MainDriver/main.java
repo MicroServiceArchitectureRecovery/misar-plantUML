@@ -137,7 +137,7 @@ public class main {
 
 		if (generate == true) {
 			UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
-			PNGdriver.imageGen(UmldrawOutput, outPut);
+			PNGdriver.imageGen(UmldrawOutput, buildDiagramName(outPut, "architecture-view"));
 		}
 	}
 
@@ -146,7 +146,7 @@ public class main {
 		if (generate == true) {
 			
 			UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
-			SVGdriver.SVGdriver(UmldrawOutput, outPut);
+			SVGdriver.SVGdriver(UmldrawOutput, buildDiagramName(outPut, "architecture-view"));
 		}
 
 	}
@@ -156,7 +156,7 @@ public class main {
 		if (generate == true) {
 			UmldrawOutput = ArchitectureViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-			FileOutputDriver.FileOutput(UmldrawOutput, outPut);
+			FileOutputDriver.FileOutput(UmldrawOutput, buildDiagramName(outPut, "architecture-view"));
 		}
 
 	}
@@ -165,7 +165,7 @@ public class main {
 		if (generate == true) {
 			UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-			PNGdriver.imageGen(UmldrawOutput, outPut);
+			PNGdriver.imageGen(UmldrawOutput, buildDiagramName(outPut, "dependency-view"));
 		}
 
 	}
@@ -175,7 +175,7 @@ public class main {
 		if (generate == true) {
 			UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-			SVGdriver.SVGdriver(UmldrawOutput, outPut);
+			SVGdriver.SVGdriver(UmldrawOutput, buildDiagramName(outPut, "dependency-view"));
 
 		}
 
@@ -185,7 +185,7 @@ public class main {
 		if (generate == true) {
 			UmldrawOutput = DepdedancyViewDriver.MicroserviceViewDriver(microservicesArchitecturesTest);
 
-			FileOutputDriver.FileOutput(UmldrawOutput, outPut);
+			FileOutputDriver.FileOutput(UmldrawOutput, buildDiagramName(outPut, "dependency-view"));
 		}
 
 	}
@@ -195,7 +195,7 @@ public class main {
 			UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest,
 					selectedMicroservice);
 
-			PNGdriver.imageGen(UmldrawOutput, outPut);
+			PNGdriver.imageGen(UmldrawOutput, buildDiagramName(selectedMicroservice, "micro-dependency-view"));
 		}
 
 	}
@@ -205,7 +205,7 @@ public class main {
 			UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest,
 					selectedMicroservice);
 
-			SVGdriver.SVGdriver(UmldrawOutput, selectedMicroservice);
+			SVGdriver.SVGdriver(UmldrawOutput, buildDiagramName(selectedMicroservice, "micro-dependency-view"));
 		}
 
 	}
@@ -215,7 +215,7 @@ public class main {
 			UmldrawOutput = MicroserviceView.MicroserviceViewDriver(microservicesArchitecturesTest,
 					selectedMicroservice);
 
-			FileOutputDriver.FileOutput(UmldrawOutput, selectedMicroservice);
+			FileOutputDriver.FileOutput(UmldrawOutput, buildDiagramName(selectedMicroservice, "micro-dependency-view"));
 		}
 
 	}
@@ -226,7 +226,7 @@ public class main {
 			UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest,
 					selectedMicroservice);
 
-			PNGdriver.imageGen(UmldrawOutput, selectedMicroservice);
+			PNGdriver.imageGen(UmldrawOutput, buildDiagramName(selectedMicroservice, "micro-dependency-view"));
 		}
 
 	}
@@ -236,7 +236,7 @@ public class main {
 			UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest,
 					selectedMicroservice);
 
-			SVGdriver.SVGdriver(UmldrawOutput, selectedMicroservice);
+			SVGdriver.SVGdriver(UmldrawOutput, buildDiagramName(selectedMicroservice, "micro-dependency-view"));
 		}
 
 	}
@@ -245,7 +245,7 @@ public class main {
 
 		if (generate == true) {
 			UmldrawOutput = MicroDepedancyView.MicroserviceViewDriver(microservicesArchitecturesTest,selectedMicroservice);
-			FileOutputDriver.FileOutput(UmldrawOutput, selectedMicroservice);
+			FileOutputDriver.FileOutput(UmldrawOutput, buildDiagramName(selectedMicroservice, "micro-dependency-view"));
 		}
 
 	}
@@ -281,6 +281,13 @@ public class main {
 
 	private static String sanitiseFileName(String fileName) {
 	    return fileName.replaceAll("[\\\\/:*?\"<>|]", "_");
+	}
+	
+	private static String buildDiagramName(String baseName, String viewName) {
+		String safeBaseName = baseName == null || baseName.trim().isEmpty() ? "misar-model" : baseName.trim();
+		String safeViewName = viewName == null || viewName.trim().isEmpty() ? "diagram" : viewName.trim();
+
+		return safeBaseName + "-" + safeViewName;
 	}
 
 }
