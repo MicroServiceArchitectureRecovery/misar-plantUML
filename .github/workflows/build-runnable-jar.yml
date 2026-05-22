@@ -81,7 +81,7 @@ jobs:
         run: |
           rm -rf "$GITHUB_WORKSPACE/build" "$GITHUB_WORKSPACE/dist"
 
-      - name: Create draft release
+      - name: Create a release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -101,4 +101,3 @@ jobs:
             --title "$RELEASE_TITLE" \
             --notes "Automated draft build from commit $GITHUB_SHA." \
             --target "$GITHUB_SHA" \
-            --draft
