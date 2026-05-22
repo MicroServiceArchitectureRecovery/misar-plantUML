@@ -95,14 +95,14 @@ public class MainFrame extends JFrame {
 		headerPanel.setLayout(null);
 		getContentPane().add(headerPanel);
 
-		JLabel titleLabel = new JLabel("MiSAR MicroserviceArchitecture V3.0");
+		JLabel titleLabel = new JLabel("MiSAR Graphical Model Generator");
 		titleLabel.setBounds(10, 0, 520, 39);
-		titleLabel.setFont(new Font("Segoe UI Historic", Font.PLAIN, 24));
+		titleLabel.setFont(new Font("Segoe UI Historic", Font.PLAIN, 22));
 		headerPanel.add(titleLabel);
 
 		JLabel descriptionLabel = new JLabel(
-				"This tool translates a MiSAR PIM architecture model into PlantUML diagrams and creates metrics of the MiSAR PIM model.");
-		descriptionLabel.setFont(new Font("Segoe UI Historic", Font.PLAIN, 14));
+				"Generate PlantUML diagrams and Excel metrics from a MiSAR PIM architecture model.");
+		descriptionLabel.setFont(new Font("Segoe UI Historic", Font.PLAIN, 13));
 		descriptionLabel.setBounds(10, 31, 760, 32);
 		headerPanel.add(descriptionLabel);
 

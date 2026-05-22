@@ -162,7 +162,7 @@ public class DepdedancyViewDriver {
 		}
 
 		sb.append("legend bottom\n");
-		sb.append("|= ID |= Source |= Target |= Dependency details |\n");
+		sb.append("|= ID |= Source |= Target |= Dependency / Endpoint details |\n");
 
 		for (ConnectionDetail connection : connections.values()) {
 			sb.append("| ");
