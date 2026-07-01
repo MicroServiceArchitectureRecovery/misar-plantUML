@@ -780,9 +780,21 @@ public class MainFrame extends JFrame {
     }
 
     private void showError(String title, Exception exception) {
+        String message = exception.getMessage();
+
+        if (message != null && message.toLowerCase().contains("psm")) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Wrong model type selected.\nThis file appears to be a MiSAR PSM model. Please select a MiSAR PIM model instead.",
+                    "Invalid model file",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
         JOptionPane.showMessageDialog(
                 this,
-                exception.getMessage() == null ? "An unexpected error occurred." : exception.getMessage(),
+                message == null ? "An unexpected error occurred." : message,
                 title,
                 JOptionPane.ERROR_MESSAGE
         );
