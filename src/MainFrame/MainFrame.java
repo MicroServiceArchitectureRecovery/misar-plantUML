@@ -295,10 +295,10 @@ public class MainFrame extends JFrame {
                 "Architecture Microservices",
                 "Generate the complete microservices architecture view.",
                 new JButton[]{
+                		registerArchitectureButton(createActionButton("SVG", e ->
+                        runTask("Generating architecture SVG", "Architecture SVG generated.", () -> main.MicroservicesArchitectureViewDriverSVG()))),
                         registerArchitectureButton(createActionButton("PNG", e ->
                                 runTask("Generating architecture PNG", "Architecture PNG generated.", () -> main.MicroservicesArchitectureViewDriverPNG()))),
-                        registerArchitectureButton(createActionButton("SVG", e ->
-                                runTask("Generating architecture SVG", "Architecture SVG generated.", () -> main.MicroservicesArchitectureViewDriverSVG()))),
                         registerArchitectureButton(createActionButton("PlantUML", e ->
                                 runTask("Generating architecture file", "Architecture file generated.", () -> main.MicroservicesArchitectureViewDriverFile())))
                 }
@@ -310,10 +310,10 @@ public class MainFrame extends JFrame {
                 "Dependency View",
                 "Generate the dependency view for the full model.",
                 new JButton[]{
+                		registerArchitectureButton(createActionButton("SVG", e ->
+                        runTask("Generating dependency SVG", "Dependency SVG generated.", () -> main.DepdedancyViewDriverSVG()))),
                         registerArchitectureButton(createActionButton("PNG", e ->
                                 runTask("Generating dependency PNG", "Dependency PNG generated.", () -> main.DepdedancyViewDriverPNG()))),
-                        registerArchitectureButton(createActionButton("SVG", e ->
-                                runTask("Generating dependency SVG", "Dependency SVG generated.", () -> main.DepdedancyViewDriverSVG()))),
                         registerArchitectureButton(createActionButton("PlantUML", e ->
                                 runTask("Generating dependency file", "Dependency file generated.", () -> main.DepdedancyViewDriverFile())))
                 }
@@ -392,10 +392,10 @@ public class MainFrame extends JFrame {
                 "Microservice View",
                 "Generate the selected microservice view.",
                 new JButton[]{
+                		registerMicroserviceButton(createActionButton("SVG", e ->
+                        runTask("Generating microservice SVG", "Microservice SVG generated.", () -> main.MicroservoceViewSVG()))),
                         registerMicroserviceButton(createActionButton("PNG", e ->
                                 runTask("Generating microservice PNG", "Microservice PNG generated.", () -> main.MicroservoceViewPNG()))),
-                        registerMicroserviceButton(createActionButton("SVG", e ->
-                                runTask("Generating microservice SVG", "Microservice SVG generated.", () -> main.MicroservoceViewSVG()))),
                         registerMicroserviceButton(createActionButton("PlantUML", e ->
                                 runTask("Generating microservice file", "Microservice file generated.", () -> main.MicroservoceViewFile())))
                 }
@@ -404,15 +404,15 @@ public class MainFrame extends JFrame {
         addActionRow(
                 card,
                 5,
-                "Micro Dependency View",
+                "Microservice Dependency View",
                 "Generate dependency diagrams for the selected microservice.",
                 new JButton[]{
-                        registerMicroserviceButton(createActionButton("PNG", e ->
-                                runTask("Generating micro dependency PNG", "Micro dependency PNG generated.", () -> main.MicroDepedancyViewPNG()))),
-                        registerMicroserviceButton(createActionButton("SVG", e ->
-                                runTask("Generating micro dependency SVG", "Micro dependency SVG generated.", () -> main.MicroDepedancyViewSVG()))),
+                		registerMicroserviceButton(createActionButton("SVG", e ->
+                        runTask("Generating micro dependency SVG", "Microservice Dependency SVG generated.", () -> main.MicroDepedancyViewSVG()))),
+                		registerMicroserviceButton(createActionButton("PNG", e ->
+                                runTask("Generating micro dependency PNG", "Microservice Dependency PNG generated.", () -> main.MicroDepedancyViewPNG()))),
                         registerMicroserviceButton(createActionButton("PlantUML", e ->
-                                runTask("Generating micro dependency file", "Micro dependency file generated.", () -> main.MicroDepedancyViewFile())))
+                                runTask("Generating micro dependency file", "Microservice Dependency file generated.", () -> main.MicroDepedancyViewFile())))
                 }
         );
 
