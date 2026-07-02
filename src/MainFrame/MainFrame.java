@@ -96,7 +96,7 @@ public class MainFrame extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         int width = Math.min(1320, screenSize.width - 80);
-        int height = Math.min(840, screenSize.height - 90);
+        int height = Math.min(940, screenSize.height - 120);
 
         setTitle(version == null ? APP_NAME : APP_NAME + " " + version);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
