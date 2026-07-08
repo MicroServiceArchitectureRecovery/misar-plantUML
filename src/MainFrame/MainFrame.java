@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class MainFrame extends JFrame {
     private static String outputFile;
 
     private final String version;
+    private final UiMetrics uiMetrics;
 
     private final JTextField modelPathField = new JTextField();
     private final JTextField outputPathField = new JTextField();
@@ -54,6 +56,7 @@ public class MainFrame extends JFrame {
         this.version = version;
 
         configureLookAndFeel();
+        this.uiMetrics = detectUiMetrics();
         setApplicationIcon();
         setContentPane(createRootPanel());
         configureFrame();
@@ -92,19 +95,119 @@ public class MainFrame extends JFrame {
         return value.trim();
     }
 
-    private void configureFrame() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static UiMetrics detectUiMetrics() {
+        Rectangle screenBounds = usableScreenBounds();
+        double transformScale = 1.0;
+        double dpiScale = 1.0;
 
-        int width = Math.min(1320, screenSize.width - 80);
-        int height = Math.min(940, screenSize.height - 120);
+        try {
+            GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment
+                    .getLocalGraphicsEnvironment()
+                    .getDefaultScreenDevice()
+                    .getDefaultConfiguration();
+            AffineTransform transform = graphicsConfiguration.getDefaultTransform();
+            transformScale = Math.max(transform.getScaleX(), transform.getScaleY());
+        } catch (Exception ignored) {
+            transformScale = 1.0;
+        }
+
+        try {
+            int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
+            dpiScale = dpi / 96.0;
+        } catch (Exception ignored) {
+            dpiScale = 1.0;
+        }
+
+        return buildUiMetrics(screenBounds, transformScale, dpiScale, osName());
+    }
+
+    static UiMetrics buildUiMetrics(Rectangle screenBounds, double transformScale, double dpiScale, String osName) {
+        boolean macOs = osName != null && osName.toLowerCase().contains("mac");
+
+        // macOS Retina reports a 2x graphics transform while Swing layout sizes are already
+        // expressed in logical points. Dividing by that transform makes normal Mac screens
+        // look like tiny constrained screens, so keep macOS at logical scale here.
+        double displayScale = macOs ? 1.0 : clampScale(Math.max(transformScale, dpiScale));
+
+        int effectiveWidth = (int) Math.round(screenBounds.width / displayScale);
+        int effectiveHeight = (int) Math.round(screenBounds.height / displayScale);
+
+        boolean compactLayout = effectiveWidth <= 1366
+                || effectiveHeight <= 850
+                || (!macOs && displayScale >= 1.25 && effectiveHeight <= 1000)
+                || screenBounds.height <= 760;
+
+        double uiScale;
+        if (compactLayout && (!macOs && displayScale >= 1.5 || effectiveHeight <= 760)) {
+            uiScale = 0.82;
+        } else if (compactLayout) {
+            uiScale = 0.88;
+        } else {
+            uiScale = 1.0;
+        }
+
+        return new UiMetrics(screenBounds, displayScale, effectiveWidth, effectiveHeight, compactLayout, uiScale);
+    }
+
+    private static String osName() {
+        try {
+            return System.getProperty("os.name", "");
+        } catch (Exception ignored) {
+            return "";
+        }
+    }
+
+    private static Rectangle usableScreenBounds() {
+        try {
+            return GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        } catch (Exception ignored) {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            return new Rectangle(0, 0, screenSize.width, screenSize.height);
+        }
+    }
+
+    private static double clampScale(double value) {
+        if (Double.isNaN(value) || Double.isInfinite(value) || value <= 0) {
+            return 1.0;
+        }
+
+        return Math.max(0.75, Math.min(value, 3.0));
+    }
+
+    private int s(int value) {
+        return Math.max(1, (int) Math.round(value * uiMetrics.uiScale));
+    }
+
+    private Font uiFont(int style, int size) {
+        return new Font("Segoe UI", style, s(size));
+    }
+
+    private Insets uiInsets(int top, int left, int bottom, int right) {
+        return new Insets(s(top), s(left), s(bottom), s(right));
+    }
+
+    private EmptyBorder uiBorder(int top, int left, int bottom, int right) {
+        return new EmptyBorder(s(top), s(left), s(bottom), s(right));
+    }
+
+    private void configureFrame() {
+        Rectangle screenBounds = uiMetrics.screenBounds;
+
+        int width = Math.min(s(1320), Math.max(screenBounds.width - s(32), s(980)));
+        int height = Math.min(s(940), Math.max(screenBounds.height - s(48), s(620)));
 
         setTitle(version == null ? APP_NAME : APP_NAME + " " + version);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1080, 780));
+        setMinimumSize(new Dimension(Math.min(s(980), width), Math.min(s(620), height)));
         setPreferredSize(new Dimension(width, height));
         setResizable(true);
         pack();
-        setLocationRelativeTo(null);
+
+        if (uiMetrics.compactLayout) {
+            setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        } else {
+            setLocationRelativeTo(null);
+        }
     }
 
     private JPanel createRootPanel() {
@@ -120,16 +223,16 @@ public class MainFrame extends JFrame {
 
     private JPanel createSidebar() {
         JPanel sidebar = new JPanel();
-        sidebar.setPreferredSize(new Dimension(78, 0));
+        sidebar.setPreferredSize(new Dimension(s(72), 0));
         sidebar.setBackground(new Color(16, 28, 54));
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBorder(new EmptyBorder(18, 11, 18, 11));
+        sidebar.setBorder(uiBorder(14, 9, 14, 9));
 
-        JLabel brunelLogo = createLogo("brunel_Logo.png", 52, 52);
-        JLabel misarLogo = createLogo("MainLogo.png", 52, 52);
+        JLabel brunelLogo = createLogo("brunel_Logo.png", 48, 48);
+        JLabel misarLogo = createLogo("MainLogo.png", 48, 48);
 
         sidebar.add(brunelLogo);
-        sidebar.add(Box.createVerticalStrut(18));
+        sidebar.add(Box.createVerticalStrut(s(14)));
         sidebar.add(misarLogo);
         sidebar.add(Box.createVerticalGlue());
 
@@ -138,7 +241,7 @@ public class MainFrame extends JFrame {
 
             JLabel versionLabel = new JLabel(versionText);
             versionLabel.setForeground(new Color(180, 190, 210));
-            versionLabel.setFont(new Font("Segoe UI", Font.BOLD, 11));
+            versionLabel.setFont(uiFont(Font.BOLD, 10));
             versionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             sidebar.add(versionLabel);
         }
@@ -146,10 +249,10 @@ public class MainFrame extends JFrame {
         return sidebar;
     }
 
-    private JPanel createMainContent() {
+    private JComponent createMainContent() {
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.setOpaque(false);
-        wrapper.setBorder(new EmptyBorder(16, 24, 12, 24));
+        wrapper.setBorder(uiBorder(12, 18, 10, 18));
 
         JPanel content = new JPanel(new GridBagLayout());
         content.setOpaque(false);
@@ -164,26 +267,34 @@ public class MainFrame extends JFrame {
         content.add(createHeaderPanel(), gbc);
 
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 0, 0, 0);
+        gbc.insets = uiInsets(8, 0, 0, 0);
         content.add(createFileSelectionCard(), gbc);
 
         gbc.gridy = 2;
-        gbc.insets = new Insets(12, 0, 0, 0);
+        gbc.insets = uiInsets(9, 0, 0, 0);
         content.add(createArchitectureCard(), gbc);
 
         gbc.gridy = 3;
-        gbc.insets = new Insets(12, 0, 0, 0);
+        gbc.insets = uiInsets(9, 0, 0, 0);
         content.add(createMicroserviceCard(), gbc);
 
         gbc.gridy = 4;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = uiInsets(0, 0, 0, 0);
         content.add(Box.createVerticalGlue(), gbc);
 
-        wrapper.add(content, BorderLayout.CENTER);
+        wrapper.add(content, BorderLayout.NORTH);
 
-        return wrapper;
+        JScrollPane scrollPane = new JScrollPane(wrapper);
+        scrollPane.setBorder(null);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(s(18));
+
+        return scrollPane;
     }
 
     private JPanel createHeaderPanel() {
@@ -195,15 +306,15 @@ public class MainFrame extends JFrame {
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 
         JLabel title = new JLabel(APP_NAME);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 29));
+        title.setFont(uiFont(Font.BOLD, 24));
         title.setForeground(new Color(22, 32, 55));
 
         JLabel subtitle = new JLabel("Translate MiSAR PIM architecture models into PlantUML diagrams and generate model metrics.");
-        subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        subtitle.setFont(uiFont(Font.PLAIN, 12));
         subtitle.setForeground(new Color(92, 104, 125));
 
         textPanel.add(title);
-        textPanel.add(Box.createVerticalStrut(4));
+        textPanel.add(Box.createVerticalStrut(s(4)));
         textPanel.add(subtitle);
 
         header.add(textPanel, BorderLayout.CENTER);
@@ -212,7 +323,7 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createFileSelectionCard() {
-        ShadowCard card = new ShadowCard(18, 22);
+        ShadowCard card = new ShadowCard(s(14), s(18));
         card.setLayout(new GridBagLayout());
 
         JLabel title = createSectionTitle("Model Setup");
@@ -237,11 +348,11 @@ public class MainFrame extends JFrame {
         card.add(title, gbc);
 
         gbc.gridy = 1;
-        gbc.insets = new Insets(3, 0, 14, 0);
+        gbc.insets = uiInsets(3, 0, 10, 0);
         card.add(description, gbc);
 
         gbc.gridwidth = 1;
-        gbc.insets = new Insets(0, 0, 8, 12);
+        gbc.insets = uiInsets(0, 0, 6, 10);
         gbc.gridy = 2;
         gbc.gridx = 0;
         gbc.weightx = 0;
@@ -273,7 +384,7 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createArchitectureCard() {
-        ShadowCard card = new ShadowCard(18, 22);
+        ShadowCard card = new ShadowCard(s(14), s(18));
         card.setLayout(new GridBagLayout());
 
         addCardHeader(card, "Architecture Level", "Generate architecture-level diagrams and metrics.");
@@ -323,7 +434,7 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createMicroserviceCard() {
-        ShadowCard card = new ShadowCard(18, 22);
+        ShadowCard card = new ShadowCard(s(14), s(18));
         card.setLayout(new GridBagLayout());
 
         addCardHeader(card, "Microservice Level", "Select a microservice before generating microservice-specific diagrams and metrics.");
@@ -333,8 +444,8 @@ public class MainFrame extends JFrame {
 
         JLabel comboLabel = createFieldLabel("Microservice");
 
-        microserviceComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        microserviceComboBox.setPreferredSize(new Dimension(260, 34));
+        microserviceComboBox.setFont(uiFont(Font.PLAIN, 12));
+        microserviceComboBox.setPreferredSize(new Dimension(s(240), s(30)));
         microserviceComboBox.addActionListener(e -> {
             Object selectedItem = microserviceComboBox.getSelectedItem();
 
@@ -356,13 +467,13 @@ public class MainFrame extends JFrame {
         comboGbc.gridx = 0;
         comboGbc.gridy = 0;
         comboGbc.weightx = 0;
-        comboGbc.insets = new Insets(0, 0, 0, 12);
+        comboGbc.insets = uiInsets(0, 0, 0, 10);
         comboPanel.add(comboLabel, comboGbc);
 
         comboGbc.gridx = 1;
         comboGbc.weightx = 1;
         comboGbc.fill = GridBagConstraints.HORIZONTAL;
-        comboGbc.insets = new Insets(0, 0, 0, 0);
+        comboGbc.insets = uiInsets(0, 0, 0, 0);
         comboPanel.add(microserviceComboBox, comboGbc);
 
         GridBagConstraints gbc = baseConstraints();
@@ -372,7 +483,7 @@ public class MainFrame extends JFrame {
         gbc.gridwidth = 3;
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 0, 8, 0);
+        gbc.insets = uiInsets(0, 0, 6, 0);
         card.add(comboPanel, gbc);
 
         addActionRow(
@@ -422,13 +533,13 @@ public class MainFrame extends JFrame {
     private JPanel createStatusBar() {
         JPanel statusBar = new JPanel(new BorderLayout());
         statusBar.setBackground(new Color(238, 242, 248));
-        statusBar.setBorder(new EmptyBorder(9, 20, 9, 20));
+        statusBar.setBorder(uiBorder(7, 16, 7, 16));
 
-        statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        statusLabel.setFont(uiFont(Font.PLAIN, 12));
         statusLabel.setForeground(new Color(75, 85, 105));
 
         JLabel universityLabel = new JLabel("Brunel University London");
-        universityLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        universityLabel.setFont(uiFont(Font.PLAIN, 12));
         universityLabel.setForeground(new Color(110, 120, 138));
 
         statusBar.add(statusLabel, BorderLayout.WEST);
@@ -449,7 +560,7 @@ public class MainFrame extends JFrame {
         card.add(title, gbc);
 
         gbc.gridy = 1;
-        gbc.insets = new Insets(3, 0, 12, 0);
+        gbc.insets = uiInsets(3, 0, 9, 0);
         card.add(description, gbc);
     }
 
@@ -462,18 +573,18 @@ public class MainFrame extends JFrame {
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        titleLabel.setFont(uiFont(Font.BOLD, 12));
         titleLabel.setForeground(new Color(34, 43, 65));
 
         JLabel descriptionLabel = new JLabel(description);
-        descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        descriptionLabel.setFont(uiFont(Font.PLAIN, 11));
         descriptionLabel.setForeground(new Color(102, 112, 133));
 
         textPanel.add(titleLabel);
         textPanel.add(Box.createVerticalStrut(2));
         textPanel.add(descriptionLabel);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, s(6), 0));
         buttonPanel.setOpaque(false);
 
         for (JButton button : buttons) {
@@ -493,7 +604,7 @@ public class MainFrame extends JFrame {
         rowGbc.weightx = 0;
         rowGbc.fill = GridBagConstraints.NONE;
         rowGbc.anchor = GridBagConstraints.EAST;
-        rowGbc.insets = new Insets(0, 18, 0, 0);
+        rowGbc.insets = uiInsets(0, 14, 0, 0);
         rowPanel.add(buttonPanel, rowGbc);
 
         GridBagConstraints gbc = baseConstraints();
@@ -503,7 +614,7 @@ public class MainFrame extends JFrame {
         gbc.gridwidth = 3;
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 0, 5, 0);
+        gbc.insets = uiInsets(3, 0, 3, 0);
         card.add(rowPanel, gbc);
     }
 
@@ -656,11 +767,11 @@ public class MainFrame extends JFrame {
 
     private JButton createModernButton(String text, Color background, Color foreground, ActionListener listener) {
         JButton button = new RoundedButton(text, background, foreground);
-        int width = Math.max(108, text.length() * 11 + 42);
+        int width = Math.max(s(92), text.length() * s(9) + s(34));
 
-        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        button.setPreferredSize(new Dimension(width, 34));
-        button.setMinimumSize(new Dimension(width, 34));
+        button.setFont(uiFont(Font.BOLD, 11));
+        button.setPreferredSize(new Dimension(width, s(30)));
+        button.setMinimumSize(new Dimension(width, s(30)));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button.addActionListener(listener);
 
@@ -668,40 +779,40 @@ public class MainFrame extends JFrame {
     }
 
     private JLabel createLogo(String fileName, int width, int height) {
-        JLabel label = new JLabel(loadIcon(fileName, width, height));
+        JLabel label = new JLabel(loadIcon(fileName, s(width), s(height)));
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         return label;
     }
 
     private JLabel createSectionTitle(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 19));
+        label.setFont(uiFont(Font.BOLD, 16));
         label.setForeground(new Color(22, 32, 55));
         return label;
     }
 
     private JLabel createSectionDescription(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        label.setFont(uiFont(Font.PLAIN, 12));
         label.setForeground(new Color(100, 116, 139));
         return label;
     }
 
     private JLabel createFieldLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        label.setFont(uiFont(Font.BOLD, 12));
         label.setForeground(new Color(71, 85, 105));
         return label;
     }
 
     private void styleTextField(JTextField field) {
-        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        field.setFont(uiFont(Font.PLAIN, 12));
         field.setForeground(new Color(51, 65, 85));
         field.setBackground(new Color(248, 250, 252));
-        field.setPreferredSize(new Dimension(200, 34));
+        field.setPreferredSize(new Dimension(s(180), s(30)));
         field.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(220, 226, 235)),
-                new EmptyBorder(6, 10, 6, 10)
+                uiBorder(5, 8, 5, 8)
         ));
     }
 
@@ -710,7 +821,7 @@ public class MainFrame extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = uiInsets(0, 0, 0, 0);
         return gbc;
     }
 
@@ -808,6 +919,31 @@ public class MainFrame extends JFrame {
         void run() throws Exception;
     }
 
+    private static class UiMetrics {
+        final Rectangle screenBounds;
+        final double displayScale;
+        final int effectiveWidth;
+        final int effectiveHeight;
+        final boolean compactLayout;
+        final double uiScale;
+
+        UiMetrics(
+                Rectangle screenBounds,
+                double displayScale,
+                int effectiveWidth,
+                int effectiveHeight,
+                boolean compactLayout,
+                double uiScale
+        ) {
+            this.screenBounds = screenBounds;
+            this.displayScale = displayScale;
+            this.effectiveWidth = effectiveWidth;
+            this.effectiveHeight = effectiveHeight;
+            this.compactLayout = compactLayout;
+            this.uiScale = uiScale;
+        }
+    }
+
     private static class ShadowCard extends JPanel {
         private static final int SHADOW_SIZE = 7;
         private static final int ARC = 22;
@@ -855,7 +991,7 @@ public class MainFrame extends JFrame {
             setFocusPainted(false);
             setContentAreaFilled(false);
             setForeground(foreground);
-            setBorder(new EmptyBorder(7, 12, 7, 12));
+            setBorder(new EmptyBorder(5, 10, 5, 10));
         }
 
         @Override
