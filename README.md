@@ -11,17 +11,35 @@ The GMG can produce architecture views, dependency views, UML-style diagrams, sc
 
 > For normal users, the GMG is installed and updated automatically through the **[MiSAR All-in-One launcher](https://github.com/MicroServiceArchitectureRecovery/MiSAR-Parser-and-Model-Transformation)**. Manual repository use is primarily relevant to maintainers and contributors.
 
-## Repository role
+## Requirements
+
+The MiSAR Graphical Model Generator requires:
+
+- **Java Runtime Environment 21 or later**
+- **OpenJDK 21** is the tested and recommended runtime
+
+For normal users, the Graphical Model Generator is installed and updated automatically through the MiSAR AIO.
+
+For current usage and troubleshooting guidance, use the [MiSAR documentation](https://microservicearchitecturerecovery.github.io/MiSAR-Parser-and-Model-Transformation/).
+
+## Repository Role
 
 ```mermaid
 flowchart LR
-    A[MiSAR PIM] --> B[Graphical Model Generator]
-    B --> C[Architecture view]
-    B --> D[Dependency view]
-    B --> E[Excel summaries]
-    B --> F[SVG and UML-style diagrams]
-```
+    PIM[/Input:<br/>MiSAR Platform Independent Model<br/>PIM/]
+    GMG[Tool:<br/>MiSAR Graphical Model Generator]
+    ARCH([Output:<br/>Architecture views])
+    DEP([Output:<br/>Dependency views])
+    XLS([Output:<br/>Excel summaries])
+    FORMATS{{Formats:<br/>PNG, SVG and<br/>PlantUML source}}
 
+    PIM --> GMG
+    GMG --> ARCH
+    GMG --> DEP
+    GMG --> XLS
+    ARCH -.-> FORMATS
+    DEP -.-> FORMATS
+```
 ## Related repositories
 
 - **[MiSAR project overview](https://github.com/MicroServiceArchitectureRecovery/misar)**
